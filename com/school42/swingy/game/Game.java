@@ -2,12 +2,16 @@ package com.school42.swingy.game;
 
 import java.util.Scanner;
 import java.util.logging.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.event.*;
-
-import java.awt.*;
-import java.awt.event.*;
 
 import com.school42.swingy.hero.Hero;
 import com.school42.swingy.hero.HeroFactory;
@@ -19,6 +23,7 @@ public class Game {
 		"Orc",
 		"Leprechaun"
 	};
+	private static Connection _conn = null;
 
 	private static String _launchMode(String av[]) throws Exception {
 		if (av.length != 1)
@@ -144,13 +149,26 @@ public class Game {
 			_newHeroGUI();
 	}
 
+	private static void _connectDB() {
+		String pwd = System.getenv("PWD");
+		File db = new File(pwd + "/swingy.db");
+		try {
+			db.createNewFile();
+			_conn = DriverManager.getConnection("jdbc:sqlite:" + db.toString());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+	}
+
 	private static void _heroView() {
-		_newHero();
+		_connectDB();
+		// _newHero();
 	}
 
 	private static void _game() {
 		_heroView();
-		System.out.println(_hero);
+		// System.out.println(_hero);
 		// while (true) {
 		// }
 	}
