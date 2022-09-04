@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if (( $# < 1 ))
-then
-	exit;
-fi
-
 find . -name "*.class" > removes.txt
 xargs rm < removes.txt
 rm removes.txt

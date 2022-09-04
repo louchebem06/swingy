@@ -1,9 +1,13 @@
 package com.school42.swingy.game;
 
-import java.awt.Dimension;
 import java.util.Scanner;
+import java.util.logging.*;
 
 import javax.swing.*;
+import javax.swing.event.*;
+
+import java.awt.*;
+import java.awt.event.*;
 
 import com.school42.swingy.hero.Hero;
 import com.school42.swingy.hero.HeroFactory;
@@ -46,39 +50,98 @@ public class Game {
 		return (false);
 	}
 
-	private static void _newHero() {
-		String className = null, name = null;
+	private static void _newHeroCLI() {
+		String className = null;
+		String name = null;
 
-		if (_mode.equals("console")) {
-			Scanner sc = new Scanner(System.in);
-			while (className == null || !_validClassName(className)) {
-				_printHeroClass();
-				System.out.print("\nPlease input class: ");
-				className = sc.nextLine();
-			}
-			while (name == null || name.length() == 0) {
-				System.out.print("Please input name: ");
-				name = sc.nextLine();
-			}
-		} else if (_mode.equals("gui")) {
-			JFrame window = new JFrame("Create Hero");  
-			JPanel panel = new JPanel();
-			JLabel labelClass = new JLabel("Select class: ");
-			JLabel labelName = new JLabel("Please input name hero: ");
-			JButton validBtn = new JButton("Create");
-			JComboBox classList = new JComboBox(_heroClass);
-			JTextField nameArea = new JTextField();
-			nameArea.setSize(new Dimension(250, 30));
-			panel.add(labelClass);
-			panel.add(classList);
-			panel.add(labelName);
-			panel.add(nameArea);
-			panel.add(validBtn);
-			window.add(panel);
-			window.setSize(250, 250);
-			window.setVisible(true);
+		Scanner sc = new Scanner(System.in);
+		while (className == null || !_validClassName(className)) {
+			_printHeroClass();
+			System.out.print("\nPlease input class: ");
+			className = sc.nextLine();
 		}
+		while (name == null || name.length() == 0) {
+			System.out.print("Please input name: ");
+			name = sc.nextLine();
+		}
+		sc.close();
 		_hero = HeroFactory.heroFactory(className, name);
+	}
+
+	private static void _newHeroGUI() {
+		JFrame window = new JFrame();
+		window.setTitle("Create new hero");  
+		window.setSize(500, 150);
+
+		window.setLayout(new GridLayout(3, 2));
+
+		JPanel panel = (JPanel) window.getContentPane();
+
+		JLabel labelClass = new JLabel("Select class: ");
+		panel.add(labelClass);
+
+		JComboBox<String> classList = new JComboBox<String>(_heroClass);
+		panel.add(classList);
+
+		JLabel labelName = new JLabel("Please input name hero: ");
+		panel.add(labelName);
+
+		JTextField nameArea = new JTextField();
+		panel.add(nameArea);
+
+		JButton validBtn = new JButton("Create");
+		panel.add(validBtn);
+
+		window.setVisible(true);
+
+		// WindowListener we = new WindowListener() {
+		// 	@Override
+		// 	public void windowOpened(WindowEvent e) {
+		// 		System.out.println("Open");
+		// 	}
+
+		// 	@Override
+		// 	public void windowClosing(WindowEvent e) {
+		// 		System.out.println("Closing");
+		// 	}
+
+		// 	@Override
+		// 	public void windowClosed(WindowEvent e) {
+		// 		System.out.println("close");
+		// 	}
+
+		// 	@Override
+		// 	public void windowDeactivated(WindowEvent e) {
+		// 		System.out.println("Deactivate");
+		// 	}
+
+		// 	@Override
+		// 	public void windowIconified(WindowEvent e) {
+		// 		// TODO Auto-generated method stub
+				
+		// 	}
+
+		// 	@Override
+		// 	public void windowDeiconified(WindowEvent e) {
+		// 		// TODO Auto-generated method stub
+				
+		// 	}
+
+		// 	@Override
+		// 	public void windowActivated(WindowEvent e) {
+		// 		// TODO Auto-generated method stub
+				
+		// 	}
+		// };
+
+		// window.addWindowListener(we);
+	}
+
+	private static void _newHero() {
+		if (_mode.equals("console"))
+			_newHeroCLI();
+		else if (_mode.equals("gui"))
+			_newHeroGUI();
 	}
 
 	private static void _heroView() {
