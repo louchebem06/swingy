@@ -40,7 +40,7 @@ public abstract class AbstractHero implements Hero {
 	}
 
 	public String toString() {
-		return (_name);
+		return (_name + " <" + _className + ">");
 	}
 
 	public String getName() {

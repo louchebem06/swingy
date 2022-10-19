@@ -4,7 +4,7 @@ import com.school42.swingy.hero.heros.Leprechaun;
 import com.school42.swingy.hero.heros.Orc;
 
 public class HeroFactory {
-	public static Hero heroFactory(String type, String name) {
+	public static Hero newHero(String type, String name) {
 		switch(type) {
 			case "Leprechaun":
 				return (new Leprechaun(name));
