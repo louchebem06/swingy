@@ -1,8 +1,8 @@
 package com.school42.swingy.hero;
 
 public abstract class AbstractArtefacs implements Artefacs {
-	protected String _type;
-	protected String _name;
+	protected String 	_type;
+	protected String 	_name;
 	protected Double	_value;
 
 	protected AbstractArtefacs(String type, String name, Double value) {
@@ -18,7 +18,7 @@ public abstract class AbstractArtefacs implements Artefacs {
 	}
 
 	public String toString() {
-		return (_name);
+		return (_name + " <" + _type + ">");
 	}
 
 	public String getType() {

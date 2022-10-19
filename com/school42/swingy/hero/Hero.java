@@ -11,4 +11,7 @@ public interface Hero {
 	public void setWeapon(Artefacs weapon);
 	public void setHelm(Artefacs Helm);
 	public void setArmor(Artefacs Armor);
+	public Artefacs getArmor();
+	public Artefacs getWeapon();
+	public Artefacs getHelm();
 }

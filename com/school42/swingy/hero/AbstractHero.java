@@ -60,15 +60,33 @@ public abstract class AbstractHero implements Hero {
 	}
 
 	public Double getAttack() {
-		return (_attack + _weapon.getValue());
+		if (_weapon != null)
+			return (_attack + _weapon.getValue());
+		return (_attack);
 	}
 
 	public Double getDefense() {
-		return (_defense + _armor.getValue());
+		if (_armor != null)
+			return (_defense + _armor.getValue());
+		return (_defense);
 	}
 
 	public Double getHitPoint() {
-		return (_hitPoints + _helm.getValue());
+		if (_hitPoints != null)
+			return (_hitPoints + _helm.getValue());
+		return (_hitPoints);
+	}
+
+	public Artefacs getWeapon() {
+		return (_weapon);
+	}
+
+	public Artefacs getHelm() {
+		return (_helm);
+	}
+
+	public Artefacs getArmor() {
+		return (_armor);
 	}
 
 	public void setWeapon(Artefacs weapon) {
