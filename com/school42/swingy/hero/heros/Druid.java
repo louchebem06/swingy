@@ -11,9 +11,9 @@ public class Druid extends AbstractHero {
 				1.1,
 				lvl,
 				xp,
-				4.4,
-				4.9,
-				3.9);
+				4.3,
+				4.3,
+				3.3);
 	}
 
 	public Druid(Druid druid) {

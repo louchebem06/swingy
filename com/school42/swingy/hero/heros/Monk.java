@@ -11,9 +11,9 @@ public class Monk extends AbstractHero {
 				0.2,
 				lvl,
 				xp,
-				4.6,
-				4.9,
-				4.8);
+				4.0,
+				3.9,
+				8.8);
 	}
 
 	public Monk(Monk monk) {

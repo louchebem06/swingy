@@ -12,7 +12,7 @@ public class Paladin extends AbstractHero {
 				lvl,
 				xp,
 				4.9,
-				4.9,
+				3.9,
 				4.9);
 	}
 

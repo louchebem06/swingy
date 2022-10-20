@@ -11,9 +11,9 @@ public class Hunter extends AbstractHero {
 				0.9,
 				lvl,
 				xp,
-				4.8,
-				4.5,
-				4.1);
+				5.8,
+				5.5,
+				5.1);
 	}
 
 	public Hunter(Hunter hunter) {

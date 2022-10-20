@@ -11,8 +11,8 @@ public class Warlock extends AbstractHero {
 				2.0,
 				lvl,
 				xp,
-				3.5,
-				2.8,
+				0.5,
+				4.8,
 				3.0);
 	}
 

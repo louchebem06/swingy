@@ -11,9 +11,9 @@ public class Warrior extends AbstractHero {
 				3.0,
 				lvl,
 				xp,
-				1.5,
-				1.8,
-				2.0);
+				2.5,
+				2.8,
+				3.0);
 	}
 
 	public Warrior(Warrior warrior) {

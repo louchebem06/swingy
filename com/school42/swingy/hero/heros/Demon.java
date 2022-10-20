@@ -11,9 +11,9 @@ public class Demon extends AbstractHero {
 				1.0,
 				lvl,
 				xp,
-				4.5,
-				4.8,
-				4.0);
+				3.5,
+				5.8,
+				2.0);
 	}
 
 	public Demon(Demon demon) {

@@ -11,7 +11,7 @@ public class Mage extends AbstractHero {
 				2.0,
 				lvl,
 				xp,
-				3.5,
+				15.5,
 				3.8,
 				3.0);
 	}

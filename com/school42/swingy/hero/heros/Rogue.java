@@ -11,9 +11,9 @@ public class Rogue extends AbstractHero {
 				0.5,
 				lvl,
 				xp,
-				4.0,
-				4.8,
-				4.5);
+				2.0,
+				4.43,
+				7.5);
 	}
 
 	public Rogue(Rogue rogue) {

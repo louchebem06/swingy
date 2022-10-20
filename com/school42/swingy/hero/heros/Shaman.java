@@ -11,9 +11,9 @@ public class Shaman extends AbstractHero {
 				1.0,
 				lvl,
 				xp,
-				4.0,
-				4.0,
-				4.0);
+				6.0,
+				6.0,
+				6.0);
 	}
 
 	public Shaman(Shaman shaman) {

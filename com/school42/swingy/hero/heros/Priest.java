@@ -11,9 +11,9 @@ public class Priest extends AbstractHero {
 				1.0,
 				lvl,
 				xp,
-				4.5,
-				4.8,
-				4.0);
+				10.5,
+				4.0,
+				1.0);
 	}
 
 	public Priest(Priest priest) {

@@ -11,9 +11,9 @@ public class Knight extends AbstractHero {
 				1.1,
 				lvl,
 				xp,
-				3.7,
-				4.9,
-				3.9);
+				3.1,
+				4.34,
+				3.22);
 	}
 
 	public Knight(Knight knight) {
