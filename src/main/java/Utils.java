@@ -1,24 +1,25 @@
-package main;
+package main.java;
 
 import java.util.*;
 
 import main.java.hero.*;
 
-import java.io.*;
-
 public class Utils {
 
 	static public Vector<String> getClassHero() {
 		Vector<String> classHeros = new Vector<String>();
-		File f = new File("./main/java/hero/heros");
-        String[] names = f.list();
-        for (String name : names) {
-			String ext = name.substring(name.length() - 5);
-            if (!ext.equals(".java"))
-				continue ;
-			String className = name.substring(0, name.length() - 5);
-			classHeros.add(className);
-        }
+		classHeros.add("Demon");
+		classHeros.add("Druid");
+		classHeros.add("Hunter");
+		classHeros.add("Knight");
+		classHeros.add("Mage");
+		classHeros.add("Monk");
+		classHeros.add("Paladin");
+		classHeros.add("Priest");
+		classHeros.add("Rogue");
+		classHeros.add("Shaman");
+		classHeros.add("Warlock");
+		classHeros.add("Warrior");
 		return (classHeros);
 	}
 
