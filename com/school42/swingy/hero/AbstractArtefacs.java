@@ -18,7 +18,7 @@ public abstract class AbstractArtefacs implements Artefacs {
 	}
 
 	public String toString() {
-		return (_name + " <" + _type + ">");
+		return (getName() + " (" + getValue() + ")");
 	}
 
 	public String getType() {

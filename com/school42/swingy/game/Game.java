@@ -6,34 +6,45 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.sql.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.event.*;
+import javax.swing.event.*;		
 
 import com.school42.swingy.hero.*;
 
-public class Game implements ActionListener {
+public class Game implements ActionListener, ListSelectionListener {
 	
 	private JFrame frame;
 	private JButton btnNewHero, 
 					btnCreateHero,
 					btnCancelCreateHero,
-					btnCli;
+					btnCli,
+					btnLoadHero,
+					btnNorth,
+					btnEast,
+					btnSouth,
+					btnWest,
+					btnFight,
+					btnRun;
 	private JTextField inputNameHero;
 	private Vector<String> classHero;
 	private JComboBox<String> heroConboBox;
 	private Vector<Hero> heros;
 	private CaretListener validateInputNameHero;
-	private String mode;
-	private String menu;
+	private String mode, menu;
 	private JList<Hero> heroList;
+	private JTextArea statHero;
+	private Border border;
+	private Hero currentHero;
 
 	public Game() {
 		frame = new JFrame();;
 		btnNewHero = new JButton("New Hero");
 		btnCreateHero = new JButton("Create");
 		btnCancelCreateHero = new JButton("Cancel");
+		btnLoadHero = new JButton("Load");
 		btnCli = new JButton("CLI");
 		inputNameHero = new JTextField();
 		classHero = getClassHero();
@@ -49,12 +60,26 @@ public class Game implements ActionListener {
 					btnCreateHero.setEnabled(true);
 			}
 		};
+
 		menu = "main";
 		btnCreateHero.setEnabled(false);
 		inputNameHero.addCaretListener(validateInputNameHero);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		heroList = new JList<Hero>(heros);
+		heroList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		statHero = new JTextArea();
+		border = BorderFactory.createLineBorder(Color.BLACK);
+    	statHero.setBorder(border);
+		statHero.setEditable(false);
+		btnLoadHero.setEnabled(false);
+
+		btnNorth = new JButton("North");
+		btnEast = new JButton("East");
+		btnSouth = new JButton("South");
+		btnWest = new JButton("West");
+		btnFight = new JButton("Fight");
+		btnRun = new JButton("Run");
 	}
 
 	private Vector<String> getClassHero() {
@@ -121,14 +146,12 @@ public class Game implements ActionListener {
 	private void mainMenu() {
 		menu = "main";
 		clearFrame("Main menu", 500, 500);
+		
 		JPanel panel = (JPanel)frame.getContentPane();
 		JScrollPane scrollPane = new JScrollPane();
 		JLabel herosLabel = new JLabel("HEROS");
 		JLabel statLabel = new JLabel("STATS");
-		JTextArea statHero = new JTextArea();
-		Border border = BorderFactory.createLineBorder(Color.BLACK);
-    	statHero.setBorder(border);
-		statHero.setEditable(false);
+
 		panel.add(btnNewHero);
 		panel.add(btnCli);
 		scrollPane.setViewportView(heroList);
@@ -136,6 +159,7 @@ public class Game implements ActionListener {
 		panel.add(herosLabel);
 		panel.add(statHero);
 		panel.add(statLabel);
+		panel.add(btnLoadHero);
 
 		btnNewHero.setBounds(0, 0, 100, 30);
 		btnNewHero.addActionListener(this);
@@ -143,11 +167,16 @@ public class Game implements ActionListener {
 		btnCli.setBounds(400, 0, 100, 30);
 		btnCli.addActionListener(this);
 
+		btnLoadHero.setBounds(100, 0, 100, 30);
+		btnLoadHero.addActionListener(this);
+
 		herosLabel.setBounds(90, 22, 200, 50);
 		scrollPane.setBounds(10, 60, 200, 400);
 
 		statLabel.setBounds(320, 22, 200, 50);
 		statHero.setBounds(220, 60, 270, 400);
+
+		heroList.addListSelectionListener(this);
 	}
 
 	private void mainMenuCli() {
@@ -268,12 +297,49 @@ public class Game implements ActionListener {
 		btnCli.addActionListener(this);
 	}
 
+	private void cardGame() {
+		menu = "game";
+		clearFrame("Game", 520, 750);
+
+		JPanel panel = (JPanel)frame.getContentPane();
+		JScrollPane scrollPane = new JScrollPane();
+
+		panel.add(scrollPane);
+		panel.add(btnNorth);
+		panel.add(btnEast);
+		panel.add(btnSouth);
+		panel.add(btnWest);
+		panel.add(btnFight);
+		panel.add(btnRun);
+
+		// scrollPane.setViewportView(ITENM);
+		// int sizeMap = currentHero.getSizeMap();
+
+		scrollPane.setBounds(10, 10, 500, 500);
+
+		btnNorth.setBounds(70, 550, 100, 30);
+		btnSouth.setBounds(70, 650, 100, 30);
+		btnWest.setBounds(20, 600, 100, 30);
+		btnEast.setBounds(120, 600, 100, 30);
+
+		btnFight.setBounds(360, 570, 100, 30);
+		btnRun.setBounds(300, 630, 100, 30);
+
+		btnNorth.setEnabled(false);
+		btnSouth.setEnabled(false);
+		btnWest.setEnabled(false);
+		btnEast.setEnabled(false);;
+
+		btnFight.setEnabled(false);
+		btnRun.setEnabled(false);
+	}
+
 	private boolean addHero(String heroName, String className) {
 		if (heroName.length() == 0)
 			return (false);
 		for (String heroClass : classHero) {
 			if (heroClass == className) {
-				Hero hero = HeroFactory.newHero(className, heroName);
+				Hero hero = HeroFactory.newHero(className, heroName, 0, 0);
 				heros.add(hero);
 				if (mode.equals("cli"))
 					System.out.println("Create Hero: " + hero);
@@ -282,10 +348,34 @@ public class Game implements ActionListener {
 		}
 		return (false);
 	}
+	
+	private void connectToBdd() {
+	    try
+		{
+			//étape 1: charger la classe de driver
+			Class.forName("com.mysql.jdbc.Driver");
+			//étape 2: créer l'objet de connexion
+			Connection conn = DriverManager.getConnection(
+			"jdbc:mysql://localhost:3306/swingy", "swingy", "swingy");
+			//étape 3: créer l'objet statement 
+			Statement stmt = conn.createStatement();
+			ResultSet res = stmt.executeQuery("SELECT * FROM heros");
+			//étape 4: exécuter la requête
+			while(res.next())
+				System.out.println(res.getInt(1)+"  "+res.getString(2)
+				+"  "+res.getString(3));
+			//étape 5: fermez l'objet de connexion
+			conn.close();
+		}
+		catch(Exception e){ 
+			System.out.println(e);
+		}
+	}
 
 	public static void main(String av[]) {
 		Game main = new Game();
 		try {
+			main.connectToBdd();
 			main.checkArg(av);
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
@@ -307,6 +397,20 @@ public class Game implements ActionListener {
 			mainMenu();
 		} else if (e.getSource() == btnCli) {
 			switchMode(menu);
+		} else if (e.getSource() == btnLoadHero) {
+			cardGame();
+		}
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		if (e.getSource() == heroList) {
+			Hero hero = heroList.getSelectedValue();
+			statHero.selectAll();
+    		statHero.replaceSelection("");
+			statHero.append(hero.getStat());
+			btnLoadHero.setEnabled(true);
+			currentHero = hero;
 		}
 	}
 

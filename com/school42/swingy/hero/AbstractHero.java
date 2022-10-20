@@ -1,6 +1,9 @@
 package com.school42.swingy.hero;
 
+import java.lang.Math;
+
 public abstract class AbstractHero implements Hero {
+
 	protected String _name;
 	protected String _className;
 	protected Integer _level;
@@ -13,17 +16,26 @@ public abstract class AbstractHero implements Hero {
 	protected Artefacs _armor;
 	protected Artefacs _helm;
 
-	protected AbstractHero(String name, String className, Double attack, Double defence, Double hitPoints) {
+	protected double _factorAttack;
+	protected double _factorDefense;
+	protected double _factorHitPoints;
+
+	protected AbstractHero(String name, String className, Double attack,
+							Double defence, Double hitPoints, int lvl, double xp,
+							double factorAttack, double factorDefense, double factorHitPoints) {
 		_name = name;
 		_className = className;
-		_level = 0;
-		_xp = 0.0;
-		_attack = attack;
-		_defense = defence;
-		_hitPoints = hitPoints;
+		_level = lvl;
+		_xp = xp;
+		_attack = attack + (lvl * factorAttack);
+		_defense = defence + (lvl * factorDefense);
+		_hitPoints = hitPoints + (lvl * factorHitPoints);
 		_weapon = null;
 		_armor = null;
 		_helm = null;
+		_factorAttack = factorAttack;
+		_factorDefense = factorDefense;
+		_factorHitPoints = factorHitPoints;
 	}
 
 	protected AbstractHero(AbstractHero hero) {
@@ -37,10 +49,13 @@ public abstract class AbstractHero implements Hero {
 		_weapon = hero._weapon;
 		_armor = hero._armor;
 		_helm = hero._helm;
+		_factorAttack = hero._factorAttack;
+		_factorDefense = hero._factorDefense;
+		_factorHitPoints = hero._factorHitPoints;
 	}
 
 	public String toString() {
-		return (_name + " <" + _className + ">");
+		return (getName() + " <" + getClassName() + ">");
 	}
 
 	public String getName() {
@@ -51,8 +66,31 @@ public abstract class AbstractHero implements Hero {
 		return (_className);
 	}
 
+	private double calcLevel(int lvl) {
+		double xp = Math.pow((lvl * 1000) + (lvl - 1), 2) * 450;
+		return (xp);
+	}
+
+	private void levelUp() {
+		_level++;
+		_attack += _level * _factorAttack;
+		_defense += _level * _factorDefense;
+		_hitPoints += _level * _factorHitPoints;
+	}
+
+	public void addXp(int xp) {
+		_xp += xp;
+		getLevel();
+	}
+
 	public Integer getLevel() {
+		while (_xp >= calcLevel(_level))
+			levelUp();
 		return (_level);
+	}
+
+	public int getSizeMap() {
+		return ((getLevel() - 1) * 5 + 10);
 	}
 
 	public Double getXp() {
@@ -72,7 +110,7 @@ public abstract class AbstractHero implements Hero {
 	}
 
 	public Double getHitPoint() {
-		if (_hitPoints != null)
+		if (_helm != null)
 			return (_hitPoints + _helm.getValue());
 		return (_hitPoints);
 	}
@@ -89,18 +127,60 @@ public abstract class AbstractHero implements Hero {
 		return (_armor);
 	}
 
-	public void setWeapon(Artefacs weapon) {
-		if (weapon.getType() == "weapon")
+	public Boolean setWeapon(Artefacs weapon) {
+		if (weapon.getType() == "weapon") {
 			_weapon = weapon;
+			return (true);
+		}
+		return (false);
 	}
 
-	public void setHelm(Artefacs helm) {
-		if (helm.getType() == "helm")
+	public Boolean setHelm(Artefacs helm) {
+		if (helm.getType() == "helm") {
 			_helm = helm;
+			return (true);
+		}
+		return (false);
 	}
 
-	public void setArmor(Artefacs armor) {
-		if (armor.getType() == "armor")
+	public Boolean setArmor(Artefacs armor) {
+		if (armor.getType() == "armor") {
 			_armor = armor;
+			return (true);
+		}
+		return (false);
 	}
+
+	public String getStat() {
+		String stat;
+
+		stat = "\t== STATS ==\n";
+		stat += "NAME:\t" + getName() + "\n";
+		stat += "CLASS:\t" + getClassName() + "\n";
+		stat += "LEVEL:\t" + getLevel() + "\n";
+		stat += "XP:\t" + getXp() + "\n";
+		stat += "ATTACK:\t" + getAttack() + "\n";
+		stat += "DEFENSE:\t" + getDefense() + "\n";
+		stat += "HITPOINTS:\t" + getHitPoint() + "\n";
+
+		stat += "\n\t== ITEMS ==\n";
+		stat += "WEAPON:\t";
+		if (getWeapon() == null)
+			stat += "not equiped\n";
+		else
+			stat += getWeapon() + "\n";
+		stat += "ARMOR:\t";
+		if (getArmor() == null)
+			stat += "not equiped\n";
+		else
+			stat += getArmor() + "\n";
+		stat += "HELM:\t";
+		if (getHelm() == null)
+			stat += "not equiped\n";
+		else
+			stat += getHelm() + "\n";
+
+		return (stat);
+	}
+
 }
