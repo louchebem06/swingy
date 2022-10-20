@@ -29,6 +29,8 @@ public class Window implements ActionListener, ListSelectionListener {
 	private JList<Hero> heroList;
 	private JTextArea statHero;
 	private Border border;
+	private Map<String, JLabel> imgClass;
+	private JLabel usingImgDescription;
 
 	public Window(Vector<Hero> heros, Vector<String> classHero) {
 		frame = new JFrame();
@@ -64,8 +66,21 @@ public class Window implements ActionListener, ListSelectionListener {
 		btnEast = new JButton("East");
 		btnSouth = new JButton("South");
 		btnWest = new JButton("West");
+
 		btnFight = new JButton("Fight");
 		btnRun = new JButton("Run");
+
+		btnNorth.setEnabled(false);
+		btnSouth.setEnabled(false);
+		btnWest.setEnabled(false);
+		btnEast.setEnabled(false);;
+
+		btnFight.setEnabled(false);
+		btnRun.setEnabled(false);
+
+		imgClass = new HashMap<String, JLabel>();
+
+		getAllImg(classHero);
 	}
 
 	private void clearFrame(String title, int width, int height) {
@@ -108,12 +123,31 @@ public class Window implements ActionListener, ListSelectionListener {
 		heroList.addListSelectionListener(this);
 	}
 
+	private JLabel getImg(String name, int width, int height) {
+		ImageIcon warlock = new ImageIcon(getClass().getClassLoader().getResource(name));
+		Image img = warlock.getImage();
+		Image newimg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		return (new JLabel(new ImageIcon(newimg)));
+	}
+
+	private void getAllImg(Vector<String> classHero) {
+		for (String classNameHero : classHero) {
+			imgClass.put(classNameHero,
+						getImg(classNameHero.toLowerCase() + ".jpg",
+								200,
+								200));
+		}
+	}
+
 	private void createHero() {
-		clearFrame("Create Hero", 400, 200);
+		clearFrame("Create Hero", 400, 400);
 
 		JLabel nameLabel = new JLabel("Name:");
 		JLabel classNameLabel = new JLabel("Class:");
 		JPanel panel = (JPanel)frame.getContentPane();
+		String item = heroConboBox.getSelectedItem().toString();
+		
+		usingImgDescription = imgClass.get(item);
 
 		panel.add(btnCreateHero);
 		panel.add(nameLabel);
@@ -121,6 +155,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(heroConboBox);
 		panel.add(classNameLabel);
 		panel.add(btnCancelCreateHero);
+		panel.add(usingImgDescription);
 
 		nameLabel.setBounds(10, 30, 80, 30);
 		inputNameHero.setBounds(90, 30, 300, 30);
@@ -128,11 +163,14 @@ public class Window implements ActionListener, ListSelectionListener {
 		classNameLabel.setBounds(10, 60, 80, 30);
 		heroConboBox.setBounds(90, 60, 300, 30);
 
-		btnCreateHero.setBounds(75, 130, 100, 30);
-		btnCancelCreateHero.setBounds(215, 130, 100, 30);
+		btnCreateHero.setBounds(75, 330, 100, 30);
+		btnCancelCreateHero.setBounds(215, 330, 100, 30);
+
+		usingImgDescription.setBounds(100, 105, 200, 200);
 	
 		btnCreateHero.addActionListener(this);
 		btnCancelCreateHero.addActionListener(this);
+		heroConboBox.addActionListener(this);
 	}
 
 	private void cardGame() {
@@ -161,14 +199,6 @@ public class Window implements ActionListener, ListSelectionListener {
 
 		btnFight.setBounds(360, 570, 100, 30);
 		btnRun.setBounds(300, 630, 100, 30);
-
-		btnNorth.setEnabled(false);
-		btnSouth.setEnabled(false);
-		btnWest.setEnabled(false);
-		btnEast.setEnabled(false);;
-
-		btnFight.setEnabled(false);
-		btnRun.setEnabled(false);
 	}
 
 	@Override
@@ -186,6 +216,11 @@ public class Window implements ActionListener, ListSelectionListener {
 			mainMenu();
 		} else if (e.getSource() == btnLoadHero) {
 			cardGame();
+		} else if (e.getSource() == heroConboBox) {
+			String item = heroConboBox.getSelectedItem().toString();
+			usingImgDescription = imgClass.get(item);
+			// TODO Quick fix
+			createHero();
 		}
 	}
 
