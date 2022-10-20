@@ -30,7 +30,7 @@ public class Window implements ActionListener, ListSelectionListener {
 	private JTextArea statHero;
 	private Border border;
 	private Map<String, JLabel> imgClass;
-	private JLabel usingImgDescription;
+	private JLabel usingImgDescription, usingImgStat;
 
 	public Window(Vector<Hero> heros, Vector<String> classHero) {
 		frame = new JFrame();
@@ -81,6 +81,8 @@ public class Window implements ActionListener, ListSelectionListener {
 		imgClass = new HashMap<String, JLabel>();
 
 		getAllImg(classHero);
+
+		usingImgStat = new JLabel();
 	}
 
 	private void clearFrame(String title, int width, int height) {
@@ -107,6 +109,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(statHero);
 		panel.add(statLabel);
 		panel.add(btnLoadHero);
+		panel.add(usingImgStat);
 
 		btnNewHero.setBounds(0, 0, 100, 30);
 		btnNewHero.addActionListener(this);
@@ -118,7 +121,9 @@ public class Window implements ActionListener, ListSelectionListener {
 		scrollPane.setBounds(10, 60, 200, 400);
 
 		statLabel.setBounds(320, 22, 200, 50);
-		statHero.setBounds(220, 60, 270, 400);
+		statHero.setBounds(220, 60, 270, 210);
+
+		usingImgStat.setBounds(250, 260, 200, 200);
 
 		heroList.addListSelectionListener(this);
 	}
@@ -220,7 +225,7 @@ public class Window implements ActionListener, ListSelectionListener {
 			String item = heroConboBox.getSelectedItem().toString();
 			usingImgDescription = imgClass.get(item);
 			// TODO Quick fix
-			createHero();
+			// createHero();
 		}
 	}
 
@@ -233,6 +238,10 @@ public class Window implements ActionListener, ListSelectionListener {
 			statHero.append(hero.getStat());
 			btnLoadHero.setEnabled(true);
 			Game.currentHero = hero;
+			usingImgStat = imgClass.get(hero.getClassName());
+			// TODO Quick fix
+			// mainMenu();
+			// Crash 5 6 event
 		}
 	}
 
