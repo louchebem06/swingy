@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.*;
 
 import com.school42.swingy.hero.*;
@@ -21,11 +22,12 @@ public class Game implements ActionListener {
 					btnCli;
 	private JTextField inputNameHero;
 	private Vector<String> classHero;
-	private JComboBox heroConboBox;
+	private JComboBox<String> heroConboBox;
 	private Vector<Hero> heros;
 	private CaretListener validateInputNameHero;
 	private String mode;
 	private String menu;
+	private JList<Hero> heroList;
 
 	public Game() {
 		frame = new JFrame();;
@@ -35,7 +37,7 @@ public class Game implements ActionListener {
 		btnCli = new JButton("CLI");
 		inputNameHero = new JTextField();
 		classHero = getClassHero();
-		heroConboBox = new JComboBox(classHero);
+		heroConboBox = new JComboBox<String>(classHero);
 		heros = new Vector<Hero>();
 		validateInputNameHero = new CaretListener() {
 			public void caretUpdate(javax.swing.event.CaretEvent e) {
@@ -52,6 +54,7 @@ public class Game implements ActionListener {
 		inputNameHero.addCaretListener(validateInputNameHero);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		heroList = new JList<Hero>(heros);
 	}
 
 	private Vector<String> getClassHero() {
@@ -119,14 +122,32 @@ public class Game implements ActionListener {
 		menu = "main";
 		clearFrame("Main menu", 500, 500);
 		JPanel panel = (JPanel)frame.getContentPane();
+		JScrollPane scrollPane = new JScrollPane();
+		JLabel herosLabel = new JLabel("HEROS");
+		JLabel statLabel = new JLabel("STATS");
+		JTextArea statHero = new JTextArea();
+		Border border = BorderFactory.createLineBorder(Color.BLACK);
+    	statHero.setBorder(border);
+		statHero.setEditable(false);
 		panel.add(btnNewHero);
 		panel.add(btnCli);
+		scrollPane.setViewportView(heroList);
+		panel.add(scrollPane);
+		panel.add(herosLabel);
+		panel.add(statHero);
+		panel.add(statLabel);
 
 		btnNewHero.setBounds(0, 0, 100, 30);
 		btnNewHero.addActionListener(this);
 
 		btnCli.setBounds(400, 0, 100, 30);
 		btnCli.addActionListener(this);
+
+		herosLabel.setBounds(90, 22, 200, 50);
+		scrollPane.setBounds(10, 60, 200, 400);
+
+		statLabel.setBounds(320, 22, 200, 50);
+		statHero.setBounds(220, 60, 270, 400);
 	}
 
 	private void mainMenuCli() {
@@ -205,9 +226,9 @@ public class Game implements ActionListener {
 						return ;
 					case "exit":
 						System.exit(0);
-					default:
-						System.out.println("'" + option + "'" + " option not valid");
+						break;
 				}
+				System.out.println("'" + option + "'" + " option not valid");
 			} catch (Exception e) {
 				System.out.println("Error: " + e.getMessage());
 				System.exit(1);
