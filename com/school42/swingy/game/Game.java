@@ -13,6 +13,7 @@ import javax.swing.border.Border;
 import javax.swing.event.*;		
 
 import com.school42.swingy.hero.*;
+import com.school42.swingy.simulator.Simulator;
 
 public class Game implements ActionListener, ListSelectionListener {
 	
@@ -380,6 +381,15 @@ public class Game implements ActionListener, ListSelectionListener {
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
+		// Hero first, second;
+		// first = HeroFactory.randomHero(4000);
+		// second = HeroFactory.randomHero(4000);
+		// System.out.println(first);
+		// System.out.println(second);
+		// if (Simulator.figth(first, second))
+		// 	System.out.println(first);
+		// else
+		// 	System.out.println(second);
 	}
 
 	@Override

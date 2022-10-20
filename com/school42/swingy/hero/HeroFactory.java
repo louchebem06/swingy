@@ -63,10 +63,10 @@ public class HeroFactory {
 		Hero enemy = newHero(randomType(), randomPseudo(), 0, randomXp(xpHero));
 		if (Math.random() > 0.8)
 			enemy.setWeapon(ArtefacsFactory.randomWeapon(enemy.getAttack()));
-		if (Math.random() > 0.8)
-			enemy.setArmor(ArtefacsFactory.randomArmor(enemy.getDefense()));
-		if (Math.random() > 0.8)
-			enemy.setHelm(ArtefacsFactory.randomHelm(enemy.getHitPoint()));
+		// if (Math.random() > 0.8)
+		// 	enemy.setArmor(ArtefacsFactory.randomArmor(enemy.getDefense()));
+		// if (Math.random() > 0.8)
+		// 	enemy.setHelm(ArtefacsFactory.randomHelm(enemy.getHitPoint()));
 		return (enemy);
 	}
 }
