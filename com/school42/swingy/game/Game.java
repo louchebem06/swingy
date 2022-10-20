@@ -51,7 +51,7 @@ public class Game implements ActionListener, ListSelectionListener {
 		heroConboBox = new JComboBox<String>(classHero);
 		heros = new Vector<Hero>();
 		validateInputNameHero = new CaretListener() {
-			public void caretUpdate(javax.swing.event.CaretEvent e) {
+			public void caretUpdate(CaretEvent e) {
 				JTextField text = (JTextField)e.getSource();
 				String tmp = text.getText();
 				if (tmp.length() == 0)
