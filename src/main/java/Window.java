@@ -29,7 +29,7 @@ public class Window implements ActionListener, ListSelectionListener {
 	private JList<Hero> heroList;
 	private JTextArea statHero;
 	private Border border;
-	private Map<String, JLabel> imgClass;
+	private Map<String, ImageIcon> imgClass;
 	private JLabel usingImgDescription, usingImgStat;
 
 	public Window(Vector<Hero> heros, Vector<String> classHero) {
@@ -78,11 +78,12 @@ public class Window implements ActionListener, ListSelectionListener {
 		btnFight.setEnabled(false);
 		btnRun.setEnabled(false);
 
-		imgClass = new HashMap<String, JLabel>();
+		imgClass = new HashMap<String, ImageIcon>();
 
 		getAllImg(classHero);
 
 		usingImgStat = new JLabel();
+		usingImgDescription = new JLabel();
 	}
 
 	private void clearFrame(String title, int width, int height) {
@@ -128,11 +129,11 @@ public class Window implements ActionListener, ListSelectionListener {
 		heroList.addListSelectionListener(this);
 	}
 
-	private JLabel getImg(String name, int width, int height) {
+	private ImageIcon getImg(String name, int width, int height) {
 		ImageIcon warlock = new ImageIcon(getClass().getClassLoader().getResource(name));
 		Image img = warlock.getImage();
 		Image newimg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		return (new JLabel(new ImageIcon(newimg)));
+		return (new ImageIcon(newimg));
 	}
 
 	private void getAllImg(Vector<String> classHero) {
@@ -152,7 +153,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		JPanel panel = (JPanel)frame.getContentPane();
 		String item = heroConboBox.getSelectedItem().toString();
 		
-		usingImgDescription = imgClass.get(item);
+		usingImgDescription.setIcon(imgClass.get(item));
 
 		panel.add(btnCreateHero);
 		panel.add(nameLabel);
@@ -223,9 +224,8 @@ public class Window implements ActionListener, ListSelectionListener {
 			cardGame();
 		} else if (e.getSource() == heroConboBox) {
 			String item = heroConboBox.getSelectedItem().toString();
-			usingImgDescription = imgClass.get(item);
-			// TODO Quick fix
-			// createHero();
+			usingImgDescription.setIcon(imgClass.get(item));
+			System.out.println(item);
 		}
 	}
 
@@ -238,10 +238,7 @@ public class Window implements ActionListener, ListSelectionListener {
 			statHero.append(hero.getStat());
 			btnLoadHero.setEnabled(true);
 			Game.currentHero = hero;
-			usingImgStat = imgClass.get(hero.getClassName());
-			// TODO Quick fix
-			// mainMenu();
-			// Crash 5 6 event
+			usingImgStat.setIcon(imgClass.get(hero.getClassName()));
 		}
 	}
 
