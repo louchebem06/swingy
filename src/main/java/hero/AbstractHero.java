@@ -20,6 +20,8 @@ public abstract class AbstractHero implements Hero {
 	protected double _factorDefense;
 	protected double _factorHitPoints;
 
+	protected int _id;
+
 	protected AbstractHero(String name, String className, Double attack,
 							Double defence, Double hitPoints, int lvl, double xp,
 							double factorAttack, double factorDefense, double factorHitPoints) {
@@ -36,6 +38,7 @@ public abstract class AbstractHero implements Hero {
 		_factorAttack = factorAttack;
 		_factorDefense = factorDefense;
 		_factorHitPoints = factorHitPoints;
+		_id = 0;
 	}
 
 	protected AbstractHero(AbstractHero hero) {
@@ -154,7 +157,7 @@ public abstract class AbstractHero implements Hero {
 	public String getStat() {
 		String stat;
 
-		stat = "\t== STATS ==\n";
+		stat = "\t== STATS (DEBUG ID DB:" + getId() + ") ==\n";
 		stat += "NAME:\t" + getName() + "\n";
 		stat += "CLASS:\t" + getClassName() + "\n";
 		stat += "LEVEL:\t" + getLevel() + "\n";
@@ -182,5 +185,9 @@ public abstract class AbstractHero implements Hero {
 
 		return (stat);
 	}
+
+	public void setId(int id) { _id  = id; }
+
+	public int getId() { return (_id); }
 
 }

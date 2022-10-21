@@ -1,5 +1,6 @@
 package main.java;
 
+import java.sql.SQLException;
 import java.util.*;
 
 import main.java.hero.*;
@@ -43,6 +44,8 @@ public class Utils {
 		for (String heroClass : Game.classHero) {
 			if (heroClass == className) {
 				Hero hero = HeroFactory.newHero(className, heroName, 0, 0);
+				int idDb = Game.db.insertHero(heroName, heroClass, 0, 0.0);
+				hero.setId(idDb);
 				Game.heros.add(hero);
 				return (true);
 			}
