@@ -81,6 +81,65 @@ public class DataBase {
 		}
     }
 
+	public void updateHeroXp(int id, double xp) {
+        String sql = "UPDATE heros SET heroxp = ? WHERE id = ?";
+
+		try {
+			PreparedStatement pstmt = _conn.prepareStatement(sql);
+			pstmt.setDouble(1, xp);
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
+    }
+
+	public void updateHeroWeapon(int id, String weaponType, double weaponValue) {
+        String sql = "UPDATE heros SET weapontype = ?, weaponvalue = ? WHERE id = ?";
+
+		try {
+			PreparedStatement pstmt = _conn.prepareStatement(sql);
+			pstmt.setString(1, weaponType);
+			pstmt.setDouble(2, weaponValue);
+			pstmt.setInt(3, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
+    }
+
+	public void updateHeroArmor(int id, String armorType, double armorValue) {
+        String sql = "UPDATE heros SET armortype = ?, armorvalue = ? WHERE id = ?";
+
+		try {
+			PreparedStatement pstmt = _conn.prepareStatement(sql);
+			pstmt.setString(1, armorType);
+			pstmt.setDouble(2, armorValue);
+			pstmt.setInt(3, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
+    }
+
+	public void updateHeroHelm(int id, String helmType, double helmValue) {
+        String sql = "UPDATE heros SET helmtype = ?, helmvalue = ? WHERE id = ?";
+
+		try {
+			PreparedStatement pstmt = _conn.prepareStatement(sql);
+			pstmt.setString(1, helmType);
+			pstmt.setDouble(2, helmValue);
+			pstmt.setInt(3, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
+    }
+
 	public void readAllHero() {
         String sql = "SELECT id, heroname, heroclass, herolvl, heroxp, weapontype, weaponvalue, armortype, armorvalue, helmtype, helmvalue FROM heros";
         
