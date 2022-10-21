@@ -90,7 +90,7 @@ public abstract class AbstractHero implements Hero {
 	}
 
 	public int getSizeMap() {
-		return ((getLevel() - 1) * 5 + 10);
+		return ((getLevel() - 1) * 5 + 10 - (getLevel() % 2));
 	}
 
 	public Double getXp() {

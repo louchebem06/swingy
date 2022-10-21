@@ -193,8 +193,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(btnFight);
 		panel.add(btnRun);
 
-		// scrollPane.setViewportView(ITENM);
-		// int sizeMap = currentHero.getSizeMap();
+		int sizeMap = Game.currentHero.getSizeMap();
 
 		scrollPane.setBounds(10, 10, 500, 500);
 
@@ -225,7 +224,6 @@ public class Window implements ActionListener, ListSelectionListener {
 		} else if (e.getSource() == heroConboBox) {
 			String item = heroConboBox.getSelectedItem().toString();
 			usingImgDescription.setIcon(imgClass.get(item));
-			System.out.println(item);
 		}
 	}
 
