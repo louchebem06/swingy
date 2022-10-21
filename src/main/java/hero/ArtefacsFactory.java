@@ -7,6 +7,26 @@ public class ArtefacsFactory {
 		switch (type) {
 			case "Sword":
 				return (new Sword(value));
+			case "Lighter":
+				return (new Lighter(value));
+			case "Gun":
+				return (new Gun(value));
+			case "Knife":
+				return (new Knife(value));
+			case "Shield":
+				return (new Shield(value));
+			case "Sweater":
+				return (new Sweater(value));
+			case "Pullover":
+				return (new Pullover(value));
+			case "Vest":
+				return (new Vest(value));
+			case "Cap":
+				return (new Cap(value));
+			case "Hat":
+				return (new Hat(value));
+			case "Bonnet":
+				return (new Bonnet(value));
 		}
 		return (null);
 	}
@@ -19,19 +39,19 @@ public class ArtefacsFactory {
 	}
 
 	public static Artefacs randomWeapon(double maxRand) {
-		String types [] = {"Sword"};
+		String types [] = {"Sword", "Lighter", "Gun", "Knife"};
 		
 		return (random(types, maxRand));
 	}
 
 	public static Artefacs randomArmor(double maxRand) {
-		String types [] = {};
+		String types [] = {"Shield", "Sweater", "Pullover", "Vest"};
 		
 		return (random(types, maxRand));
 	}
 
 	public static Artefacs randomHelm(double maxRand) {
-		String types [] = {};
+		String types [] = {"Cap", "Hat", "Bonnet"};
 		
 		return (random(types, maxRand));
 	}
