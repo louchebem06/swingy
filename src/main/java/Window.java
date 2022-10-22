@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.*;
 
-import main.java.hero.Hero;		
+import main.java.hero.*;		
 
 public class Window implements ActionListener, ListSelectionListener {
 	
@@ -124,7 +124,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		statLabel.setBounds(320, 22, 200, 50);
 		statHero.setBounds(220, 60, 270, 210);
 
-		usingImgStat.setBounds(250, 260, 200, 200);
+		usingImgStat.setBounds(260, 280, 180, 180);
 
 		heroList.addListSelectionListener(this);
 	}
@@ -180,10 +180,35 @@ public class Window implements ActionListener, ListSelectionListener {
 	}
 
 	private void cardGame() {
-		clearFrame("Game", 520, 750);
+		clearFrame("Game", 500, 440);
 
 		JPanel panel = (JPanel)frame.getContentPane();
 		JScrollPane scrollPane = new JScrollPane();
+
+		JLabel nameLabel = new JLabel("Name: " + Game.currentHero.getName());
+		JLabel classNameLabel = new JLabel("Class: " + Game.currentHero.getClassName());
+		JLabel attackLabel = new JLabel("Attack: " + Game.currentHero.getAttack());
+		JLabel defenseLabel = new JLabel("Defense: " + Game.currentHero.getDefense());
+		JLabel hpLabel = new JLabel("HitPoint: " + Game.currentHero.getHitPoint());
+		JLabel weaponLabel = new JLabel("Weapon: not equiped");
+		JLabel armorLabel = new JLabel("Armor: not equiped");
+		JLabel helmLabel = new JLabel("Helm: not equiped");
+		JLabel lvlLabel = new JLabel("Level: " + Game.currentHero.getLevel());
+		JLabel xpLabel = new JLabel("XP: " + Game.currentHero.getXp());
+		JLabel positionLabel = new JLabel("Current position: (" + Game.position.getX() + "," + Game.position.getY() + ")");
+		JLabel imgPlayer = new JLabel();
+		imgPlayer.setIcon(imgClass.get(Game.currentHero.getClassName()));
+
+		Artefacs weapon = Game.currentHero.getWeapon();
+		Artefacs armor = Game.currentHero.getArmor();
+		Artefacs helm = Game.currentHero.getHelm();
+
+		if (weapon != null)
+			weaponLabel.setText("Weapon: " + weapon);
+		if (armor != null)
+			armorLabel.setText("Armor: " + armor);
+		if (helm != null)
+			helmLabel.setText("Helm: " + helm);
 
 		panel.add(scrollPane);
 		panel.add(btnNorth);
@@ -192,18 +217,42 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(btnWest);
 		panel.add(btnFight);
 		panel.add(btnRun);
+	
+		panel.add(nameLabel);
+		panel.add(classNameLabel);
+		panel.add(attackLabel);
+		panel.add(defenseLabel);
+		panel.add(hpLabel);
+		panel.add(weaponLabel);
+		panel.add(helmLabel);
+		panel.add(armorLabel);
+		panel.add(lvlLabel);
+		panel.add(xpLabel);
+		panel.add(positionLabel);
+		panel.add(imgPlayer);
 
-		int sizeMap = Game.currentHero.getSizeMap();
+		nameLabel.setBounds(10, 10, 200, 30);
+		classNameLabel.setBounds(10, 30, 200, 30);
+		attackLabel.setBounds(10, 50, 200, 30);
+		defenseLabel.setBounds(10, 70, 200, 30);
+		hpLabel.setBounds(10, 90, 200, 30);
+		weaponLabel.setBounds(10, 110, 200, 30);
+		armorLabel.setBounds(10, 130, 200, 30);
+		helmLabel.setBounds(10, 150, 200, 30);
+		lvlLabel.setBounds(10, 170, 200, 30);
+		xpLabel.setBounds(10, 190, 200, 30);
+		positionLabel.setBounds(10, 210, 200, 30);
+		imgPlayer.setBounds(10, 240, 170, 160);
 
-		scrollPane.setBounds(10, 10, 500, 500);
+		scrollPane.setBounds(190, 10, 300, 300);
 
-		btnNorth.setBounds(70, 550, 100, 30);
-		btnSouth.setBounds(70, 650, 100, 30);
-		btnWest.setBounds(20, 600, 100, 30);
-		btnEast.setBounds(120, 600, 100, 30);
+		btnNorth.setBounds(230, 320, 100, 30);
+		btnSouth.setBounds(230, 380, 100, 30);
+		btnWest.setBounds(180, 350, 100, 30);
+		btnEast.setBounds(280, 350, 100, 30);
 
-		btnFight.setBounds(360, 570, 100, 30);
-		btnRun.setBounds(300, 630, 100, 30);
+		btnFight.setBounds(390, 320, 100, 30);
+		btnRun.setBounds(390, 350, 100, 30);
 	}
 
 	@Override
@@ -220,6 +269,9 @@ public class Window implements ActionListener, ListSelectionListener {
 			inputNameHero.setText("");
 			mainMenu();
 		} else if (e.getSource() == btnLoadHero) {
+			int sizeMap = Game.currentHero.getSizeMap();
+			Game.position.setX(sizeMap / 2);
+			Game.position.setY(sizeMap / 2);
 			cardGame();
 		} else if (e.getSource() == heroConboBox) {
 			String item = heroConboBox.getSelectedItem().toString();

@@ -12,6 +12,8 @@ public class Game {
 	static public Hero currentHero;
 	static public Window window;
 	static public DataBase db;
+	static public Cordonate position;
+
 
 	public static void main(String av[]) {
 		try {
@@ -19,6 +21,7 @@ public class Game {
 			classHero = Utils.getClassHero();
 			heros = new Vector<Hero>();
 			db.readAllHero();
+			position = new Cordonate();
 			window = new Window(heros, classHero);
 			Utils.checkArg(av);
 		} catch (Exception e) {
