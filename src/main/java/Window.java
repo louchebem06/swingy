@@ -275,11 +275,11 @@ public class Window implements ActionListener, ListSelectionListener {
 	}
 
 	private void updatePosition(int x, int y, int sizeMap) {
-		if (y > 0 && y < sizeMap)
+		if (y >= 0 && y < sizeMap)
 			Game.position.setY(y);
-		if (x > 0 && x < sizeMap)
+		if (x >= 0 && x < sizeMap)
 			Game.position.setX(x);
-		positionLabel.setText("Current position: (" + x + "," + y + ")");
+		positionLabel.setText("Current position: (" + Game.position.getX() + "," + Game.position.getY() + ")");
 	}
 
 	@Override
