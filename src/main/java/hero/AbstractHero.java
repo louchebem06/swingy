@@ -73,7 +73,7 @@ public abstract class AbstractHero implements Hero {
 	}
 
 	private double calcLevel(int lvl) {
-		double xp = Math.pow((lvl * 1000) + (lvl - 1), 2) * 450;
+		double xp = lvl * 1000 + Math.pow(lvl - 1, 2) * 450;
 		return (xp);
 	}
 

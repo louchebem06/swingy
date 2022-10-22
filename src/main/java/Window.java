@@ -306,13 +306,104 @@ public class Window implements ActionListener, ListSelectionListener {
 					Game.currentEnemy.getName()
 					+ " lvl " + Game.currentEnemy.getLevel()
 					+ " type " + Game.currentEnemy.getClassName()
-					+ "wants to fight!"
+					+ " wants to fight!"
 				);
 				Game.enemyPosition.remove(i);
+				if (Game.enemyPosition.size() == 0)
+					Game.enemyPosition = MapGame.generateEnemys(Game.currentHero.getSizeMap());
 				break ;
 			}
 			i++;
 		}
+	}
+
+	private void createItemFrame(Artefacs item) {
+		JFrame itemFrame = new JFrame("Drop item!");
+		JPanel panel = (JPanel)itemFrame.getContentPane();
+		JLabel msgFrame = new JLabel();
+		int widthScreen = Toolkit.getDefaultToolkit().getScreenSize().width;
+		int heightScreen = Toolkit.getDefaultToolkit().getScreenSize().height;
+		JButton btnEquip = new JButton("Equip");
+		JLabel actualItem = new JLabel();
+		JLabel newItem = new JLabel();
+		
+		itemFrame.setLayout(null);
+		itemFrame.setVisible(true);
+		itemFrame.setSize(400, 200);
+		itemFrame.setLocation((widthScreen / 2 - 200), (heightScreen / 2 - 200));
+		itemFrame.setResizable(false);
+
+		panel.add(msgFrame);
+		panel.add(btnEquip);
+		panel.add(actualItem);
+		panel.add(newItem);
+
+		String typeItem = item.getType();
+
+		msgFrame.setText(
+			Game.currentEnemy.getName() + " lvl " + Game.currentEnemy.getLevel()
+			+ " is dead dying he dropped "
+			+ typeItem
+		);
+
+		Artefacs weapon = Game.currentHero.getWeapon();
+		Artefacs armor = Game.currentHero.getArmor();
+		Artefacs helm = Game.currentHero.getHelm();
+
+		switch (typeItem) {
+			case "weapon":
+				if (weapon == null)
+					actualItem.setText("Actual item: not equiped");
+				else {
+					actualItem.setText(
+						"Actual item: "
+						+ weapon.getName() + " (" + df.format(weapon.getValue()) + ")"
+					);
+				}
+				break;
+			case "armor":
+				if (armor == null)
+					actualItem.setText("Actual item: not equiped");
+				else {
+					actualItem.setText(
+						"Actual item: "
+						+ armor.getName() + " (" + df.format(armor.getValue()) + ")"
+					);
+				}
+				break;
+			case "helm":
+				if (helm == null)
+					actualItem.setText("Actual item: not equiped");
+				else {
+					actualItem.setText(
+						"Actual item: "
+						+ helm.getName() + " (" + df.format(helm.getValue()) + ")"
+					);
+				}
+				break;
+		}
+
+		newItem.setText(
+			"New item: "
+			+ item.getName()
+			+ " (" + df.format(item.getValue()) + ")"
+		);
+
+		msgFrame.setBounds(10, 10, 390, 30);
+		actualItem.setBounds(10, 40, 390, 30);
+		newItem.setBounds(10, 70, 390, 30);
+		btnEquip.setBounds(150, 130, 100, 30);
+
+		btnEquip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Component component = (Component) e.getSource();
+        		JFrame frame = (JFrame) SwingUtilities.getRoot(component);
+				frame.dispose();
+				/*
+				 * TODO add item
+				*/
+			}
+		});
 	}
 
 	@Override
@@ -384,11 +475,14 @@ public class Window implements ActionListener, ListSelectionListener {
 			btnFight.setEnabled(false);
 
 			if (Simulator.figth(Game.currentHero, Game.currentEnemy)) {
-				double xpWin = (Game.currentEnemy.getXp() / 100.0) * 50;
+				double xpWin = (Math.pow(Game.currentHero.getLevel(), 5)
+								* Math.pow(Game.currentEnemy.getLevel(), 15));
+				if (xpWin <= 100)
+					xpWin += 100;
 				msgGame.setText("You won your fight ✅ + " + df.format(xpWin) + "xp");
 
 				Game.currentHero.addXp(xpWin);
-				xpLabel.setText("XP: " + Game.currentHero.getXp());
+				xpLabel.setText("XP: " + df.format(Game.currentHero.getXp()));
 				lvlLabel.setText("Level: " + Game.currentHero.getLevel());
 
 				Game.db.updateHeroXp(Game.currentHero.getId(), Game.currentHero.getXp());
@@ -404,13 +498,23 @@ public class Window implements ActionListener, ListSelectionListener {
 				Artefacs dropHelm = Game.currentEnemy.getHelm();
 
 				if (dropArmor != null)
-					System.out.println(dropArmor);
+					createItemFrame(dropArmor);
 				if (dropWeapon != null)
-					System.out.println(dropWeapon);
+					createItemFrame(dropWeapon);
 				if (dropHelm != null)
-					System.out.println(dropHelm);
+					createItemFrame(dropHelm);
 			} else {
-				msgGame.setText("You lost your fight ❌");
+				msgGame.setText("You lost your fight ❌ respawn middle !");
+				Game.enemyPosition = MapGame.generateEnemys(Game.currentHero.getSizeMap());
+				Game.position.setX(Game.currentHero.getSizeMap() / 2);
+				Game.position.setY(Game.currentHero.getSizeMap() / 2);
+				positionLabel.setText("Current position: (" + Game.position.getX() + "," + Game.position.getY() + ")");
+				btnNorth.setEnabled(true);
+				btnSouth.setEnabled(true);
+				btnWest.setEnabled(true);
+				btnEast.setEnabled(true);
+				btnFight.setEnabled(false);
+				btnRun.setEnabled(false);
 			}
 		}
 	}
