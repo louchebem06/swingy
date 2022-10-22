@@ -10,6 +10,7 @@ import javax.swing.border.Border;
 import javax.swing.event.*;
 
 import main.java.hero.*;
+import main.java.artefac.*;
 
 public class Window implements ActionListener, ListSelectionListener {
 	

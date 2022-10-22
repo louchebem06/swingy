@@ -3,6 +3,8 @@ package main.java.hero;
 import java.lang.Math;
 import java.text.*;
 
+import main.java.artefac.*;
+
 public abstract class AbstractHero implements Hero {
 
 	protected String _name;

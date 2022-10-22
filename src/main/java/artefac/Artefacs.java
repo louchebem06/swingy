@@ -1,4 +1,4 @@
-package main.java.hero;
+package main.java.artefac;
 
 public interface Artefacs {
 	public String getName();

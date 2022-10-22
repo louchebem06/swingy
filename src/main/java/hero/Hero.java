@@ -1,5 +1,7 @@
 package main.java.hero;
 
+import main.java.artefac.*;
+
 public interface Hero {
 	public String getName();
 	public String getClassName();

@@ -1,6 +1,6 @@
-package main.java.hero.artefacs;
+package main.java.artefac.artefacs;
 
-import main.java.hero.AbstractArtefacs;
+import main.java.artefac.AbstractArtefacs;
 
 public class Hat extends AbstractArtefacs {
 	public Hat(double value) {

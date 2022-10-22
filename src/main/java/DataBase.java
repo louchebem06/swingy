@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 
-import main.java.hero.ArtefacsFactory;
+import main.java.artefac.ArtefacsFactory;
 import main.java.hero.Hero;
 import main.java.hero.HeroFactory;
 

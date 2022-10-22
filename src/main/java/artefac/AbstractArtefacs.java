@@ -1,4 +1,4 @@
-package main.java.hero;
+package main.java.artefac;
 
 public abstract class AbstractArtefacs implements Artefacs {
 	protected String 	_type;

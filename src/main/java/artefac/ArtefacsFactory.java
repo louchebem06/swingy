@@ -1,6 +1,6 @@
-package main.java.hero;
+package main.java.artefac;
 
-import main.java.hero.artefacs.*;
+import main.java.artefac.artefacs.*;
 
 public class ArtefacsFactory {
 	public static Artefacs newArtefacs(String type, double value) {

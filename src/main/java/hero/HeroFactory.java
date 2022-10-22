@@ -1,6 +1,8 @@
 package main.java.hero;
 
 import main.java.hero.heros.*;
+import main.java.artefac.*;
+import main.java.artefac.artefacs.*;
 
 public class HeroFactory {
 	public static Hero newHero(String type, String name, int lvl, double xp) {
