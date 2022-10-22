@@ -3,6 +3,7 @@ package main.java;
 import java.util.*;
 
 import main.java.hero.*;
+import main.java.*;
 
 public class Game {
 	

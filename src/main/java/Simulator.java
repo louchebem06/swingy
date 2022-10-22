@@ -1,4 +1,4 @@
-package main.java.simulator;
+package main.java;
 
 import main.java.hero.Hero;
 
