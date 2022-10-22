@@ -165,9 +165,9 @@ public class DataBase {
 				if (weaponType != null)
 					hero.setWeapon(ArtefacsFactory.newArtefacs(weaponType, weaponvalue));
 				if (armorType != null)
-					hero.setWeapon(ArtefacsFactory.newArtefacs(armorType, armorValue));
+					hero.setArmor(ArtefacsFactory.newArtefacs(armorType, armorValue));
 				if (helmType != null)
-					hero.setWeapon(ArtefacsFactory.newArtefacs(helmType, helmValue));
+					hero.setHelm(ArtefacsFactory.newArtefacs(helmType, helmValue));
 				Game.heros.add(hero);
             }
         } catch (SQLException e) {

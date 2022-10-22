@@ -34,6 +34,12 @@ public class Window implements ActionListener, ListSelectionListener {
 	private JLabel usingImgDescription, usingImgStat;
 	private JLabel positionLabel;
 	private JLabel msgGame, lvlLabel, xpLabel;
+	private JLabel attackLabel, 
+					defenseLabel,
+					hpLabel,
+					weaponLabel,
+					armorLabel,
+					helmLabel;
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 	public Window(Vector<Hero> heros, Vector<String> classHero) {
@@ -88,6 +94,12 @@ public class Window implements ActionListener, ListSelectionListener {
 		msgGame = new JLabel();
 		lvlLabel = new JLabel();
 		xpLabel = new JLabel();
+		attackLabel = new JLabel();
+		defenseLabel = new JLabel();
+		hpLabel = new JLabel();
+		weaponLabel = new JLabel();
+		armorLabel = new JLabel();
+		helmLabel = new JLabel();
 	}
 
 	private void clearFrame(String title, int width, int height) {
@@ -194,15 +206,17 @@ public class Window implements ActionListener, ListSelectionListener {
 
 		JLabel nameLabel = new JLabel("Name: " + Game.currentHero.getName());
 		JLabel classNameLabel = new JLabel("Class: " + Game.currentHero.getClassName());
-		JLabel attackLabel = new JLabel("Attack: " + Game.currentHero.getAttack());
-		JLabel defenseLabel = new JLabel("Defense: " + Game.currentHero.getDefense());
-		JLabel hpLabel = new JLabel("HitPoint: " + Game.currentHero.getHitPoint());
-		JLabel weaponLabel = new JLabel("Weapon: not equiped");
-		JLabel armorLabel = new JLabel("Armor: not equiped");
-		JLabel helmLabel = new JLabel("Helm: not equiped");
+		attackLabel.setText("Attack: " + Game.currentHero.getAttack());
+		defenseLabel.setText("Defense: " + Game.currentHero.getDefense());
+		hpLabel.setText("HitPoint: " + Game.currentHero.getHitPoint());
+		weaponLabel.setText("Weapon: not equiped");
+		armorLabel.setText("Armor: not equiped");
+		helmLabel.setText("Helm: not equiped");
 		lvlLabel.setText("Level: " + Game.currentHero.getLevel());
 		xpLabel.setText("XP: " + df.format(Game.currentHero.getXp()));
-		positionLabel.setText("Current position: (" + Game.position.getX() + "," + Game.position.getY() + ")");
+		positionLabel.setText(
+			"Current position: ("
+			+ Game.position.getX() + "," + Game.position.getY() + ")");
 		JLabel imgPlayer = new JLabel();
 		msgGame.setText("Welcome to Swingy!");
 		imgPlayer.setIcon(imgClass.get(Game.currentHero.getClassName()));
@@ -284,7 +298,9 @@ public class Window implements ActionListener, ListSelectionListener {
 			Game.position.setY(y);
 		if (x >= 0 && x < sizeMap)
 			Game.position.setX(x);
-		positionLabel.setText("Current position: (" + Game.position.getX() + "," + Game.position.getY() + ")");
+		positionLabel.setText(
+			"Current position: (" + Game.position.getX()
+			+ "," + Game.position.getY() + ")");
 		msgGame.setText("Your move to " + Game.position);
 	}
 
@@ -310,14 +326,15 @@ public class Window implements ActionListener, ListSelectionListener {
 				);
 				Game.enemyPosition.remove(i);
 				if (Game.enemyPosition.size() == 0)
-					Game.enemyPosition = MapGame.generateEnemys(Game.currentHero.getSizeMap());
+					Game.enemyPosition = MapGame.generateEnemys(
+											Game.currentHero.getSizeMap());
 				break ;
 			}
 			i++;
 		}
 	}
 
-	private void createItemFrame(Artefacs item) {
+	private void createItemFrame(final Artefacs item) {
 		JFrame itemFrame = new JFrame("Drop item!");
 		JPanel panel = (JPanel)itemFrame.getContentPane();
 		JLabel msgFrame = new JLabel();
@@ -330,7 +347,10 @@ public class Window implements ActionListener, ListSelectionListener {
 		itemFrame.setLayout(null);
 		itemFrame.setVisible(true);
 		itemFrame.setSize(400, 200);
-		itemFrame.setLocation((widthScreen / 2 - 200), (heightScreen / 2 - 200));
+		itemFrame.setLocation(
+			(widthScreen / 2 - 200),
+			(heightScreen / 2 - 200)
+		);
 		itemFrame.setResizable(false);
 
 		panel.add(msgFrame);
@@ -357,7 +377,8 @@ public class Window implements ActionListener, ListSelectionListener {
 				else {
 					actualItem.setText(
 						"Actual item: "
-						+ weapon.getName() + " (" + df.format(weapon.getValue()) + ")"
+						+ weapon.getName() + " ("
+						+ df.format(weapon.getValue()) + ")"
 					);
 				}
 				break;
@@ -367,7 +388,8 @@ public class Window implements ActionListener, ListSelectionListener {
 				else {
 					actualItem.setText(
 						"Actual item: "
-						+ armor.getName() + " (" + df.format(armor.getValue()) + ")"
+						+ armor.getName() + " ("
+						+ df.format(armor.getValue()) + ")"
 					);
 				}
 				break;
@@ -377,7 +399,8 @@ public class Window implements ActionListener, ListSelectionListener {
 				else {
 					actualItem.setText(
 						"Actual item: "
-						+ helm.getName() + " (" + df.format(helm.getValue()) + ")"
+						+ helm.getName() + " ("
+						+ df.format(helm.getValue()) + ")"
 					);
 				}
 				break;
@@ -399,9 +422,22 @@ public class Window implements ActionListener, ListSelectionListener {
 				Component component = (Component) e.getSource();
         		JFrame frame = (JFrame) SwingUtilities.getRoot(component);
 				frame.dispose();
-				/*
-				 * TODO add item
-				*/
+				if (!Game.currentHero.setArmor(item)) {
+					if (!Game.currentHero.setWeapon(item)) {
+						Game.currentHero.setHelm(item);
+						helmLabel.setText("Helm: " + Game.currentHero.getHelm());
+						Game.db.updateHeroHelm(Game.currentHero.getId(), item.getName(), item.getValue());
+					} else {
+						weaponLabel.setText("Weapon: " + Game.currentHero.getWeapon());
+						Game.db.updateHeroWeapon(Game.currentHero.getId(), item.getName(), item.getValue());
+					}
+				} else {
+					armorLabel.setText("Armor: " + Game.currentHero.getArmor());
+					Game.db.updateHeroArmor(Game.currentHero.getId(), item.getName(), item.getValue());
+				}
+				attackLabel.setText("Attack: " + Game.currentHero.getAttack());
+				defenseLabel.setText("Defense: " + Game.currentHero.getDefense());
+				hpLabel.setText("HitPoint: " + Game.currentHero.getHitPoint());
 			}
 		});
 	}
@@ -479,14 +515,23 @@ public class Window implements ActionListener, ListSelectionListener {
 								* Math.pow(Game.currentEnemy.getLevel(), 15));
 				if (xpWin <= 100)
 					xpWin += 100;
-				msgGame.setText("You won your fight ✅ + " + df.format(xpWin) + "xp");
+				msgGame.setText(
+					"You won your fight ✅ + "
+					+ df.format(xpWin) + "xp"
+				);
 
 				Game.currentHero.addXp(xpWin);
 				xpLabel.setText("XP: " + df.format(Game.currentHero.getXp()));
 				lvlLabel.setText("Level: " + Game.currentHero.getLevel());
 
-				Game.db.updateHeroXp(Game.currentHero.getId(), Game.currentHero.getXp());
-				Game.db.updateHeroLevel(Game.currentHero.getId(), Game.currentHero.getLevel());
+				Game.db.updateHeroXp(
+					Game.currentHero.getId(),
+					Game.currentHero.getXp()
+				);
+				Game.db.updateHeroLevel(
+					Game.currentHero.getId(),
+					Game.currentHero.getLevel()
+				);
 
 				btnNorth.setEnabled(true);
 				btnSouth.setEnabled(true);
@@ -508,7 +553,10 @@ public class Window implements ActionListener, ListSelectionListener {
 				Game.enemyPosition = MapGame.generateEnemys(Game.currentHero.getSizeMap());
 				Game.position.setX(Game.currentHero.getSizeMap() / 2);
 				Game.position.setY(Game.currentHero.getSizeMap() / 2);
-				positionLabel.setText("Current position: (" + Game.position.getX() + "," + Game.position.getY() + ")");
+				positionLabel.setText(
+					"Current position: (" + Game.position.getX()
+					+ "," + Game.position.getY() + ")"
+				);
 				btnNorth.setEnabled(true);
 				btnSouth.setEnabled(true);
 				btnWest.setEnabled(true);

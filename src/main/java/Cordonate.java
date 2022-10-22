@@ -26,8 +26,6 @@ public class Cordonate {
 		int forbidden = maxRange / 2;
 		x = (int)(Math.random() * maxRange);
 		y = (int)(Math.random() * maxRange);
-		if (x == forbidden && y == forbidden)
-			return (randomCordonate(maxRange));
 		return (new Cordonate(x, y));
 	}
 
