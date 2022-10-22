@@ -16,7 +16,7 @@ public interface Hero {
 	public Artefacs getHelm();
 	public String getStat();
 	public int getSizeMap();
-	public void addXp(int xp);
+	public void addXp(double xp);
 	public void setId(int id);
 	public int getId();
 }

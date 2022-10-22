@@ -1,6 +1,7 @@
 package main.java.hero;
 
 import java.lang.Math;
+import java.text.*;
 
 public abstract class AbstractHero implements Hero {
 
@@ -21,6 +22,8 @@ public abstract class AbstractHero implements Hero {
 	protected double _factorHitPoints;
 
 	protected int _id;
+
+	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 	protected AbstractHero(String name, String className, Double attack,
 							Double defence, Double hitPoints, int lvl, double xp,
@@ -81,7 +84,7 @@ public abstract class AbstractHero implements Hero {
 		_hitPoints += _level * _factorHitPoints;
 	}
 
-	public void addXp(int xp) {
+	public void addXp(double xp) {
 		_xp += xp;
 		getLevel();
 	}
@@ -157,11 +160,11 @@ public abstract class AbstractHero implements Hero {
 	public String getStat() {
 		String stat;
 
-		stat = "\t== STATS (DEBUG ID DB:" + getId() + ") ==\n";
+		stat = "\t== STATS ==\n";
 		stat += "NAME:\t" + getName() + "\n";
 		stat += "CLASS:\t" + getClassName() + "\n";
 		stat += "LEVEL:\t" + getLevel() + "\n";
-		stat += "XP:\t" + getXp() + "\n";
+		stat += "XP:\t" + df.format(getXp()) + "\n";
 		stat += "ATTACK:\t" + getAttack() + "\n";
 		stat += "DEFENSE:\t" + getDefense() + "\n";
 		stat += "HITPOINTS:\t" + getHitPoint() + "\n";

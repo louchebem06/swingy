@@ -13,7 +13,8 @@ public class Game {
 	static public Window window;
 	static public DataBase db;
 	static public Cordonate position;
-
+	static public Vector<Cordonate> enemyPosition;
+	static public Hero currentEnemy;
 
 	public static void main(String av[]) {
 		try {
@@ -22,6 +23,7 @@ public class Game {
 			heros = new Vector<Hero>();
 			db.readAllHero();
 			position = new Cordonate();
+			enemyPosition = new Vector<Cordonate>();
 			window = new Window(heros, classHero);
 			Utils.checkArg(av);
 		} catch (Exception e) {

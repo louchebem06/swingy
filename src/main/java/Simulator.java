@@ -62,7 +62,7 @@ public class Simulator {
 
 	// Run is possible
 	public static Boolean run() {
-		return (Math.random() >= 0.5);
+		return (Math.random() > 0.5);
 	}
 
 }
