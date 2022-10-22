@@ -31,6 +31,7 @@ public class Window implements ActionListener, ListSelectionListener {
 	private Border border;
 	private Map<String, ImageIcon> imgClass;
 	private JLabel usingImgDescription, usingImgStat;
+	private JLabel positionLabel;
 
 	public Window(Vector<Hero> heros, Vector<String> classHero) {
 		frame = new JFrame();
@@ -57,6 +58,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		heroList = new JList<Hero>(heros);
 		heroList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		statHero = new JTextArea();
+		positionLabel = new JLabel();
 		border = BorderFactory.createLineBorder(Color.BLACK);
     	statHero.setBorder(border);
 		statHero.setEditable(false);
@@ -70,10 +72,10 @@ public class Window implements ActionListener, ListSelectionListener {
 		btnFight = new JButton("Fight");
 		btnRun = new JButton("Run");
 
-		btnNorth.setEnabled(false);
-		btnSouth.setEnabled(false);
-		btnWest.setEnabled(false);
-		btnEast.setEnabled(false);;
+		// btnNorth.setEnabled(false);
+		// btnSouth.setEnabled(false);
+		// btnWest.setEnabled(false);
+		// btnEast.setEnabled(false);
 
 		btnFight.setEnabled(false);
 		btnRun.setEnabled(false);
@@ -97,6 +99,8 @@ public class Window implements ActionListener, ListSelectionListener {
 
 	public void mainMenu() {
 		clearFrame("Main menu", 500, 500);
+		frame.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 250),
+							(Toolkit.getDefaultToolkit().getScreenSize().height / 2 - 250));
 		
 		JPanel panel = (JPanel)frame.getContentPane();
 		JScrollPane scrollPane = new JScrollPane();
@@ -195,8 +199,9 @@ public class Window implements ActionListener, ListSelectionListener {
 		JLabel helmLabel = new JLabel("Helm: not equiped");
 		JLabel lvlLabel = new JLabel("Level: " + Game.currentHero.getLevel());
 		JLabel xpLabel = new JLabel("XP: " + Game.currentHero.getXp());
-		JLabel positionLabel = new JLabel("Current position: (" + Game.position.getX() + "," + Game.position.getY() + ")");
+		positionLabel.setText("Current position: (" + Game.position.getX() + "," + Game.position.getY() + ")");
 		JLabel imgPlayer = new JLabel();
+		JLabel msgGame = new JLabel("MSG HERE");
 		imgPlayer.setIcon(imgClass.get(Game.currentHero.getClassName()));
 
 		Artefacs weapon = Game.currentHero.getWeapon();
@@ -211,10 +216,12 @@ public class Window implements ActionListener, ListSelectionListener {
 			helmLabel.setText("Helm: " + helm);
 
 		panel.add(scrollPane);
+
 		panel.add(btnNorth);
 		panel.add(btnEast);
 		panel.add(btnSouth);
 		panel.add(btnWest);
+
 		panel.add(btnFight);
 		panel.add(btnRun);
 	
@@ -231,6 +238,8 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(positionLabel);
 		panel.add(imgPlayer);
 
+		panel.add(msgGame);
+
 		nameLabel.setBounds(10, 10, 200, 30);
 		classNameLabel.setBounds(10, 30, 200, 30);
 		attackLabel.setBounds(10, 50, 200, 30);
@@ -244,7 +253,9 @@ public class Window implements ActionListener, ListSelectionListener {
 		positionLabel.setBounds(10, 210, 200, 30);
 		imgPlayer.setBounds(10, 240, 170, 160);
 
-		scrollPane.setBounds(190, 10, 300, 300);
+		scrollPane.setBounds(190, 10, 300, 270);
+
+		msgGame.setBounds(190, 275, 300, 30);
 
 		btnNorth.setBounds(230, 320, 100, 30);
 		btnSouth.setBounds(230, 380, 100, 30);
@@ -253,6 +264,22 @@ public class Window implements ActionListener, ListSelectionListener {
 
 		btnFight.setBounds(390, 320, 100, 30);
 		btnRun.setBounds(390, 350, 100, 30);
+
+		btnNorth.addActionListener(this);
+		btnSouth.addActionListener(this);
+		btnWest.addActionListener(this);
+		btnEast.addActionListener(this);
+
+		btnFight.addActionListener(this);
+		btnRun.addActionListener(this);
+	}
+
+	private void updatePosition(int x, int y, int sizeMap) {
+		if (y > 0 && y < sizeMap)
+			Game.position.setY(y);
+		if (x > 0 && x < sizeMap)
+			Game.position.setX(x);
+		positionLabel.setText("Current position: (" + x + "," + y + ")");
 	}
 
 	@Override
@@ -276,6 +303,14 @@ public class Window implements ActionListener, ListSelectionListener {
 		} else if (e.getSource() == heroConboBox) {
 			String item = heroConboBox.getSelectedItem().toString();
 			usingImgDescription.setIcon(imgClass.get(item));
+		} else if (e.getSource() == btnNorth) {
+			updatePosition(Game.position.getX(), Game.position.getY() - 1, Game.currentHero.getSizeMap());
+		} else if (e.getSource() == btnSouth) {
+			updatePosition(Game.position.getX(), Game.position.getY() + 1, Game.currentHero.getSizeMap());
+		} else if (e.getSource() == btnWest) {
+			updatePosition(Game.position.getX() - 1, Game.position.getY(), Game.currentHero.getSizeMap());
+		} else if (e.getSource() == btnEast) {
+			updatePosition(Game.position.getX() + 1, Game.position.getY(), Game.currentHero.getSizeMap());
 		}
 	}
 
