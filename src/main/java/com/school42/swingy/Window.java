@@ -173,10 +173,10 @@ public class Window implements ActionListener, ListSelectionListener {
 
 		positionLabel.setText(
 			"Current position: ("
-			+ Game.position.getX() + "," + Game.position.getY() + ")");
+			+ Main.position.getX() + "," + Main.position.getY() + ")");
 		JLabel imgPlayer = new JLabel();
 		msgGame.setText("Welcome to Swingy!");
-		imgPlayer.setIcon(Game.currentHero.getIcon(150));
+		imgPlayer.setIcon(Main.currentHero.getIcon(150));
 
 		panel.add(scrollPane);
 
@@ -188,31 +188,31 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(btnFight);
 		panel.add(btnRun);
 	
-		panel.add(Game.currentHero.getNameLabel());
-		panel.add(Game.currentHero.getClassNameLabel());
-		panel.add(Game.currentHero.getAttackLabel());
-		panel.add(Game.currentHero.getDefenseLabel());
-		panel.add(Game.currentHero.getHitPointLabel());
-		panel.add(Game.currentHero.getWeaponLabel());
-		panel.add(Game.currentHero.getHelmLabel());
-		panel.add(Game.currentHero.getArmorLabel());
-		panel.add(Game.currentHero.getLevelLabel());
-		panel.add(Game.currentHero.getXpLabel());
+		panel.add(Main.currentHero.getNameLabel());
+		panel.add(Main.currentHero.getClassNameLabel());
+		panel.add(Main.currentHero.getAttackLabel());
+		panel.add(Main.currentHero.getDefenseLabel());
+		panel.add(Main.currentHero.getHitPointLabel());
+		panel.add(Main.currentHero.getWeaponLabel());
+		panel.add(Main.currentHero.getHelmLabel());
+		panel.add(Main.currentHero.getArmorLabel());
+		panel.add(Main.currentHero.getLevelLabel());
+		panel.add(Main.currentHero.getXpLabel());
 		panel.add(positionLabel);
 		panel.add(imgPlayer);
 
 		panel.add(msgGame);
 
-		Game.currentHero.getNameLabel().setBounds(10, 10, 200, 30);
-		Game.currentHero.getClassNameLabel().setBounds(10, 30, 200, 30);
-		Game.currentHero.getAttackLabel().setBounds(10, 50, 200, 30);
-		Game.currentHero.getDefenseLabel().setBounds(10, 70, 200, 30);
-		Game.currentHero.getHitPointLabel().setBounds(10, 90, 200, 30);
-		Game.currentHero.getWeaponLabel().setBounds(10, 110, 200, 30);
-		Game.currentHero.getArmorLabel().setBounds(10, 130, 200, 30);
-		Game.currentHero.getHelmLabel().setBounds(10, 150, 200, 30);
-		Game.currentHero.getLevelLabel().setBounds(10, 170, 200, 30);
-		Game.currentHero.getXpLabel().setBounds(10, 190, 200, 30);
+		Main.currentHero.getNameLabel().setBounds(10, 10, 200, 30);
+		Main.currentHero.getClassNameLabel().setBounds(10, 30, 200, 30);
+		Main.currentHero.getAttackLabel().setBounds(10, 50, 200, 30);
+		Main.currentHero.getDefenseLabel().setBounds(10, 70, 200, 30);
+		Main.currentHero.getHitPointLabel().setBounds(10, 90, 200, 30);
+		Main.currentHero.getWeaponLabel().setBounds(10, 110, 200, 30);
+		Main.currentHero.getArmorLabel().setBounds(10, 130, 200, 30);
+		Main.currentHero.getHelmLabel().setBounds(10, 150, 200, 30);
+		Main.currentHero.getLevelLabel().setBounds(10, 170, 200, 30);
+		Main.currentHero.getXpLabel().setBounds(10, 190, 200, 30);
 		positionLabel.setBounds(10, 210, 200, 30);
 		imgPlayer.setBounds(10, 240, 170, 160);
 
@@ -236,25 +236,25 @@ public class Window implements ActionListener, ListSelectionListener {
 		btnFight.addActionListener(this);
 		btnRun.addActionListener(this);
 
-		Game.enemyPosition = MapGame.generateEnemys(Game.currentHero.getSizeMap());
+		Main.enemyPosition = MapGame.generateEnemys(Main.currentHero.getSizeMap());
 	}
 
 	private void updatePosition(int x, int y, int sizeMap) {
 		if (y >= 0 && y < sizeMap)
-			Game.position.setY(y);
+			Main.position.setY(y);
 		if (x >= 0 && x < sizeMap)
-			Game.position.setX(x);
+			Main.position.setX(x);
 		positionLabel.setText(
-			"Current position: (" + Game.position.getX()
-			+ "," + Game.position.getY() + ")");
-		msgGame.setText("Your move to " + Game.position);
+			"Current position: (" + Main.position.getX()
+			+ "," + Main.position.getY() + ")");
+		msgGame.setText("Your move to " + Main.position);
 	}
 
 	private void checkIsEnemyPosition() {
 		int i = 0;
 
-		for (Cordonate cordonate : Game.enemyPosition) {
-			if (cordonate.equals(Game.position)) {
+		for (Cordonate cordonate : Main.enemyPosition) {
+			if (cordonate.equals(Main.position)) {
 				btnNorth.setEnabled(false);
 				btnSouth.setEnabled(false);
 				btnWest.setEnabled(false);
@@ -263,17 +263,17 @@ public class Window implements ActionListener, ListSelectionListener {
 				btnFight.setEnabled(true);
 				btnRun.setEnabled(true);
 
-				Game.currentEnemy = HeroFactory.randomHero(Game.currentHero.getXp());
+				Main.currentEnemy = HeroFactory.randomHero(Main.currentHero.getXp());
 				msgGame.setText(
-					Game.currentEnemy.getName()
-					+ " lvl " + Game.currentEnemy.getLevel()
-					+ " type " + Game.currentEnemy.getClassName()
+					Main.currentEnemy.getName()
+					+ " lvl " + Main.currentEnemy.getLevel()
+					+ " type " + Main.currentEnemy.getClassName()
 					+ " wants to fight!"
 				);
-				Game.enemyPosition.remove(i);
-				if (Game.enemyPosition.size() == 0)
-					Game.enemyPosition = MapGame.generateEnemys(
-											Game.currentHero.getSizeMap());
+				Main.enemyPosition.remove(i);
+				if (Main.enemyPosition.size() == 0)
+					Main.enemyPosition = MapGame.generateEnemys(
+											Main.currentHero.getSizeMap());
 				break ;
 			}
 			i++;
@@ -307,14 +307,14 @@ public class Window implements ActionListener, ListSelectionListener {
 		String typeItem = item.getType();
 
 		msgFrame.setText(
-			Game.currentEnemy.getName() + " lvl " + Game.currentEnemy.getLevel()
+			Main.currentEnemy.getName() + " lvl " + Main.currentEnemy.getLevel()
 			+ " is dead dying he dropped "
 			+ typeItem
 		);
 
-		Artefacs weapon = Game.currentHero.getWeapon();
-		Artefacs armor = Game.currentHero.getArmor();
-		Artefacs helm = Game.currentHero.getHelm();
+		Artefacs weapon = Main.currentHero.getWeapon();
+		Artefacs armor = Main.currentHero.getArmor();
+		Artefacs helm = Main.currentHero.getHelm();
 
 		switch (typeItem) {
 			case "weapon":
@@ -368,7 +368,7 @@ public class Window implements ActionListener, ListSelectionListener {
 				Component component = (Component) e.getSource();
         		JFrame frame = (JFrame) SwingUtilities.getRoot(component);
 				frame.dispose();
-				Game.currentHero.setArtefac(item);
+				Main.currentHero.setArtefac(item);
 			}
 		});
 	}
@@ -387,9 +387,9 @@ public class Window implements ActionListener, ListSelectionListener {
 			inputNameHero.setText("");
 			mainMenu();
 		} else if (e.getSource() == btnLoadHero) {
-			int sizeMap = Game.currentHero.getSizeMap();
-			Game.position.setX(sizeMap / 2);
-			Game.position.setY(sizeMap / 2);
+			int sizeMap = Main.currentHero.getSizeMap();
+			Main.position.setX(sizeMap / 2);
+			Main.position.setY(sizeMap / 2);
 			cardGame();
 		} else if (e.getSource() == heroConboBox) {
 			String item = heroConboBox.getSelectedItem().toString();
@@ -397,30 +397,30 @@ public class Window implements ActionListener, ListSelectionListener {
 			usingImgHero.setIcon(heroTmp.getIcon(200));
 		} else if (e.getSource() == btnNorth) {
 			updatePosition(
-				Game.position.getX(),
-				Game.position.getY() - 1,
-				Game.currentHero.getSizeMap()
+				Main.position.getX(),
+				Main.position.getY() - 1,
+				Main.currentHero.getSizeMap()
 			);
 			checkIsEnemyPosition();
 		} else if (e.getSource() == btnSouth) {
 			updatePosition(
-				Game.position.getX(),
-				Game.position.getY() + 1,
-				Game.currentHero.getSizeMap()
+				Main.position.getX(),
+				Main.position.getY() + 1,
+				Main.currentHero.getSizeMap()
 			);
 			checkIsEnemyPosition();
 		} else if (e.getSource() == btnWest) {
 			updatePosition(
-				Game.position.getX() - 1,
-				Game.position.getY(),
-				Game.currentHero.getSizeMap()
+				Main.position.getX() - 1,
+				Main.position.getY(),
+				Main.currentHero.getSizeMap()
 			);
 			checkIsEnemyPosition();
 		} else if (e.getSource() == btnEast) {
 			updatePosition(
-				Game.position.getX() + 1,
-				Game.position.getY(),
-				Game.currentHero.getSizeMap()
+				Main.position.getX() + 1,
+				Main.position.getY(),
+				Main.currentHero.getSizeMap()
 			);
 			checkIsEnemyPosition();
 		} else if (e.getSource() == btnRun) {
@@ -442,9 +442,9 @@ public class Window implements ActionListener, ListSelectionListener {
 			btnRun.setEnabled(false);
 			btnFight.setEnabled(false);
 
-			if (Simulator.figth(Game.currentHero, Game.currentEnemy)) {
-				double xpWin = (Math.pow(Game.currentHero.getLevel(), 5)
-								* Math.pow(Game.currentEnemy.getLevel(), 15));
+			if (Simulator.figth(Main.currentHero, Main.currentEnemy)) {
+				double xpWin = (Math.pow(Main.currentHero.getLevel(), 5)
+								* Math.pow(Main.currentEnemy.getLevel(), 15));
 				if (xpWin <= 100)
 					xpWin += 100;
 				msgGame.setText(
@@ -452,16 +452,16 @@ public class Window implements ActionListener, ListSelectionListener {
 					+ df.format(xpWin) + "xp"
 				);
 
-				Game.currentHero.addXp(xpWin);
+				Main.currentHero.addXp(xpWin);
 
 				btnNorth.setEnabled(true);
 				btnSouth.setEnabled(true);
 				btnWest.setEnabled(true);
 				btnEast.setEnabled(true);
 
-				Artefacs dropArmor = Game.currentEnemy.getArmor();
-				Artefacs dropWeapon = Game.currentEnemy.getWeapon();
-				Artefacs dropHelm = Game.currentEnemy.getHelm();
+				Artefacs dropArmor = Main.currentEnemy.getArmor();
+				Artefacs dropWeapon = Main.currentEnemy.getWeapon();
+				Artefacs dropHelm = Main.currentEnemy.getHelm();
 
 				if (dropArmor != null)
 					createItemFrame(dropArmor);
@@ -471,12 +471,12 @@ public class Window implements ActionListener, ListSelectionListener {
 					createItemFrame(dropHelm);
 			} else {
 				msgGame.setText("You lost your fight ❌ respawn middle !");
-				Game.enemyPosition = MapGame.generateEnemys(Game.currentHero.getSizeMap());
-				Game.position.setX(Game.currentHero.getSizeMap() / 2);
-				Game.position.setY(Game.currentHero.getSizeMap() / 2);
+				Main.enemyPosition = MapGame.generateEnemys(Main.currentHero.getSizeMap());
+				Main.position.setX(Main.currentHero.getSizeMap() / 2);
+				Main.position.setY(Main.currentHero.getSizeMap() / 2);
 				positionLabel.setText(
-					"Current position: (" + Game.position.getX()
-					+ "," + Game.position.getY() + ")"
+					"Current position: (" + Main.position.getX()
+					+ "," + Main.position.getY() + ")"
 				);
 				btnNorth.setEnabled(true);
 				btnSouth.setEnabled(true);
@@ -496,7 +496,7 @@ public class Window implements ActionListener, ListSelectionListener {
     		statHero.replaceSelection("");
 			statHero.append(hero.getStat());
 			btnLoadHero.setEnabled(true);
-			Game.currentHero = hero;
+			Main.currentHero = hero;
 			usingImgHero.setIcon(hero.getIcon(150));
 		}
 	}

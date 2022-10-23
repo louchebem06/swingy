@@ -31,7 +31,7 @@ public class Utils {
 			throw new Exception("Too much argument");
 		String arg = av[0];
 		if (arg.equals("gui")) {
-			Game.window.mainMenu();
+			Main.window.mainMenu();
 		}
 		else
 			throw new Exception(arg + " is not valid");
@@ -40,11 +40,11 @@ public class Utils {
 	static public boolean addHero(String heroName, String className) {
 		if (heroName.length() == 0)
 			return (false);
-		for (String heroClass : Game.classHero) {
+		for (String heroClass : Main.classHero) {
 			if (heroClass == className) {
 				Hero hero = HeroFactory.newHero(className, heroName, 0, 0);
 				hero.insert();
-				Game.heros.add(hero);
+				Main.heros.add(hero);
 				return (true);
 			}
 		}

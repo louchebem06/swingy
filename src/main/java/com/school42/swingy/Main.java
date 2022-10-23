@@ -4,7 +4,7 @@ import java.util.*;
 
 import com.school42.swingy.hero.*;
 
-public class Game {
+public class Main {
 	
 	static public Vector<String> classHero;
 	static public Vector<Hero> heros;

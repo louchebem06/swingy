@@ -48,7 +48,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.school42.swingy.Game</mainClass>
+							<mainClass>com.school42.swingy.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
