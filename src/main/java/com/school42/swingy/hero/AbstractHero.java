@@ -52,10 +52,6 @@ public abstract class AbstractHero implements Hero {
 		_id = 0;
 	}
 
-	public void insert() {
-		_db.insert(this);
-	}
-
 	protected AbstractHero(AbstractHero hero) {
 		_name = hero._name;
 		_className = hero._className;
@@ -70,6 +66,10 @@ public abstract class AbstractHero implements Hero {
 		_factorAttack = hero._factorAttack;
 		_factorDefense = hero._factorDefense;
 		_factorHitPoints = hero._factorHitPoints;
+	}
+
+	public void insert() {
+		_db.insert(this);
 	}
 
 	public String toString() {
@@ -103,8 +103,11 @@ public abstract class AbstractHero implements Hero {
 	}
 
 	public Integer getLevel() {
+		int lvl = _level;
 		while (_xp >= calcLevel(_level))
 			levelUp();
+		if (lvl != _level)
+			_db.update(this);
 		return (_level);
 	}
 

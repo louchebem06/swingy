@@ -36,7 +36,7 @@ public class DatabaseHero {
 		String url = "jdbc:sqlite:" + file.getAbsoluteFile().toString();
 
 		try {
-        	_conn = DriverManager.getConnection(url);
+			_conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
 			System.out.println("Error: " + e.getMessage());
 			System.exit(1);
@@ -82,7 +82,7 @@ public class DatabaseHero {
 		sql += "SET herolvl = ?, ";
 		sql += "heroxp = ?, ";
 		sql += "weapontype = ?, ";
-		sql += "weaponvalue, ";
+		sql += "weaponvalue = ?, ";
 		sql += "armortype = ?, ";
 		sql += "armorvalue = ?, ";
 		sql += "helmtype = ?, ";
