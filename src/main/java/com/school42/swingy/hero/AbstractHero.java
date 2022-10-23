@@ -79,13 +79,13 @@ public abstract class AbstractHero implements Hero {
 	}
 
 	private void updateLabel() {
-		_nameLabel.setText("Name: " + _name);
-		_classNameLabel.setText("Class: " + _className);
-		_levelLabel.setText("Level: " + _level);
-		_xpLabel.setText("XP: " + df.format(_xp));
-		_attackLabel.setText("Attack: " + df.format(_attack));
-		_defenseLabel.setText("Defense: " + df.format(_defense));
-		_hitPointsLabel.setText("Hit Points: " + df.format(_hitPoints));
+		_nameLabel.setText("Name: " + getName());
+		_classNameLabel.setText("Class: " + getClassName());
+		_levelLabel.setText("Level: " + getLevel());
+		_xpLabel.setText("XP: " + df.format(getXp()));
+		_attackLabel.setText("Attack: " + df.format(getAttack()));
+		_defenseLabel.setText("Defense: " + df.format(getDefense()));
+		_hitPointsLabel.setText("Hit Points: " + df.format(getHitPoint()));
 		_weaponLabel.setText("Weapon: " + (_weapon == null ? "not equiped" : _weapon.toString()));
 		_armorLabel.setText("Armor: " + (_armor == null ? "not equiped" : _armor.toString()));
 		_helmLabel.setText("Helm: " + (_helm == null ? "not equiped" : _helm.toString()) );
@@ -128,9 +128,7 @@ public abstract class AbstractHero implements Hero {
 		updateLabel();
 	}
 
-	public void setArtefac(Artefacs item) {
-		setArtefac(item, false);
-	}
+	public void setArtefac(Artefacs item) { setArtefac(item, false); }
 
 	public void setId(int id) { _id  = id; }
 
