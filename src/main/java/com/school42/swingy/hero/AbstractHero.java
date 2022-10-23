@@ -10,6 +10,8 @@ import com.school42.swingy.database.DatabaseHero;
 
 public abstract class AbstractHero implements Hero {
 
+	protected int _id = 0;
+
 	protected String _name;
 	protected String _className;
 	protected Integer _level;
@@ -18,15 +20,13 @@ public abstract class AbstractHero implements Hero {
 	protected Double _defense;
 	protected Double _hitPoints;
 
-	protected Artefacs _weapon;
-	protected Artefacs _armor;
-	protected Artefacs _helm;
+	protected Artefacs _weapon = null;
+	protected Artefacs _armor = null;
+	protected Artefacs _helm = null;
 
 	protected double _factorAttack;
 	protected double _factorDefense;
 	protected double _factorHitPoints;
-
-	protected int _id;
 
 	protected DatabaseHero _db = new DatabaseHero();
 
@@ -44,9 +44,9 @@ public abstract class AbstractHero implements Hero {
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 	protected AbstractHero(String name, String className, Double attack,
-							Double defence, Double hitPoints, int lvl, double xp,
-							double factorAttack, double factorDefense,
-							double factorHitPoints)
+							Double defence, Double hitPoints, int lvl,
+							double xp, double factorAttack,
+							double factorDefense, double factorHitPoints)
 	{
 		_name = name;
 		_className = className;
@@ -55,23 +55,10 @@ public abstract class AbstractHero implements Hero {
 		_attack = attack + (lvl * factorAttack);
 		_defense = defence + (lvl * factorDefense);
 		_hitPoints = hitPoints + (lvl * factorHitPoints);
-		_weapon = null;
-		_armor = null;
-		_helm = null;
 		_factorAttack = factorAttack;
 		_factorDefense = factorDefense;
 		_factorHitPoints = factorHitPoints;
-		_id = 0;
-		_nameLabel.setText("Name: " + _name);
-		_classNameLabel.setText("Class: " + _className);
-		_levelLabel.setText("Level: " + _level);
-		_xpLabel.setText("XP: " + df.format(_xp));
-		_attackLabel.setText("Attack: " + df.format(_attack));
-		_defenseLabel.setText("Defense: " + df.format(_defense));
-		_hitPointsLabel.setText("Hit Points: " + df.format(_hitPoints));
-		_weaponLabel.setText("Weapon: " + (_weapon == null ? "not equiped" : _weapon.getName()));
-		_armorLabel.setText("Armor: " + (_armor == null ? "not equiped" : _armor.getName()));
-		_helmLabel.setText("Helm: " + (_helm == null ? "not equiped" : _helm.getName()));
+		updateLabel();
 	}
 
 	protected AbstractHero(AbstractHero hero) {
@@ -91,20 +78,29 @@ public abstract class AbstractHero implements Hero {
 		_id = hero._id;
 	}
 
-	public void insert() {
-		_db.insert(this);
+	private void updateLabel() {
+		_nameLabel.setText("Name: " + _name);
+		_classNameLabel.setText("Class: " + _className);
+		_levelLabel.setText("Level: " + _level);
+		_xpLabel.setText("XP: " + df.format(_xp));
+		_attackLabel.setText("Attack: " + df.format(_attack));
+		_defenseLabel.setText("Defense: " + df.format(_defense));
+		_hitPointsLabel.setText("Hit Points: " + df.format(_hitPoints));
+		_weaponLabel.setText(
+			"Weapon: " + (_weapon == null ? "not equiped" : _weapon.getName())
+		);
+		_armorLabel.setText(
+			"Armor: " + (_armor == null ? "not equiped" : _armor.getName())
+		);
+		_helmLabel.setText(
+			"Helm: " + (_helm == null ? "not equiped" : _helm.getName())
+		);
 	}
+
+	public void insert() { _db.insert(this); }
 
 	public String toString() {
 		return (getName() + " <" + getClassName() + ">");
-	}
-
-	public String getName() {
-		return (_name);
-	}
-
-	public String getClassName() {
-		return (_className);
 	}
 
 	private double calcLevel(int lvl) {
@@ -123,19 +119,41 @@ public abstract class AbstractHero implements Hero {
 		_xp += xp;
 		getLevel();
 		_db.update(this);
-		_xpLabel.setText("XP: " + df.format(_xp));
+		updateLabel();
 	}
 
+	public void setArtefac(Artefacs item) {
+		switch (item.getType()) {
+			case "weapon":
+				_weapon = item;
+				_db.update(this);
+				updateLabel();
+				break;
+			case "armor":
+				_armor = item;
+				_db.update(this);
+				updateLabel();
+				break;
+			case "helm":
+				_helm = item;
+				_db.update(this);
+				updateLabel();
+				break;
+		}
+	}
+
+	public void setId(int id) { _id  = id; }
+
 	public Integer getLevel() {
-		int lvl = _level;
-		while (_xp >= calcLevel(_level))
+		boolean levelChange = false;
+	
+		while (_xp >= calcLevel(_level)) {
 			levelUp();
-		if (lvl != _level) {
+			levelChange = true;
+		}
+		if (levelChange) {
 			_db.update(this);
-			_levelLabel.setText("Level: " + _level);
-			_attackLabel.setText("Attack: " + df.format(_attack));
-			_defenseLabel.setText("Defense: " + df.format(_defense));
-			_hitPointsLabel.setText("Hit Points: " + df.format(_hitPoints));
+			updateLabel();
 		}
 		return (_level);
 	}
@@ -144,69 +162,51 @@ public abstract class AbstractHero implements Hero {
 		return ((getLevel() - 1) * 5 + 10 - (getLevel() % 2));
 	}
 
-	public Double getXp() {
-		return (_xp);
-	}
+	public Double getXp() { return (_xp); }
 
 	public Double getAttack() {
-		if (_weapon != null)
-			return (_attack + _weapon.getValue());
-		return (_attack);
+		return (_weapon != null) ? (_attack + _weapon.getValue()) : _attack;
 	}
 
 	public Double getDefense() {
-		if (_armor != null)
-			return (_defense + _armor.getValue());
-		return (_defense);
+		return (_armor != null) ? (_defense + _armor.getValue()) : _defense;
 	}
 
 	public Double getHitPoint() {
-		if (_helm != null)
-			return (_hitPoints + _helm.getValue());
-		return (_hitPoints);
+		return (_helm != null) ? (_hitPoints + _helm.getValue()) : _hitPoints;
 	}
 
-	public Artefacs getWeapon() {
-		return (_weapon);
-	}
+	public Artefacs getWeapon() { return (_weapon); }
 
-	public Artefacs getHelm() {
-		return (_helm);
-	}
+	public Artefacs getHelm() { return (_helm); }
 
-	public Artefacs getArmor() {
-		return (_armor);
-	}
+	public Artefacs getArmor() {return (_armor); }
 
-	public Boolean setWeapon(Artefacs weapon) {
-		if (weapon.getType() == "weapon") {
-			_weapon = weapon;
-			_db.update(this);
-			_weaponLabel.setText("Weapon: " + (_weapon == null ? "not equiped" : _weapon.getName()));
-			return (true);
-		}
-		return (false);
-	}
+	public String getName() { return (_name); }
 
-	public Boolean setHelm(Artefacs helm) {
-		if (helm.getType() == "helm") {
-			_helm = helm;
-			_db.update(this);
-			_helmLabel.setText("Helm: " + (_helm == null ? "not equiped" : _helm.getName()));
-			return (true);
-		}
-		return (false);
-	}
+	public String getClassName() { return (_className); }
 
-	public Boolean setArmor(Artefacs armor) {
-		if (armor.getType() == "armor") {
-			_armor = armor;
-			_db.update(this);
-			_armorLabel.setText("Armor: " + (_armor == null ? "not equiped" : _armor.getName()));
-			return (true);
-		}
-		return (false);
-	}
+	public int getId() { return (_id); }
+
+	public JLabel getNameLabel() { return (_nameLabel); }
+
+	public JLabel getClassNameLabel() { return (_classNameLabel); }
+
+	public JLabel getLevelLabel() { return (_levelLabel); }
+
+	public JLabel getXpLabel() { return (_xpLabel); }
+
+	public JLabel getAttackLabel() { return (_attackLabel); }
+
+	public JLabel getDefenseLabel() { return (_defenseLabel); }
+	
+	public JLabel getHitPointLabel() { return (_hitPointsLabel); }
+
+	public JLabel getWeaponLabel() { return (_weaponLabel); }
+
+	public JLabel getArmorLabel() { return (_armorLabel); }
+
+	public JLabel getHelmLabel() { return (_helmLabel); }
 
 	public String getStat() {
 		String stat;
@@ -239,29 +239,5 @@ public abstract class AbstractHero implements Hero {
 
 		return (stat);
 	}
-
-	public void setId(int id) { _id  = id; }
-
-	public int getId() { return (_id); }
-
-	public JLabel getNameLabel() { return (_nameLabel); }
-
-	public JLabel getClassNameLabel() { return (_classNameLabel); }
-
-	public JLabel getLevelLabel() { return (_levelLabel); }
-
-	public JLabel getXpLabel() { return (_xpLabel); }
-
-	public JLabel getAttackLabel() { return (_attackLabel); }
-
-	public JLabel getDefenseLabel() { return (_defenseLabel); }
-	
-	public JLabel getHitPointLabel() { return (_hitPointsLabel); }
-
-	public JLabel getWeaponLabel() { return (_weaponLabel); }
-
-	public JLabel getArmorLabel() { return (_armorLabel); }
-
-	public JLabel getHelmLabel() { return (_helmLabel); }
 
 }

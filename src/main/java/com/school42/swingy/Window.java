@@ -388,11 +388,7 @@ public class Window implements ActionListener, ListSelectionListener {
 				Component component = (Component) e.getSource();
         		JFrame frame = (JFrame) SwingUtilities.getRoot(component);
 				frame.dispose();
-				if (!Game.currentHero.setArmor(item)) {
-					if (!Game.currentHero.setWeapon(item)) {
-						Game.currentHero.setHelm(item);
-					}
-				}
+				Game.currentHero.setArtefac(item);
 			}
 		});
 	}
