@@ -1,6 +1,7 @@
 package com.school42.swingy.hero;
 
 import java.awt.Point;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -42,4 +43,8 @@ public interface Hero {
 	public Point getPoint();
 	public void setPoint(Point point);
 	public void setPoint(int x, int y);
+	public Hero clone();
+	public boolean isAlive();
+	public String attack(Hero hero);
+	public void setHitPoint(double hitPoint);
 }

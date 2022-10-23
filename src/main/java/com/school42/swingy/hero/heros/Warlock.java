@@ -1,8 +1,8 @@
 package com.school42.swingy.hero.heros;
 
-import com.school42.swingy.hero.AbstractHero;
+import com.school42.swingy.hero.*;
 
-public class Warlock extends AbstractHero {
+public class Warlock extends AbstractHero implements Hero {
 	public Warlock(String name, int lvl, double xp) {
 		super(name,
 				"Warlock",
@@ -16,7 +16,11 @@ public class Warlock extends AbstractHero {
 				3.0);
 	}
 
-	public Warlock(Warlock warlock) {
-		super (warlock);
+	public Warlock clone() {
+		Warlock hero = new Warlock(this.getName(), this.getLevel(), this.getXp());
+		hero.setArtefac(getArmor(), true);
+		hero.setArtefac(getWeapon(), true);
+		hero.setArtefac(getHelm(), true);
+		return (hero);
 	}
 }

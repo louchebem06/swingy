@@ -1,8 +1,8 @@
 package com.school42.swingy.hero.heros;
 
-import com.school42.swingy.hero.AbstractHero;
+import com.school42.swingy.hero.*;
 
-public class Druid extends AbstractHero {
+public class Druid extends AbstractHero implements Hero {
 	public Druid(String name, int lvl, double xp) {
 		super(name,
 				"Druid",
@@ -16,7 +16,11 @@ public class Druid extends AbstractHero {
 				3.3);
 	}
 
-	public Druid(Druid druid) {
-		super (druid);
+	public Druid clone() {
+		Druid hero = new Druid(this.getName(), this.getLevel(), this.getXp());
+		hero.setArtefac(getArmor(), true);
+		hero.setArtefac(getWeapon(), true);
+		hero.setArtefac(getHelm(), true);
+		return (hero);
 	}
 }

@@ -1,8 +1,8 @@
 package com.school42.swingy.hero.heros;
 
-import com.school42.swingy.hero.AbstractHero;
+import com.school42.swingy.hero.*;
 
-public class Shaman extends AbstractHero {
+public class Shaman extends AbstractHero implements Hero {
 	public Shaman(String name, int lvl, double xp) {
 		super(name,
 				"Shaman",
@@ -16,7 +16,11 @@ public class Shaman extends AbstractHero {
 				6.0);
 	}
 
-	public Shaman(Shaman shaman) {
-		super (shaman);
+	public Shaman clone() {
+		Shaman hero = new Shaman(this.getName(), this.getLevel(), this.getXp());
+		hero.setArtefac(getArmor(), true);
+		hero.setArtefac(getWeapon(), true);
+		hero.setArtefac(getHelm(), true);
+		return (hero);
 	}
 }

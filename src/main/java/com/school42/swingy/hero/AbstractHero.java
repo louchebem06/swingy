@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import com.school42.swingy.artefac.*;
 import com.school42.swingy.database.DatabaseHero;
 
-public abstract class AbstractHero implements Hero {
+public abstract class AbstractHero {
 
 	protected int		_id = 0;
 
@@ -68,24 +68,6 @@ public abstract class AbstractHero implements Hero {
 		updateLabel();
 	}
 
-	protected AbstractHero(AbstractHero hero) {
-		_name = hero._name;
-		_className = hero._className;
-		_level = hero._level;
-		_xp = hero._xp;
-		_attack = hero._attack;
-		_defense = hero._defense;
-		_hitPoints = hero._hitPoints;
-		_weapon = hero._weapon;
-		_armor = hero._armor;
-		_helm = hero._helm;
-		_factorAttack = hero._factorAttack;
-		_factorDefense = hero._factorDefense;
-		_factorHitPoints = hero._factorHitPoints;
-		_id = hero._id;
-		_point = hero._point;
-	}
-
 	private void updateLabel() {
 		_nameLabel.setText("Name: " + getName());
 		_classNameLabel.setText("Class: " + getClassName());
@@ -100,7 +82,7 @@ public abstract class AbstractHero implements Hero {
 		_pointLabel.setText("Position: (" + _point.x + "," + _point.y  + ")");
 	}
 
-	public void insert() { _db.insert(this); }
+	public void insert() { _db.insert((Hero)this); }
 
 	public String toString() { return (getName() + " <" + getClassName() + ">"); }
 
@@ -116,13 +98,15 @@ public abstract class AbstractHero implements Hero {
 	public void addXp(double xp) {
 		_xp += xp;
 		getLevel();
-		_db.update(this);
+		_db.update((Hero)this);
 		updateLabel();
 	}
 
 	public void setArtefac(Artefacs item) { setArtefac(item, false); }
 
 	public void setArtefac(Artefacs item, boolean readDB) {
+		if (item == null)
+			return ;
 		switch (item.getType()) {
 			case "weapon":
 				_weapon = item;
@@ -135,7 +119,7 @@ public abstract class AbstractHero implements Hero {
 				break;
 		}
 		if (!readDB)
-			_db.update(this);
+			_db.update((Hero)this);
 		updateLabel();
 	}
 
@@ -156,7 +140,7 @@ public abstract class AbstractHero implements Hero {
 			levelChange = true;
 		}
 		if (levelChange) {
-			_db.update(this);
+			_db.update((Hero)this);
 			updateLabel();
 		}
 		return (_level);
@@ -215,6 +199,18 @@ public abstract class AbstractHero implements Hero {
 		Image newimg = img.getScaledInstance(size, size, Image.SCALE_SMOOTH);
 		return (new ImageIcon(newimg));
 	};
+
+	public boolean isAlive() { return (getHitPoint() > 0.0); }
+
+	public void setHitPoint(double hitPoint) { _hitPoints = hitPoint; }
+
+	public String attack(Hero hero) {
+		double damage = getAttack() - hero.getDefense();
+		if (damage < 0)
+			damage = 0;
+		hero.setHitPoint(hero.getHitPoint() - damage);
+		return (df.format(damage));
+	}
 
 	public String getStat() {
 		String stat;

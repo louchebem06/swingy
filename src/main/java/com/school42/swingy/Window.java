@@ -425,7 +425,7 @@ public class Window implements ActionListener, ListSelectionListener {
 			btnRun.setEnabled(false);
 			btnFight.setEnabled(false);
 
-			if (Simulator.figth(Main.currentHero, Main.currentEnemy)) {
+			if (Simulator.figth(Main.currentHero.clone(), Main.currentEnemy.clone())) {
 				double xpWin = (Math.pow(Main.currentHero.getLevel(), 5)
 								* Math.pow(Main.currentEnemy.getLevel(), 15));
 				if (xpWin <= 100)
