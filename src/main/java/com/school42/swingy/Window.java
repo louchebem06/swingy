@@ -81,16 +81,6 @@ public class Window implements ActionListener, ListSelectionListener {
 		msgGame = new JLabel();
 	}
 
-	private void clearFrame(JFrame popUpFrame, String title, int width, int height) {
-		popUpFrame.getContentPane().removeAll();
-		if (popUpFrame == frame)
-			popUpFrame.repaint();
-		popUpFrame.setSize(width, height);
-		popUpFrame.setVisible(true);
-		popUpFrame.setTitle(title);
-		popUpFrame.setLayout(null);
-	}
-
 	private void clearFrame(String title, int width, int height) {
 		frame.getContentPane().removeAll();
  		frame.repaint();
