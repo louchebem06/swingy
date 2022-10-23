@@ -32,7 +32,6 @@ public class Window implements ActionListener, ListSelectionListener {
 	private JTextArea statHero;
 	private Border border;
 	private JLabel usingImgHero;
-	private JLabel positionLabel;
 	private JLabel msgGame;
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
@@ -61,7 +60,6 @@ public class Window implements ActionListener, ListSelectionListener {
 		heroList = new JList<Hero>(heros);
 		heroList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		statHero = new JTextArea();
-		positionLabel = new JLabel();
 		border = BorderFactory.createLineBorder(Color.BLACK);
     	statHero.setBorder(border);
 		statHero.setEditable(false);
@@ -92,11 +90,14 @@ public class Window implements ActionListener, ListSelectionListener {
 		frame.setLayout(null);
 	}
 
+	private void centerFrame(JFrame frame) {
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+	}
+
 	public void mainMenu() {
 		clearFrame("Main menu", 500, 500);
-		int widthScreen = Toolkit.getDefaultToolkit().getScreenSize().width;
-		int heightScreen = Toolkit.getDefaultToolkit().getScreenSize().height;
-		frame.setLocation((widthScreen / 2 - 250), (heightScreen / 2 - 250));
+		centerFrame(frame);
 		
 		JPanel panel = (JPanel)frame.getContentPane();
 		JScrollPane scrollPane = new JScrollPane();
@@ -171,9 +172,6 @@ public class Window implements ActionListener, ListSelectionListener {
 		JPanel panel = (JPanel)frame.getContentPane();
 		JScrollPane scrollPane = new JScrollPane();
 
-		positionLabel.setText(
-			"Current position: ("
-			+ Main.position.getX() + "," + Main.position.getY() + ")");
 		JLabel imgPlayer = new JLabel();
 		msgGame.setText("Welcome to Swingy!");
 		imgPlayer.setIcon(Main.currentHero.getIcon(150));
@@ -198,7 +196,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(Main.currentHero.getArmorLabel());
 		panel.add(Main.currentHero.getLevelLabel());
 		panel.add(Main.currentHero.getXpLabel());
-		panel.add(positionLabel);
+		panel.add(Main.currentHero.getPointLabel());
 		panel.add(imgPlayer);
 
 		panel.add(msgGame);
@@ -213,7 +211,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		Main.currentHero.getHelmLabel().setBounds(10, 150, 200, 30);
 		Main.currentHero.getLevelLabel().setBounds(10, 170, 200, 30);
 		Main.currentHero.getXpLabel().setBounds(10, 190, 200, 30);
-		positionLabel.setBounds(10, 210, 200, 30);
+		Main.currentHero.getPointLabel().setBounds(10, 210, 200, 30);
 		imgPlayer.setBounds(10, 240, 170, 160);
 
 		scrollPane.setBounds(190, 10, 300, 270);
@@ -240,21 +238,26 @@ public class Window implements ActionListener, ListSelectionListener {
 	}
 
 	private void updatePosition(int x, int y, int sizeMap) {
+		int newX;
+		int newY;
+
 		if (y >= 0 && y < sizeMap)
-			Main.position.setY(y);
+			newY = y;
+		else
+			newY = (int)Main.currentHero.getPoint().getY();
 		if (x >= 0 && x < sizeMap)
-			Main.position.setX(x);
-		positionLabel.setText(
-			"Current position: (" + Main.position.getX()
-			+ "," + Main.position.getY() + ")");
-		msgGame.setText("Your move to " + Main.position);
+			newX = x;
+		else
+			newX = (int)Main.currentHero.getPoint().getX();
+		Main.currentHero.setPoint(newX, newY);
+		msgGame.setText("Your move to (" + (int)(Main.currentHero.getPoint().getX()) + "," + (int)(Main.currentHero.getPoint().getY()) + ")");
 	}
 
 	private void checkIsEnemyPosition() {
 		int i = 0;
 
-		for (Cordonate cordonate : Main.enemyPosition) {
-			if (cordonate.equals(Main.position)) {
+		for (Point cordonate : Main.enemyPosition) {
+			if (cordonate.equals(Main.currentHero.getPoint())) {
 				btnNorth.setEnabled(false);
 				btnSouth.setEnabled(false);
 				btnWest.setEnabled(false);
@@ -284,8 +287,6 @@ public class Window implements ActionListener, ListSelectionListener {
 		JFrame itemFrame = new JFrame("Drop item!");
 		JPanel panel = (JPanel)itemFrame.getContentPane();
 		JLabel msgFrame = new JLabel();
-		int widthScreen = Toolkit.getDefaultToolkit().getScreenSize().width;
-		int heightScreen = Toolkit.getDefaultToolkit().getScreenSize().height;
 		JButton btnEquip = new JButton("Equip");
 		JLabel actualItem = new JLabel();
 		JLabel newItem = new JLabel();
@@ -293,11 +294,9 @@ public class Window implements ActionListener, ListSelectionListener {
 		itemFrame.setLayout(null);
 		itemFrame.setVisible(true);
 		itemFrame.setSize(400, 200);
-		itemFrame.setLocation(
-			(widthScreen / 2 - 200),
-			(heightScreen / 2 - 200)
-		);
 		itemFrame.setResizable(false);
+
+		centerFrame(itemFrame);
 
 		panel.add(msgFrame);
 		panel.add(btnEquip);
@@ -388,8 +387,7 @@ public class Window implements ActionListener, ListSelectionListener {
 			mainMenu();
 		} else if (e.getSource() == btnLoadHero) {
 			int sizeMap = Main.currentHero.getSizeMap();
-			Main.position.setX(sizeMap / 2);
-			Main.position.setY(sizeMap / 2);
+			Main.currentHero.setPoint(sizeMap / 2, sizeMap / 2);
 			cardGame();
 		} else if (e.getSource() == heroConboBox) {
 			String item = heroConboBox.getSelectedItem().toString();
@@ -397,29 +395,29 @@ public class Window implements ActionListener, ListSelectionListener {
 			usingImgHero.setIcon(heroTmp.getIcon(200));
 		} else if (e.getSource() == btnNorth) {
 			updatePosition(
-				Main.position.getX(),
-				Main.position.getY() - 1,
+				(int)Main.currentHero.getPoint().getX(),
+				(int)Main.currentHero.getPoint().getY() - 1,
 				Main.currentHero.getSizeMap()
 			);
 			checkIsEnemyPosition();
 		} else if (e.getSource() == btnSouth) {
 			updatePosition(
-				Main.position.getX(),
-				Main.position.getY() + 1,
+				(int)Main.currentHero.getPoint().getX(),
+				(int)Main.currentHero.getPoint().getY() + 1,
 				Main.currentHero.getSizeMap()
 			);
 			checkIsEnemyPosition();
 		} else if (e.getSource() == btnWest) {
 			updatePosition(
-				Main.position.getX() - 1,
-				Main.position.getY(),
+				(int)Main.currentHero.getPoint().getX() - 1,
+				(int)Main.currentHero.getPoint().getY(),
 				Main.currentHero.getSizeMap()
 			);
 			checkIsEnemyPosition();
 		} else if (e.getSource() == btnEast) {
 			updatePosition(
-				Main.position.getX() + 1,
-				Main.position.getY(),
+				(int)Main.currentHero.getPoint().getX() + 1,
+				(int)Main.currentHero.getPoint().getY(),
 				Main.currentHero.getSizeMap()
 			);
 			checkIsEnemyPosition();
@@ -472,12 +470,7 @@ public class Window implements ActionListener, ListSelectionListener {
 			} else {
 				msgGame.setText("You lost your fight ❌ respawn middle !");
 				Main.enemyPosition = MapGame.generateEnemys(Main.currentHero.getSizeMap());
-				Main.position.setX(Main.currentHero.getSizeMap() / 2);
-				Main.position.setY(Main.currentHero.getSizeMap() / 2);
-				positionLabel.setText(
-					"Current position: (" + Main.position.getX()
-					+ "," + Main.position.getY() + ")"
-				);
+				Main.currentHero.setPoint(Main.currentHero.getSizeMap() / 2, Main.currentHero.getSizeMap() / 2);
 				btnNorth.setEnabled(true);
 				btnSouth.setEnabled(true);
 				btnWest.setEnabled(true);

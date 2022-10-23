@@ -1,5 +1,7 @@
 package com.school42.swingy.hero;
 
+import java.awt.Point;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -34,6 +36,10 @@ public interface Hero {
 	public JLabel getWeaponLabel();
 	public JLabel getArmorLabel();
 	public JLabel getHelmLabel();
+	public JLabel getPointLabel();
 	public String toString();
 	public ImageIcon getIcon(int size);
+	public Point getPoint();
+	public void setPoint(Point point);
+	public void setPoint(int x, int y);
 }

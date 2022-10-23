@@ -1,0 +1,4 @@
+// create new hero
+// launch game move +2 -2
+// if reload bug existe plus
+// ??

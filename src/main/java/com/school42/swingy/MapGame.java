@@ -1,6 +1,7 @@
 package com.school42.swingy;
 
 import java.util.Vector;
+import java.awt.Point;
 
 public class MapGame {
 
@@ -9,12 +10,12 @@ public class MapGame {
 		return ((int)(((double)(double)nbCase / (double)100) * (double)20));
 	}
 
-	public static Vector<Cordonate> generateEnemys(int sizeMap) {
+	public static Vector<Point> generateEnemys(int sizeMap) {
 		int nbEnemy = getNbEnemy(sizeMap);
-		Vector<Cordonate> enemys = new Vector<Cordonate>();
+		Vector<Point> enemys = new Vector<Point>();
 
 		for (int i = 0; i < nbEnemy; i++)
-			enemys.add(Cordonate.randomCordonate(sizeMap));
+			enemys.add(new Point((int)(Math.random() * sizeMap), (int)(Math.random() * sizeMap)));
 		return (enemys);
 	}
 

@@ -3,6 +3,7 @@ package com.school42.swingy.hero;
 import java.awt.Image;
 import java.lang.Math;
 import java.text.*;
+import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -42,6 +43,9 @@ public abstract class AbstractHero implements Hero {
 	private JLabel	_weaponLabel = new JLabel();
 	private JLabel	_armorLabel = new JLabel();
 	private JLabel	_helmLabel = new JLabel();
+	private JLabel _pointLabel = new JLabel();
+
+	private Point	_point;
 
 	private static final DecimalFormat	df = new DecimalFormat("0.00");
 
@@ -60,6 +64,7 @@ public abstract class AbstractHero implements Hero {
 		_factorAttack = factorAttack;
 		_factorDefense = factorDefense;
 		_factorHitPoints = factorHitPoints;
+		_point = new Point(getSizeMap() / 2, getSizeMap() / 2);
 		updateLabel();
 	}
 
@@ -78,6 +83,7 @@ public abstract class AbstractHero implements Hero {
 		_factorDefense = hero._factorDefense;
 		_factorHitPoints = hero._factorHitPoints;
 		_id = hero._id;
+		_point = hero._point;
 	}
 
 	private void updateLabel() {
@@ -91,6 +97,7 @@ public abstract class AbstractHero implements Hero {
 		_weaponLabel.setText("Weapon: " + (_weapon == null ? "not equiped" : _weapon.toString()));
 		_armorLabel.setText("Armor: " + (_armor == null ? "not equiped" : _armor.toString()));
 		_helmLabel.setText("Helm: " + (_helm == null ? "not equiped" : _helm.toString()) );
+		_pointLabel.setText("Position: (" + _point.x + "," + _point.y  + ")");
 	}
 
 	public void insert() { _db.insert(this); }
@@ -133,6 +140,13 @@ public abstract class AbstractHero implements Hero {
 	public void setArtefac(Artefacs item) { setArtefac(item, false); }
 
 	public void setId(int id) { _id  = id; }
+
+	public void setPoint(Point point) { _point = point; }
+
+	public void setPoint(int x, int y) {
+		setPoint(new Point(x, y));
+		updateLabel();
+	};
 
 	public Integer getLevel() {
 		boolean levelChange = false;
@@ -189,6 +203,10 @@ public abstract class AbstractHero implements Hero {
 	public JLabel getArmorLabel() { return (_armorLabel); }
 
 	public JLabel getHelmLabel() { return (_helmLabel); }
+
+	public JLabel getPointLabel() { return (_pointLabel); }
+
+	public Point getPoint() { return (_point); }
 
 	public ImageIcon getIcon(int size) {
 		String imgName = getClassName().toLowerCase() + ".jpg";
