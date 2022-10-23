@@ -13,6 +13,7 @@ public interface Hero {
 	public Double getDefense();
 	public Double getHitPoint();
 	public void setArtefac(Artefacs item);
+	public void setArtefac(Artefacs item, boolean readDB);
 	public Artefacs getArmor();
 	public Artefacs getWeapon();
 	public Artefacs getHelm();

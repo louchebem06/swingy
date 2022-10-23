@@ -65,11 +65,11 @@ public class Utils {
 						double helmValue = _rs.getDouble("helmvalue");
 						Hero hero = HeroFactory.newHero(heroClass, heroName, heroLvl, heroxp);
 						if (weaponType != null)
-							hero.setArtefac(ArtefacsFactory.newArtefacs(weaponType, weaponValue));
+							hero.setArtefac(ArtefacsFactory.newArtefacs(weaponType, weaponValue), true);
 						if (armorType != null)
-							hero.setArtefac(ArtefacsFactory.newArtefacs(armorType, armorValue));
+							hero.setArtefac(ArtefacsFactory.newArtefacs(armorType, armorValue), true);
 						if (helmType != null)
-							hero.setArtefac(ArtefacsFactory.newArtefacs(helmType, helmValue));
+							hero.setArtefac(ArtefacsFactory.newArtefacs(helmType, helmValue), true);
 						hero.setId(id);
 						heros.add(hero);
 					}

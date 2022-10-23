@@ -1,9 +1,14 @@
 package com.school42.swingy.artefac;
 
+import java.text.DecimalFormat;
+
 public abstract class AbstractArtefacs implements Artefacs {
+
 	protected String 	_type;
 	protected String 	_name;
 	protected Double	_value;
+
+	private static final DecimalFormat	df = new DecimalFormat("0.00");
 
 	protected AbstractArtefacs(String type, String name, Double value) {
 		_type = type;
@@ -18,7 +23,7 @@ public abstract class AbstractArtefacs implements Artefacs {
 	}
 
 	public String toString() {
-		return (getName() + " (" + getValue() + ")");
+		return (getName() + " (" + df.format(getValue()) + ")");
 	}
 
 	public String getType() {
@@ -32,4 +37,5 @@ public abstract class AbstractArtefacs implements Artefacs {
 	public Double getValue() {
 		return (_value);
 	}
+
 }

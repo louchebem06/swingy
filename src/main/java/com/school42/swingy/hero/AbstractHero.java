@@ -111,7 +111,7 @@ public abstract class AbstractHero implements Hero {
 		updateLabel();
 	}
 
-	public void setArtefac(Artefacs item) {
+	public void setArtefac(Artefacs item, boolean readDB) {
 		switch (item.getType()) {
 			case "weapon":
 				_weapon = item;
@@ -123,8 +123,13 @@ public abstract class AbstractHero implements Hero {
 				_helm = item;
 				break;
 		}
-		_db.update(this);
+		if (!readDB)
+			_db.update(this);
 		updateLabel();
+	}
+
+	public void setArtefac(Artefacs item) {
+		setArtefac(item, false);
 	}
 
 	public void setId(int id) { _id  = id; }
