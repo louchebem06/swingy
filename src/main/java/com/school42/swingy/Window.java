@@ -81,6 +81,16 @@ public class Window implements ActionListener, ListSelectionListener {
 		msgGame = new JLabel();
 	}
 
+	private void clearFrame(JFrame popUpFrame, String title, int width, int height) {
+		popUpFrame.getContentPane().removeAll();
+		if (popUpFrame == frame)
+			popUpFrame.repaint();
+		popUpFrame.setSize(width, height);
+		popUpFrame.setVisible(true);
+		popUpFrame.setTitle(title);
+		popUpFrame.setLayout(null);
+	}
+
 	private void clearFrame(String title, int width, int height) {
 		frame.getContentPane().removeAll();
  		frame.repaint();
@@ -290,10 +300,11 @@ public class Window implements ActionListener, ListSelectionListener {
 		JButton btnEquip = new JButton("Equip");
 		JLabel actualItem = new JLabel();
 		JLabel newItem = new JLabel();
+		JLabel imgEnemy = new JLabel();
 		
 		itemFrame.setLayout(null);
 		itemFrame.setVisible(true);
-		itemFrame.setSize(400, 200);
+		itemFrame.setSize(600, 200);
 		itemFrame.setResizable(false);
 
 		centerFrame(itemFrame);
@@ -302,65 +313,33 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(btnEquip);
 		panel.add(actualItem);
 		panel.add(newItem);
+		panel.add(imgEnemy);
+
+		imgEnemy.setIcon(Main.currentEnemy.getIcon(100));
 
 		String typeItem = item.getType();
 
-		msgFrame.setText(
-			Main.currentEnemy.getName() + " lvl " + Main.currentEnemy.getLevel()
-			+ " is dead dying he dropped "
-			+ typeItem
-		);
-
-		Artefacs weapon = Main.currentHero.getWeapon();
-		Artefacs armor = Main.currentHero.getArmor();
-		Artefacs helm = Main.currentHero.getHelm();
+		msgFrame.setText(Main.currentEnemy.getName() + " lvl " + Main.currentEnemy.getLevel() + " is dead dying he dropped " + typeItem);
 
 		switch (typeItem) {
 			case "weapon":
-				if (weapon == null)
-					actualItem.setText("Actual item: not equiped");
-				else {
-					actualItem.setText(
-						"Actual item: "
-						+ weapon.getName() + " ("
-						+ df.format(weapon.getValue()) + ")"
-					);
-				}
+				actualItem.setText("Actual " + Main.currentHero.getWeaponLabel().getText());
 				break;
 			case "armor":
-				if (armor == null)
-					actualItem.setText("Actual item: not equiped");
-				else {
-					actualItem.setText(
-						"Actual item: "
-						+ armor.getName() + " ("
-						+ df.format(armor.getValue()) + ")"
-					);
-				}
+				actualItem.setText("Actual " + Main.currentHero.getArmorLabel().getText());
 				break;
 			case "helm":
-				if (helm == null)
-					actualItem.setText("Actual item: not equiped");
-				else {
-					actualItem.setText(
-						"Actual item: "
-						+ helm.getName() + " ("
-						+ df.format(helm.getValue()) + ")"
-					);
-				}
+				actualItem.setText("Actual " + Main.currentHero.getHelmLabel().getText());
 				break;
 		}
 
-		newItem.setText(
-			"New item: "
-			+ item.getName()
-			+ " (" + df.format(item.getValue()) + ")"
-		);
+		newItem.setText("New item: " + item.getName() + " (" + df.format(item.getValue()) + ")");
 
 		msgFrame.setBounds(10, 10, 390, 30);
 		actualItem.setBounds(10, 40, 390, 30);
 		newItem.setBounds(10, 70, 390, 30);
-		btnEquip.setBounds(150, 130, 100, 30);
+		btnEquip.setBounds(250, 130, 100, 30);
+		imgEnemy.setBounds(490, 10, 100, 100);
 
 		btnEquip.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
