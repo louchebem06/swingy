@@ -1,5 +1,6 @@
 package com.school42.swingy.hero;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.school42.swingy.artefac.*;
@@ -34,4 +35,5 @@ public interface Hero {
 	public JLabel getArmorLabel();
 	public JLabel getHelmLabel();
 	public String toString();
+	public ImageIcon getIcon(int size);
 }

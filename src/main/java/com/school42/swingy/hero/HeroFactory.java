@@ -12,7 +12,7 @@ public class HeroFactory {
 				return (new Druid(name, lvl, xp));
 			case "Hunter":
 				return (new Hunter(name, lvl, xp));
-			case "Knigth":
+			case "Knight":
 				return (new Knight(name, lvl, xp));
 			case "Mage":
 				return (new Mage(name, lvl, xp));

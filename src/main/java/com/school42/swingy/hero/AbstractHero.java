@@ -1,8 +1,10 @@
 package com.school42.swingy.hero;
 
+import java.awt.Image;
 import java.lang.Math;
 import java.text.*;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import com.school42.swingy.artefac.*;
@@ -187,6 +189,14 @@ public abstract class AbstractHero implements Hero {
 	public JLabel getArmorLabel() { return (_armorLabel); }
 
 	public JLabel getHelmLabel() { return (_helmLabel); }
+
+	public ImageIcon getIcon(int size) {
+		String imgName = getClassName().toLowerCase() + ".jpg";
+		ImageIcon warlock = new ImageIcon(getClass().getClassLoader().getResource(imgName));
+		Image img = warlock.getImage();
+		Image newimg = img.getScaledInstance(size, size, Image.SCALE_SMOOTH);
+		return (new ImageIcon(newimg));
+	};
 
 	public String getStat() {
 		String stat;

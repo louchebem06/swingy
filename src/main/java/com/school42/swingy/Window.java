@@ -31,8 +31,7 @@ public class Window implements ActionListener, ListSelectionListener {
 	private JList<Hero> heroList;
 	private JTextArea statHero;
 	private Border border;
-	private Map<String, ImageIcon> imgClass;
-	private JLabel usingImgDescription, usingImgStat;
+	private JLabel usingImgHero;
 	private JLabel positionLabel;
 	private JLabel msgGame;
 	private static final DecimalFormat df = new DecimalFormat("0.00");
@@ -79,12 +78,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		btnFight.setEnabled(false);
 		btnRun.setEnabled(false);
 
-		imgClass = new HashMap<String, ImageIcon>();
-
-		getAllImg(classHero);
-
-		usingImgStat = new JLabel();
-		usingImgDescription = new JLabel();
+		usingImgHero = new JLabel();
 
 		msgGame = new JLabel();
 	}
@@ -116,7 +110,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(statHero);
 		panel.add(statLabel);
 		panel.add(btnLoadHero);
-		panel.add(usingImgStat);
+		panel.add(usingImgHero);
 
 		btnNewHero.setBounds(0, 0, 100, 30);
 		btnNewHero.addActionListener(this);
@@ -130,25 +124,9 @@ public class Window implements ActionListener, ListSelectionListener {
 		statLabel.setBounds(320, 22, 200, 50);
 		statHero.setBounds(220, 60, 270, 210);
 
-		usingImgStat.setBounds(260, 280, 180, 180);
+		usingImgHero.setBounds(280, 280, 180, 180);
 
 		heroList.addListSelectionListener(this);
-	}
-
-	private ImageIcon getImg(String name, int width, int height) {
-		ImageIcon warlock = new ImageIcon(getClass().getClassLoader().getResource(name));
-		Image img = warlock.getImage();
-		Image newimg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		return (new ImageIcon(newimg));
-	}
-
-	private void getAllImg(Vector<String> classHero) {
-		for (String classNameHero : classHero) {
-			imgClass.put(classNameHero,
-						getImg(classNameHero.toLowerCase() + ".jpg",
-								200,
-								200));
-		}
 	}
 
 	private void createHero() {
@@ -158,8 +136,10 @@ public class Window implements ActionListener, ListSelectionListener {
 		JLabel classNameLabel = new JLabel("Class:");
 		JPanel panel = (JPanel)frame.getContentPane();
 		String item = heroConboBox.getSelectedItem().toString();
-		
-		usingImgDescription.setIcon(imgClass.get(item));
+
+		Hero heroTmp = HeroFactory.newHero(item, "tmp", 0, 0);
+
+		usingImgHero.setIcon(heroTmp.getIcon(200));
 
 		panel.add(btnCreateHero);
 		panel.add(nameLabel);
@@ -167,7 +147,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(heroConboBox);
 		panel.add(classNameLabel);
 		panel.add(btnCancelCreateHero);
-		panel.add(usingImgDescription);
+		panel.add(usingImgHero);
 
 		nameLabel.setBounds(10, 30, 80, 30);
 		inputNameHero.setBounds(90, 30, 300, 30);
@@ -178,7 +158,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		btnCreateHero.setBounds(75, 330, 100, 30);
 		btnCancelCreateHero.setBounds(215, 330, 100, 30);
 
-		usingImgDescription.setBounds(100, 105, 200, 200);
+		usingImgHero.setBounds(100, 105, 200, 200);
 	
 		btnCreateHero.addActionListener(this);
 		btnCancelCreateHero.addActionListener(this);
@@ -196,7 +176,7 @@ public class Window implements ActionListener, ListSelectionListener {
 			+ Game.position.getX() + "," + Game.position.getY() + ")");
 		JLabel imgPlayer = new JLabel();
 		msgGame.setText("Welcome to Swingy!");
-		imgPlayer.setIcon(imgClass.get(Game.currentHero.getClassName()));
+		imgPlayer.setIcon(Game.currentHero.getIcon(150));
 
 		panel.add(scrollPane);
 
@@ -413,7 +393,8 @@ public class Window implements ActionListener, ListSelectionListener {
 			cardGame();
 		} else if (e.getSource() == heroConboBox) {
 			String item = heroConboBox.getSelectedItem().toString();
-			usingImgDescription.setIcon(imgClass.get(item));
+			Hero heroTmp = HeroFactory.newHero(item, "tmp", 0, 0);
+			usingImgHero.setIcon(heroTmp.getIcon(200));
 		} else if (e.getSource() == btnNorth) {
 			updatePosition(
 				Game.position.getX(),
@@ -516,7 +497,7 @@ public class Window implements ActionListener, ListSelectionListener {
 			statHero.append(hero.getStat());
 			btnLoadHero.setEnabled(true);
 			Game.currentHero = hero;
-			usingImgStat.setIcon(imgClass.get(hero.getClassName()));
+			usingImgHero.setIcon(hero.getIcon(150));
 		}
 	}
 
