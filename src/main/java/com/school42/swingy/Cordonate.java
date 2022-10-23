@@ -23,7 +23,6 @@ public class Cordonate {
 	public static Cordonate randomCordonate(int maxRange) {
 		int x, y;
 
-		int forbidden = maxRange / 2;
 		x = (int)(Math.random() * maxRange);
 		y = (int)(Math.random() * maxRange);
 		return (new Cordonate(x, y));
