@@ -4,6 +4,7 @@ import java.lang.Math;
 import java.text.*;
 
 import com.school42.swingy.artefac.*;
+import com.school42.swingy.database.DatabaseHero;
 
 public abstract class AbstractHero implements Hero {
 
@@ -25,11 +26,16 @@ public abstract class AbstractHero implements Hero {
 
 	protected int _id;
 
+	protected DatabaseHero _db;
+
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 	protected AbstractHero(String name, String className, Double attack,
 							Double defence, Double hitPoints, int lvl, double xp,
-							double factorAttack, double factorDefense, double factorHitPoints) {
+							double factorAttack, double factorDefense,
+							double factorHitPoints)
+	{
+		_db = new DatabaseHero();
 		_name = name;
 		_className = className;
 		_level = lvl;
@@ -44,6 +50,10 @@ public abstract class AbstractHero implements Hero {
 		_factorDefense = factorDefense;
 		_factorHitPoints = factorHitPoints;
 		_id = 0;
+	}
+
+	public void insert() {
+		_db.insert(this);
 	}
 
 	protected AbstractHero(AbstractHero hero) {
@@ -89,6 +99,7 @@ public abstract class AbstractHero implements Hero {
 	public void addXp(double xp) {
 		_xp += xp;
 		getLevel();
+		_db.update(this);
 	}
 
 	public Integer getLevel() {
@@ -138,6 +149,7 @@ public abstract class AbstractHero implements Hero {
 	public Boolean setWeapon(Artefacs weapon) {
 		if (weapon.getType() == "weapon") {
 			_weapon = weapon;
+			_db.update(this);
 			return (true);
 		}
 		return (false);
@@ -146,6 +158,7 @@ public abstract class AbstractHero implements Hero {
 	public Boolean setHelm(Artefacs helm) {
 		if (helm.getType() == "helm") {
 			_helm = helm;
+			_db.update(this);
 			return (true);
 		}
 		return (false);
@@ -154,6 +167,7 @@ public abstract class AbstractHero implements Hero {
 	public Boolean setArmor(Artefacs armor) {
 		if (armor.getType() == "armor") {
 			_armor = armor;
+			_db.update(this);
 			return (true);
 		}
 		return (false);

@@ -21,4 +21,5 @@ public interface Hero {
 	public void addXp(double xp);
 	public void setId(int id);
 	public int getId();
+	public void insert();
 }

@@ -427,14 +427,11 @@ public class Window implements ActionListener, ListSelectionListener {
 					if (!Game.currentHero.setWeapon(item)) {
 						Game.currentHero.setHelm(item);
 						helmLabel.setText("Helm: " + Game.currentHero.getHelm());
-						Game.db.updateHeroHelm(Game.currentHero.getId(), item.getName(), item.getValue());
 					} else {
 						weaponLabel.setText("Weapon: " + Game.currentHero.getWeapon());
-						Game.db.updateHeroWeapon(Game.currentHero.getId(), item.getName(), item.getValue());
 					}
 				} else {
 					armorLabel.setText("Armor: " + Game.currentHero.getArmor());
-					Game.db.updateHeroArmor(Game.currentHero.getId(), item.getName(), item.getValue());
 				}
 				attackLabel.setText("Attack: " + Game.currentHero.getAttack());
 				defenseLabel.setText("Defense: " + Game.currentHero.getDefense());
@@ -524,15 +521,6 @@ public class Window implements ActionListener, ListSelectionListener {
 				Game.currentHero.addXp(xpWin);
 				xpLabel.setText("XP: " + df.format(Game.currentHero.getXp()));
 				lvlLabel.setText("Level: " + Game.currentHero.getLevel());
-
-				Game.db.updateHeroXp(
-					Game.currentHero.getId(),
-					Game.currentHero.getXp()
-				);
-				Game.db.updateHeroLevel(
-					Game.currentHero.getId(),
-					Game.currentHero.getLevel()
-				);
 
 				btnNorth.setEnabled(true);
 				btnSouth.setEnabled(true);
