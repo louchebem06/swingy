@@ -34,13 +34,7 @@ public class Window implements ActionListener, ListSelectionListener {
 	private Map<String, ImageIcon> imgClass;
 	private JLabel usingImgDescription, usingImgStat;
 	private JLabel positionLabel;
-	private JLabel msgGame, lvlLabel, xpLabel;
-	private JLabel attackLabel, 
-					defenseLabel,
-					hpLabel,
-					weaponLabel,
-					armorLabel,
-					helmLabel;
+	private JLabel msgGame;
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 	public Window(Vector<Hero> heros, Vector<String> classHero) {
@@ -93,14 +87,6 @@ public class Window implements ActionListener, ListSelectionListener {
 		usingImgDescription = new JLabel();
 
 		msgGame = new JLabel();
-		lvlLabel = new JLabel();
-		xpLabel = new JLabel();
-		attackLabel = new JLabel();
-		defenseLabel = new JLabel();
-		hpLabel = new JLabel();
-		weaponLabel = new JLabel();
-		armorLabel = new JLabel();
-		helmLabel = new JLabel();
 	}
 
 	private void clearFrame(String title, int width, int height) {
@@ -211,17 +197,6 @@ public class Window implements ActionListener, ListSelectionListener {
 		JLabel imgPlayer = new JLabel();
 		msgGame.setText("Welcome to Swingy!");
 		imgPlayer.setIcon(imgClass.get(Game.currentHero.getClassName()));
-
-		Artefacs weapon = Game.currentHero.getWeapon();
-		Artefacs armor = Game.currentHero.getArmor();
-		Artefacs helm = Game.currentHero.getHelm();
-
-		if (weapon != null)
-			weaponLabel.setText("Weapon: " + weapon);
-		if (armor != null)
-			armorLabel.setText("Armor: " + armor);
-		if (helm != null)
-			helmLabel.setText("Helm: " + helm);
 
 		panel.add(scrollPane);
 
@@ -501,8 +476,6 @@ public class Window implements ActionListener, ListSelectionListener {
 				);
 
 				Game.currentHero.addXp(xpWin);
-				xpLabel.setText("XP: " + df.format(Game.currentHero.getXp()));
-				lvlLabel.setText("Level: " + Game.currentHero.getLevel());
 
 				btnNorth.setEnabled(true);
 				btnSouth.setEnabled(true);
