@@ -32,4 +32,5 @@ public interface Hero {
 	public JLabel getWeaponLabel();
 	public JLabel getArmorLabel();
 	public JLabel getHelmLabel();
+	public String toString();
 }

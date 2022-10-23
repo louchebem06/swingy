@@ -10,38 +10,38 @@ import com.school42.swingy.database.DatabaseHero;
 
 public abstract class AbstractHero implements Hero {
 
-	protected int _id = 0;
+	protected int		_id = 0;
 
-	protected String _name;
-	protected String _className;
-	protected Integer _level;
-	protected Double _xp;
-	protected Double _attack;
-	protected Double _defense;
-	protected Double _hitPoints;
+	protected String	_name;
+	protected String	_className;
+	protected Integer	_level;
+	protected Double	_xp;
+	protected Double	_attack;
+	protected Double	_defense;
+	protected Double	_hitPoints;
 
-	protected Artefacs _weapon = null;
-	protected Artefacs _armor = null;
-	protected Artefacs _helm = null;
+	protected Artefacs	_weapon = null;
+	protected Artefacs	_armor = null;
+	protected Artefacs	_helm = null;
 
-	protected double _factorAttack;
-	protected double _factorDefense;
-	protected double _factorHitPoints;
+	protected double	_factorAttack;
+	protected double	_factorDefense;
+	protected double	_factorHitPoints;
 
-	protected DatabaseHero _db = new DatabaseHero();
+	protected DatabaseHero	_db = new DatabaseHero();
 
-	private JLabel _nameLabel = new JLabel();
-	private JLabel _classNameLabel = new JLabel();
-	private JLabel _levelLabel = new JLabel();
-	private JLabel _xpLabel = new JLabel();
-	private JLabel _attackLabel = new JLabel();
-	private JLabel _defenseLabel = new JLabel();
-	private JLabel _hitPointsLabel = new JLabel();
-	private JLabel _weaponLabel = new JLabel();
-	private JLabel _armorLabel = new JLabel();
-	private JLabel _helmLabel = new JLabel();
+	private JLabel	_nameLabel = new JLabel();
+	private JLabel	_classNameLabel = new JLabel();
+	private JLabel	_levelLabel = new JLabel();
+	private JLabel	_xpLabel = new JLabel();
+	private JLabel	_attackLabel = new JLabel();
+	private JLabel	_defenseLabel = new JLabel();
+	private JLabel	_hitPointsLabel = new JLabel();
+	private JLabel	_weaponLabel = new JLabel();
+	private JLabel	_armorLabel = new JLabel();
+	private JLabel	_helmLabel = new JLabel();
 
-	private static final DecimalFormat df = new DecimalFormat("0.00");
+	private static final DecimalFormat	df = new DecimalFormat("0.00");
 
 	protected AbstractHero(String name, String className, Double attack,
 							Double defence, Double hitPoints, int lvl,
@@ -86,27 +86,16 @@ public abstract class AbstractHero implements Hero {
 		_attackLabel.setText("Attack: " + df.format(_attack));
 		_defenseLabel.setText("Defense: " + df.format(_defense));
 		_hitPointsLabel.setText("Hit Points: " + df.format(_hitPoints));
-		_weaponLabel.setText(
-			"Weapon: " + (_weapon == null ? "not equiped" : _weapon.getName())
-		);
-		_armorLabel.setText(
-			"Armor: " + (_armor == null ? "not equiped" : _armor.getName())
-		);
-		_helmLabel.setText(
-			"Helm: " + (_helm == null ? "not equiped" : _helm.getName())
-		);
+		_weaponLabel.setText("Weapon: " + (_weapon == null ? "not equiped" : _weapon.toString()));
+		_armorLabel.setText("Armor: " + (_armor == null ? "not equiped" : _armor.toString()));
+		_helmLabel.setText("Helm: " + (_helm == null ? "not equiped" : _helm.toString()) );
 	}
 
 	public void insert() { _db.insert(this); }
 
-	public String toString() {
-		return (getName() + " <" + getClassName() + ">");
-	}
+	public String toString() { return (getName() + " <" + getClassName() + ">"); }
 
-	private double calcLevel(int lvl) {
-		double xp = lvl * 1000 + Math.pow(lvl - 1, 2) * 450;
-		return (xp);
-	}
+	private double calcLevel(int lvl) { return (lvl * 1000 + Math.pow(lvl - 1, 2) * 450); }
 
 	private void levelUp() {
 		_level++;
@@ -126,20 +115,16 @@ public abstract class AbstractHero implements Hero {
 		switch (item.getType()) {
 			case "weapon":
 				_weapon = item;
-				_db.update(this);
-				updateLabel();
 				break;
 			case "armor":
 				_armor = item;
-				_db.update(this);
-				updateLabel();
 				break;
 			case "helm":
 				_helm = item;
-				_db.update(this);
-				updateLabel();
 				break;
 		}
+		_db.update(this);
+		updateLabel();
 	}
 
 	public void setId(int id) { _id  = id; }
@@ -158,23 +143,15 @@ public abstract class AbstractHero implements Hero {
 		return (_level);
 	}
 
-	public int getSizeMap() {
-		return ((getLevel() - 1) * 5 + 10 - (getLevel() % 2));
-	}
+	public int getSizeMap() { return ((getLevel() - 1) * 5 + 10 - (getLevel() % 2)); }
 
 	public Double getXp() { return (_xp); }
 
-	public Double getAttack() {
-		return (_weapon != null) ? (_attack + _weapon.getValue()) : _attack;
-	}
+	public Double getAttack() { return (_weapon != null ? (_attack + _weapon.getValue()) : _attack); }
 
-	public Double getDefense() {
-		return (_armor != null) ? (_defense + _armor.getValue()) : _defense;
-	}
+	public Double getDefense() { return (_armor != null ? (_defense + _armor.getValue()) : _defense); }
 
-	public Double getHitPoint() {
-		return (_helm != null) ? (_hitPoints + _helm.getValue()) : _hitPoints;
-	}
+	public Double getHitPoint() { return (_helm != null ? (_hitPoints + _helm.getValue()) : _hitPoints); }
 
 	public Artefacs getWeapon() { return (_weapon); }
 
