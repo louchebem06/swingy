@@ -35,6 +35,8 @@ public class Window implements ActionListener, ListSelectionListener {
 	private JLabel msgGame;
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
+	private boolean isFirstLaunch = true;
+
 	public Window(Vector<Hero> heros, Vector<String> classHero) {
 		frame = new JFrame();
 		btnNewHero = new JButton("New Hero");
@@ -83,11 +85,21 @@ public class Window implements ActionListener, ListSelectionListener {
 
 	private void clearFrame(String title, int width, int height) {
 		frame.getContentPane().removeAll();
- 		frame.repaint();
 		frame.setSize(width, height);
 		frame.setVisible(true);
 		frame.setTitle(title);
 		frame.setLayout(null);
+		btnNorth.removeActionListener(this);
+		btnNewHero.removeActionListener(this);
+		btnCreateHero.removeActionListener(this);
+		btnCancelCreateHero.removeActionListener(this);
+		btnLoadHero.removeActionListener(this);
+		btnNorth.removeActionListener(this);
+		btnEast.removeActionListener(this);
+		btnSouth.removeActionListener(this);
+		btnWest.removeActionListener(this);
+		btnFight.removeActionListener(this);
+		btnRun.removeActionListener(this);
 	}
 
 	private void centerFrame(JFrame frame) {
@@ -97,7 +109,10 @@ public class Window implements ActionListener, ListSelectionListener {
 
 	public void mainMenu() {
 		clearFrame("Main menu", 500, 500);
-		centerFrame(frame);
+		if (isFirstLaunch) {
+			centerFrame(frame);
+			isFirstLaunch = false;
+		}
 		
 		JPanel panel = (JPanel)frame.getContentPane();
 		JScrollPane scrollPane = new JScrollPane();
@@ -125,6 +140,7 @@ public class Window implements ActionListener, ListSelectionListener {
 		statLabel.setBounds(320, 22, 200, 50);
 		statHero.setBounds(220, 60, 270, 210);
 
+		usingImgHero.setIcon(new ImageIcon());
 		usingImgHero.setBounds(280, 280, 180, 180);
 
 		heroList.addListSelectionListener(this);

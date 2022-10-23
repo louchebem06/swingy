@@ -31,6 +31,7 @@ public class HeroFactory {
 			case "Warrior":
 				return (new Warrior(name, lvl, xp));
 		}
+		System.out.println(type);
 		return (null);
 	}
 
