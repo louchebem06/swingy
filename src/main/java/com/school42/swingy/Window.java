@@ -205,16 +205,6 @@ public class Window implements ActionListener, ListSelectionListener {
 		JPanel panel = (JPanel)frame.getContentPane();
 		JScrollPane scrollPane = new JScrollPane();
 
-		JLabel nameLabel = new JLabel("Name: " + Game.currentHero.getName());
-		JLabel classNameLabel = new JLabel("Class: " + Game.currentHero.getClassName());
-		attackLabel.setText("Attack: " + Game.currentHero.getAttack());
-		defenseLabel.setText("Defense: " + Game.currentHero.getDefense());
-		hpLabel.setText("HitPoint: " + Game.currentHero.getHitPoint());
-		weaponLabel.setText("Weapon: not equiped");
-		armorLabel.setText("Armor: not equiped");
-		helmLabel.setText("Helm: not equiped");
-		lvlLabel.setText("Level: " + Game.currentHero.getLevel());
-		xpLabel.setText("XP: " + df.format(Game.currentHero.getXp()));
 		positionLabel.setText(
 			"Current position: ("
 			+ Game.position.getX() + "," + Game.position.getY() + ")");
@@ -243,31 +233,31 @@ public class Window implements ActionListener, ListSelectionListener {
 		panel.add(btnFight);
 		panel.add(btnRun);
 	
-		panel.add(nameLabel);
-		panel.add(classNameLabel);
-		panel.add(attackLabel);
-		panel.add(defenseLabel);
-		panel.add(hpLabel);
-		panel.add(weaponLabel);
-		panel.add(helmLabel);
-		panel.add(armorLabel);
-		panel.add(lvlLabel);
-		panel.add(xpLabel);
+		panel.add(Game.currentHero.getNameLabel());
+		panel.add(Game.currentHero.getClassNameLabel());
+		panel.add(Game.currentHero.getAttackLabel());
+		panel.add(Game.currentHero.getDefenseLabel());
+		panel.add(Game.currentHero.getHitPointLabel());
+		panel.add(Game.currentHero.getWeaponLabel());
+		panel.add(Game.currentHero.getHelmLabel());
+		panel.add(Game.currentHero.getArmorLabel());
+		panel.add(Game.currentHero.getLevelLabel());
+		panel.add(Game.currentHero.getXpLabel());
 		panel.add(positionLabel);
 		panel.add(imgPlayer);
 
 		panel.add(msgGame);
 
-		nameLabel.setBounds(10, 10, 200, 30);
-		classNameLabel.setBounds(10, 30, 200, 30);
-		attackLabel.setBounds(10, 50, 200, 30);
-		defenseLabel.setBounds(10, 70, 200, 30);
-		hpLabel.setBounds(10, 90, 200, 30);
-		weaponLabel.setBounds(10, 110, 200, 30);
-		armorLabel.setBounds(10, 130, 200, 30);
-		helmLabel.setBounds(10, 150, 200, 30);
-		lvlLabel.setBounds(10, 170, 200, 30);
-		xpLabel.setBounds(10, 190, 200, 30);
+		Game.currentHero.getNameLabel().setBounds(10, 10, 200, 30);
+		Game.currentHero.getClassNameLabel().setBounds(10, 30, 200, 30);
+		Game.currentHero.getAttackLabel().setBounds(10, 50, 200, 30);
+		Game.currentHero.getDefenseLabel().setBounds(10, 70, 200, 30);
+		Game.currentHero.getHitPointLabel().setBounds(10, 90, 200, 30);
+		Game.currentHero.getWeaponLabel().setBounds(10, 110, 200, 30);
+		Game.currentHero.getArmorLabel().setBounds(10, 130, 200, 30);
+		Game.currentHero.getHelmLabel().setBounds(10, 150, 200, 30);
+		Game.currentHero.getLevelLabel().setBounds(10, 170, 200, 30);
+		Game.currentHero.getXpLabel().setBounds(10, 190, 200, 30);
 		positionLabel.setBounds(10, 210, 200, 30);
 		imgPlayer.setBounds(10, 240, 170, 160);
 
@@ -426,16 +416,8 @@ public class Window implements ActionListener, ListSelectionListener {
 				if (!Game.currentHero.setArmor(item)) {
 					if (!Game.currentHero.setWeapon(item)) {
 						Game.currentHero.setHelm(item);
-						helmLabel.setText("Helm: " + Game.currentHero.getHelm());
-					} else {
-						weaponLabel.setText("Weapon: " + Game.currentHero.getWeapon());
 					}
-				} else {
-					armorLabel.setText("Armor: " + Game.currentHero.getArmor());
 				}
-				attackLabel.setText("Attack: " + Game.currentHero.getAttack());
-				defenseLabel.setText("Defense: " + Game.currentHero.getDefense());
-				hpLabel.setText("HitPoint: " + Game.currentHero.getHitPoint());
 			}
 		});
 	}

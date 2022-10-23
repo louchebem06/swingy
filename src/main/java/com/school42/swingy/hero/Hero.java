@@ -1,5 +1,7 @@
 package com.school42.swingy.hero;
 
+import javax.swing.JLabel;
+
 import com.school42.swingy.artefac.*;
 
 public interface Hero {
@@ -22,4 +24,14 @@ public interface Hero {
 	public void setId(int id);
 	public int getId();
 	public void insert();
+	public JLabel getNameLabel();
+	public JLabel getLevelLabel();
+	public JLabel getXpLabel();
+	public JLabel getAttackLabel();
+	public JLabel getDefenseLabel();
+	public JLabel getClassNameLabel();
+	public JLabel getHitPointLabel();
+	public JLabel getWeaponLabel();
+	public JLabel getArmorLabel();
+	public JLabel getHelmLabel();
 }

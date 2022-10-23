@@ -3,6 +3,8 @@ package com.school42.swingy.hero;
 import java.lang.Math;
 import java.text.*;
 
+import javax.swing.JLabel;
+
 import com.school42.swingy.artefac.*;
 import com.school42.swingy.database.DatabaseHero;
 
@@ -26,7 +28,18 @@ public abstract class AbstractHero implements Hero {
 
 	protected int _id;
 
-	protected DatabaseHero _db;
+	protected DatabaseHero _db = new DatabaseHero();
+
+	private JLabel _nameLabel = new JLabel();
+	private JLabel _classNameLabel = new JLabel();
+	private JLabel _levelLabel = new JLabel();
+	private JLabel _xpLabel = new JLabel();
+	private JLabel _attackLabel = new JLabel();
+	private JLabel _defenseLabel = new JLabel();
+	private JLabel _hitPointsLabel = new JLabel();
+	private JLabel _weaponLabel = new JLabel();
+	private JLabel _armorLabel = new JLabel();
+	private JLabel _helmLabel = new JLabel();
 
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 
@@ -35,7 +48,6 @@ public abstract class AbstractHero implements Hero {
 							double factorAttack, double factorDefense,
 							double factorHitPoints)
 	{
-		_db = new DatabaseHero();
 		_name = name;
 		_className = className;
 		_level = lvl;
@@ -50,6 +62,16 @@ public abstract class AbstractHero implements Hero {
 		_factorDefense = factorDefense;
 		_factorHitPoints = factorHitPoints;
 		_id = 0;
+		_nameLabel.setText("Name: " + _name);
+		_classNameLabel.setText("Class: " + _className);
+		_levelLabel.setText("Level: " + _level);
+		_xpLabel.setText("XP: " + df.format(_xp));
+		_attackLabel.setText("Attack: " + df.format(_attack));
+		_defenseLabel.setText("Defense: " + df.format(_defense));
+		_hitPointsLabel.setText("Hit Points: " + df.format(_hitPoints));
+		_weaponLabel.setText("Weapon: " + (_weapon == null ? "not equiped" : _weapon.getName()));
+		_armorLabel.setText("Armor: " + (_armor == null ? "not equiped" : _armor.getName()));
+		_helmLabel.setText("Helm: " + (_helm == null ? "not equiped" : _helm.getName()));
 	}
 
 	protected AbstractHero(AbstractHero hero) {
@@ -66,6 +88,7 @@ public abstract class AbstractHero implements Hero {
 		_factorAttack = hero._factorAttack;
 		_factorDefense = hero._factorDefense;
 		_factorHitPoints = hero._factorHitPoints;
+		_id = hero._id;
 	}
 
 	public void insert() {
@@ -100,14 +123,20 @@ public abstract class AbstractHero implements Hero {
 		_xp += xp;
 		getLevel();
 		_db.update(this);
+		_xpLabel.setText("XP: " + df.format(_xp));
 	}
 
 	public Integer getLevel() {
 		int lvl = _level;
 		while (_xp >= calcLevel(_level))
 			levelUp();
-		if (lvl != _level)
+		if (lvl != _level) {
 			_db.update(this);
+			_levelLabel.setText("Level: " + _level);
+			_attackLabel.setText("Attack: " + df.format(_attack));
+			_defenseLabel.setText("Defense: " + df.format(_defense));
+			_hitPointsLabel.setText("Hit Points: " + df.format(_hitPoints));
+		}
 		return (_level);
 	}
 
@@ -153,6 +182,7 @@ public abstract class AbstractHero implements Hero {
 		if (weapon.getType() == "weapon") {
 			_weapon = weapon;
 			_db.update(this);
+			_weaponLabel.setText("Weapon: " + (_weapon == null ? "not equiped" : _weapon.getName()));
 			return (true);
 		}
 		return (false);
@@ -162,6 +192,7 @@ public abstract class AbstractHero implements Hero {
 		if (helm.getType() == "helm") {
 			_helm = helm;
 			_db.update(this);
+			_helmLabel.setText("Helm: " + (_helm == null ? "not equiped" : _helm.getName()));
 			return (true);
 		}
 		return (false);
@@ -171,6 +202,7 @@ public abstract class AbstractHero implements Hero {
 		if (armor.getType() == "armor") {
 			_armor = armor;
 			_db.update(this);
+			_armorLabel.setText("Armor: " + (_armor == null ? "not equiped" : _armor.getName()));
 			return (true);
 		}
 		return (false);
@@ -211,5 +243,25 @@ public abstract class AbstractHero implements Hero {
 	public void setId(int id) { _id  = id; }
 
 	public int getId() { return (_id); }
+
+	public JLabel getNameLabel() { return (_nameLabel); }
+
+	public JLabel getClassNameLabel() { return (_classNameLabel); }
+
+	public JLabel getLevelLabel() { return (_levelLabel); }
+
+	public JLabel getXpLabel() { return (_xpLabel); }
+
+	public JLabel getAttackLabel() { return (_attackLabel); }
+
+	public JLabel getDefenseLabel() { return (_defenseLabel); }
+	
+	public JLabel getHitPointLabel() { return (_hitPointsLabel); }
+
+	public JLabel getWeaponLabel() { return (_weaponLabel); }
+
+	public JLabel getArmorLabel() { return (_armorLabel); }
+
+	public JLabel getHelmLabel() { return (_helmLabel); }
 
 }
