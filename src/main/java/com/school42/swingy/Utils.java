@@ -57,7 +57,7 @@ public class Utils {
 		return (false);
 	}
 
-	static public void moveHero(String move) {
+	static public boolean moveHero(String move) {
 		Hero hero = Main.getCurrentHero();
 		int x = -1;
 		int y = -1;
@@ -81,9 +81,10 @@ public class Utils {
 				break;
 		}
 		if (x < 0 || y < 0 || x >= Main.getSizeMap() || y >= Main.getSizeMap())
-			return ;
+			return (false);
 		System.out.println("Your move to (" + x + ", " + y + ")");
 		hero.setPoint(x, y);
+		return (true);
 	}
 
 	public static boolean figth(Hero a, Hero b) {
@@ -92,8 +93,7 @@ public class Utils {
 			if (Math.random() > 0.5) {
 				damage = a.attack(b);
 				System.out.println(a.getName() + " influge " + damage + " degats to " + b.getName());
-			}
-			else {
+			} else {
 				damage = b.attack(a);
 				System.out.println(b.getName() + " influge " + damage + " degats to " + a.getName());
 			}
@@ -111,10 +111,10 @@ public class Utils {
 
 	public static void resetPositionPlayer() {
 		Hero hero = Main.getCurrentHero();
-		int x = (int)(Math.random() * Main.getSizeMap());
-		int y = (int)(Math.random() * Main.getSizeMap());
+		int x = Main.getSizeMap() / 2;
+		int y = Main.getSizeMap() / 2;
 		hero.setPoint(x, y);
-		System.out.println("Your are reset Position");
+		System.out.println("You position is reset");
 	}
 
 	public static Boolean run() {

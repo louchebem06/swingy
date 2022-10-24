@@ -26,10 +26,10 @@ public class Game extends AbstractWindow implements ActionListener {
 	private static JButton _east = new JButton("East");
 	private JPanel _panel = (JPanel)getContentPane();
 	private JSeparator _separator = new JSeparator();
-	private AbstractWidgetWindow _itemWindow = null;
-	private AbstractWidgetWindow _statWindow = null;
-	private AbstractWidgetWindow _cardWindow = null;
-	private AbstractWidgetWindow _eventWindow = null;
+	private Item _itemWindow = null;
+	private Stat _statWindow = null;
+	private Card _cardWindow = null;
+	private Event _eventWindow = null;
 
 	public Game() {
 		super("Game", 200, 250);
@@ -83,10 +83,21 @@ public class Game extends AbstractWindow implements ActionListener {
 	}
 
 	private void fight() {
+		_cardWindow.update();
 		if (!Utils.checkIsEnemyPosition())
 			return ;
 		setBtn(false);
-		new Fight(Main.getCurrentHero(), Main.getCurrentEnemy());
+		new Fight(Main.getCurrentHero(), Main.getCurrentEnemy(), _cardWindow);
+	}
+
+	private void endGame() {
+		System.out.println("End game!");
+		Main.getCurrentHero().setPoint(
+			Main.getCurrentHero().getSizeMap() / 2,
+			Main.getCurrentHero().getSizeMap() / 2
+		);
+		disposeAll();
+		new MainMenu();
 	}
 
 	@Override
@@ -100,16 +111,20 @@ public class Game extends AbstractWindow implements ActionListener {
 		} else if (e.getSource() == _event) {
 			_eventWindow.toggleVisibility();
 		} else if (e.getSource() == _north) {
-			Utils.moveHero("north");
+			if (!Utils.moveHero("north"))
+				endGame();
 			fight();
 		} else if (e.getSource() == _south) {
-			Utils.moveHero("south");
+			if (!Utils.moveHero("south"))
+				endGame();
 			fight();
 		} else if (e.getSource() == _west) {
-			Utils.moveHero("west");
+			if (!Utils.moveHero("west"))
+				endGame();
 			fight();
 		} else if (e.getSource() == _east) {
-			Utils.moveHero("east");
+			if (!Utils.moveHero("east"))
+				endGame();
 			fight();
 		}
 	}

@@ -3,10 +3,28 @@ package com.school42.swingy.window;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 
 public abstract class AbstractWindow extends JFrame {
+
+	private static Vector<AbstractWindow> _windows = new Vector<AbstractWindow>();
+
+	public AbstractWindow(String title, int width, int height) {
+		super(title);
+		setSize(width, height);
+		setResizable(false);
+		setLayout(null);
+		_windows.add(this);
+	}
+
+	public void disposeAll() {
+		while (_windows.size() > 0) {
+			_windows.get(0).dispose();
+			_windows.remove(0);
+		}
+	}
 
 	protected void centerScreen() {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -55,12 +73,5 @@ public abstract class AbstractWindow extends JFrame {
 	protected Point getPoint() { return (getLocation()); }
 
 	protected Dimension getDimension() { return (getSize()); }
-
-	public AbstractWindow(String title, int width, int height) {
-		super(title);
-		setSize(width, height);
-		setResizable(false);
-		setLayout(null);
-	}
 
 }

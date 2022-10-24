@@ -29,14 +29,16 @@ public class Fight extends AbstractWindow implements ActionListener{
 	private JPanel _panel = (JPanel)getContentPane();
 	private Hero _a = null;
 	private Hero _b = null;
+	private Card _cardWindow = null;
 	
-	public Fight(Hero a, Hero b) {
+	public Fight(Hero a, Hero b, Card card) {
 		super("Fight", 500, 500);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		centerScreen();
 
 		_a = a.clone();
 		_b = b.clone();
+		_cardWindow = card;
 		
 		_imgA.setIcon(a.getIcon(200));
 		_imgB.setIcon(b.getIcon(200));
@@ -102,6 +104,7 @@ public class Fight extends AbstractWindow implements ActionListener{
 				new DropItem(_b.getHelm(), _b.clone());
 			} else {
 				Utils.resetPositionPlayer();
+				_cardWindow.update();
 			}
 			close();
 		}
