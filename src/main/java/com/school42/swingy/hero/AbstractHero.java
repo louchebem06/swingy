@@ -45,7 +45,7 @@ public abstract class AbstractHero {
 	private JLabel	_helmLabel = new JLabel();
 	private JLabel _pointLabel = new JLabel();
 
-	private Point	_point;
+	private Point	_point = new Point(2,2);
 
 	private static final DecimalFormat	df = new DecimalFormat("0.00");
 
@@ -64,7 +64,7 @@ public abstract class AbstractHero {
 		_factorAttack = factorAttack;
 		_factorDefense = factorDefense;
 		_factorHitPoints = factorHitPoints;
-		_point = new Point(getSizeMap() / 2, getSizeMap() / 2);
+		setPoint(getSizeMap() / 2, getSizeMap() / 2);
 		updateLabel();
 	}
 
@@ -125,10 +125,8 @@ public abstract class AbstractHero {
 
 	public void setId(int id) { _id  = id; }
 
-	public void setPoint(Point point) { _point = point; }
-
 	public void setPoint(int x, int y) {
-		setPoint(new Point(x, y));
+		_point.setLocation(x, y);
 		updateLabel();
 	};
 
@@ -210,38 +208,6 @@ public abstract class AbstractHero {
 			damage = 0;
 		hero.setHitPoint(hero.getHitPoint() - damage);
 		return (df.format(damage));
-	}
-
-	public String getStat() {
-		String stat;
-
-		stat = "\t== STATS ==\n";
-		stat += "NAME:\t" + getName() + "\n";
-		stat += "CLASS:\t" + getClassName() + "\n";
-		stat += "LEVEL:\t" + getLevel() + "\n";
-		stat += "XP:\t" + df.format(getXp()) + "\n";
-		stat += "ATTACK:\t" + getAttack() + "\n";
-		stat += "DEFENSE:\t" + getDefense() + "\n";
-		stat += "HITPOINTS:\t" + getHitPoint() + "\n";
-
-		stat += "\n\t== ITEMS ==\n";
-		stat += "WEAPON:\t";
-		if (getWeapon() == null)
-			stat += "not equiped\n";
-		else
-			stat += getWeapon() + "\n";
-		stat += "ARMOR:\t";
-		if (getArmor() == null)
-			stat += "not equiped\n";
-		else
-			stat += getArmor() + "\n";
-		stat += "HELM:\t";
-		if (getHelm() == null)
-			stat += "not equiped\n";
-		else
-			stat += getHelm() + "\n";
-
-		return (stat);
 	}
 
 }

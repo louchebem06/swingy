@@ -21,7 +21,6 @@ public interface Hero {
 	public Artefacs getArmor();
 	public Artefacs getWeapon();
 	public Artefacs getHelm();
-	public String getStat();
 	public int getSizeMap();
 	public void addXp(double xp);
 	public void setId(int id);
@@ -41,7 +40,6 @@ public interface Hero {
 	public String toString();
 	public ImageIcon getIcon(int size);
 	public Point getPoint();
-	public void setPoint(Point point);
 	public void setPoint(int x, int y);
 	public Hero clone();
 	public boolean isAlive();

@@ -1,4 +1,4 @@
-package com.school42.swingy;
+package com.school42.swingy.window;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,6 +10,10 @@ import javax.swing.border.Border;
 import javax.swing.event.*;
 
 import com.school42.swingy.hero.*;
+import com.school42.swingy.Main;
+import com.school42.swingy.MapGame;
+import com.school42.swingy.Simulator;
+import com.school42.swingy.Utils;
 import com.school42.swingy.artefac.*;
 
 public class Window implements ActionListener, ListSelectionListener {
@@ -283,6 +287,8 @@ public class Window implements ActionListener, ListSelectionListener {
 				btnRun.setEnabled(true);
 
 				Main.currentEnemy = HeroFactory.randomHero(Main.currentHero.getXp());
+				Main.currentEnemy.setPoint((int)cordonate.getX(), (int)cordonate.getY());
+
 				msgGame.setText(
 					Main.currentEnemy.getName()
 					+ " lvl " + Main.currentEnemy.getLevel()

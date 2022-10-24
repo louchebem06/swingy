@@ -3,6 +3,9 @@ package com.school42.swingy;
 import java.util.*;
 
 import com.school42.swingy.hero.*;
+import com.school42.swingy.window.DropItem;
+import com.school42.swingy.window.Fight;
+import com.school42.swingy.window.MainMenu;
 
 public class Utils {
 
@@ -30,21 +33,26 @@ public class Utils {
 		else if (len > 1)
 			throw new Exception("Too much argument");
 		String arg = av[0];
-		if (arg.equals("gui")) {
-			Main.window.mainMenu();
+		if (arg.toLowerCase().equals("gui")
+			|| arg.toLowerCase().equals("console"))
+		{
+			return ;
 		}
-		else
-			throw new Exception(arg + " is not valid");
+		throw new Exception(arg + " is not valid");
 	}
 
-	static public boolean addHero(String heroName, String className) {
+	static public boolean addHero(Vector<Hero> heros, String heroName,
+									String className, Vector<String> classHero)
+	{
 		if (heroName.length() == 0)
 			return (false);
-		for (String heroClass : Main.classHero) {
+		for (String heroClass : classHero) {
 			if (heroClass == className) {
-				Hero hero = HeroFactory.newHero(className, heroName, 0, 0);
+				int lvl = 0;
+				double xp = 0;
+				Hero hero = HeroFactory.newHero(className, heroName, lvl, xp);
 				hero.insert();
-				Main.heros.add(hero);
+				heros.add(hero);
 				return (true);
 			}
 		}

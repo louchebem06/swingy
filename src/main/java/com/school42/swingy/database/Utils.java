@@ -40,7 +40,7 @@ public class Utils {
 		return (sql);
 	}
 
-	public static void readAllHero(final Vector<Hero> heros) {
+	public static void addAllHero(final Vector<Hero> heros) {
 		class Read extends DatabaseHero {
 			public Read() { super(); }
 

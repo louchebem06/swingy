@@ -31,7 +31,6 @@ public class HeroFactory {
 			case "Warrior":
 				return (new Warrior(name, lvl, xp));
 		}
-		System.out.println(type);
 		return (null);
 	}
 
@@ -65,6 +64,7 @@ public class HeroFactory {
 
 	public static Hero randomHero(double xpHero) {
 		Hero enemy = newHero(randomType(), randomPseudo(), 0, randomXp(xpHero));
+
 		if (Math.random() > 0.8)
 			enemy.setArtefac(ArtefacsFactory.randomWeapon(enemy.getAttack()));
 		if (Math.random() > 0.8)
