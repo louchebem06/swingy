@@ -16,19 +16,45 @@ public abstract class AbstractWindow extends JFrame {
 		);
 	}
 
+	protected void centerScreenDown() {
+		centerScreen();
+		setLocation(getLocation().x, getLocation().y + getHeight() / 2);
+	}
+
 	protected void placeRight(Point pos, Dimension dim) {
 		setLocation((int)(pos.getX() + dim.getWidth()), (int)pos.getY());
+	}
+
+	protected void placeRightUp(Point pos, Dimension dim) {
+		placeRight(pos, dim);
+		setLocation(getLocation().x, getLocation().y - getHeight() / 2);
+	}
+
+	protected void placeLeft(Point pos, Dimension dim) {
+		setLocation((int)(pos.getX() - getSize().getWidth()), (int)pos.getY());
+	}
+
+	protected void placeLeftUp(Point pos, Dimension dim) {
+		placeLeft(pos, dim);
+		setLocation(getLocation().x, getLocation().y - getHeight() / 2);
+	}
+
+	protected void placeLeftLeftUp(Point pos, Dimension dim) {
+		placeLeftUp(pos, dim);
+		setLocation(getLocation().x - getWidth() + 100, getLocation().y);
+	}
+
+	protected void placeUp(Point pos, Dimension dim) {
+		setLocation((int)pos.getX(), (int)(pos.getY() - getSize().getHeight()));
 	}
 
 	protected void placeHere(Point pos) {
 		setLocation((int)pos.getX(), (int)pos.getY());
 	}
 
-	protected Point getPoint() { return (new Point(getX(), getY())); }
+	protected Point getPoint() { return (getLocation()); }
 
-	protected Dimension getDimension() {
-		return (new Dimension(getWidth(), getHeight()));
-	}
+	protected Dimension getDimension() { return (getSize()); }
 
 	public AbstractWindow(String title, int width, int height) {
 		super(title);

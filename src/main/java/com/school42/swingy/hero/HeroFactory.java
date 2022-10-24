@@ -1,6 +1,10 @@
 package com.school42.swingy.hero;
 
 import com.school42.swingy.hero.heros.*;
+
+import java.util.Vector;
+
+import com.school42.swingy.Utils;
 import com.school42.swingy.artefac.*;
 
 public class HeroFactory {
@@ -48,12 +52,9 @@ public class HeroFactory {
 	}
 
 	private static String randomType() {
-		String types [] = {
-			"Demon", "Druid", "Hunter", "Knigth", "Mage", "Monk", "Paladin",
-			"Priest", "Rogue", "Shaman", "Warlock", "Warrior"
-		};
-		int random = (int)(Math.random() * types.length);
-		return (types[random]);
+		Vector<String> types = Utils.getClassHero();
+		int random = (int)(Math.random() * types.size());
+		return (types.elementAt(random));
 	}
 
 	private static double randomXp(double xpHero) {

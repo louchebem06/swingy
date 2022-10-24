@@ -1,6 +1,7 @@
 package com.school42.swingy;
 
 import java.util.*;
+import java.awt.Point;
 
 import com.school42.swingy.hero.*;
 import com.school42.swingy.window.*;
@@ -11,6 +12,8 @@ public class Main {
 	static private Vector<Hero> _heros = new Vector<Hero>();
 	static private Vector<Hero> _enemys = new Vector<Hero>();
 	static private Hero _currentHero = null;
+	static private Hero _currentEnemy = null;
+	static private int sizeMap = 0;
 
 	public static Vector<String> getClassHero() { return (_classHero); }
 
@@ -18,9 +21,25 @@ public class Main {
 
 	public static Vector<Hero> getEnemys() { return (_enemys); }
 
+	public static void setEnemys(Vector<Point> pos) {
+		for (Point p : pos) {
+			Hero en = HeroFactory.randomHero(_currentHero.getXp());
+			en.setPoint((int)p.getX(), (int)p.getY());
+			_enemys.add(en);
+		}
+	}
+
+	public static void setCurrentEnemy(Hero enemy) { _currentEnemy = enemy; }
+	
+	public static Hero getCurrentEnemy() { return (_currentEnemy); }
+
 	public static Hero getCurrentHero() { return (_currentHero); }
 
 	public static void setCurrentHero(Hero hero) { _currentHero = hero; }
+
+	public static void setSizeMap(int size) { sizeMap = size; }
+
+	public static int getSizeMap() { return (sizeMap); }
 
 	public static void main(String av[]) {
 		try {
@@ -30,6 +49,7 @@ public class Main {
 				new MainMenu();
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
 		}
 	}
 

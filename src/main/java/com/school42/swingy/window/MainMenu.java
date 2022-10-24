@@ -11,6 +11,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.*;
 
 import com.school42.swingy.Main;
+import com.school42.swingy.Utils;
 import com.school42.swingy.hero.Hero;
 
 public class MainMenu
@@ -106,7 +107,8 @@ public class MainMenu
 		}
 		else if (e.getSource() == _btnLoadHero) {
 			CreateHero.closeIfOpen();
-			new Game(getPoint());
+			Utils.setupGame();
+			new Game();
 			dispose();
 		}
 	}

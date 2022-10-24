@@ -204,8 +204,8 @@ public abstract class AbstractHero {
 
 	public String attack(Hero hero) {
 		double damage = getAttack() - hero.getDefense();
-		if (damage < 0)
-			damage = 0;
+		if (damage <= 0)
+			damage = 0.001;
 		hero.setHitPoint(hero.getHitPoint() - damage);
 		return (df.format(damage));
 	}
