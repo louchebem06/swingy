@@ -37,17 +37,14 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 	private JLabel _attackLabel = new JLabel();
 	private JLabel _defenseLabel = new JLabel();
 	private JLabel _hitPointsLabel = new JLabel();
-	private JScrollPane _scrollPane = null;
 
-	public CreateHero(Point pos, Dimension size,
-						JButton btnNewHero, JScrollPane scrollPane)
+	public CreateHero(Point pos, Dimension size, JButton btnNewHero)
 	{
 		super("Create Hero", 400, 250);
 		_open = true;
 		_frame = this;
 		placeRight(pos, size);
 		_btnNewHero = btnNewHero;
-		_scrollPane = scrollPane;
 		_btnNewHero.setEnabled(false);
 		_btnCreateHero.setEnabled(false);
 		windowEvent();
@@ -73,7 +70,7 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 		_hitPointsLabel.setBounds(120, 175, 280, 30);
 		_imgClass.setBounds(10, 110, 100, 100);
 
-		updateDateHero();
+		updateDataHero();
 
 		_heroConboBox.addActionListener(this);
 		_btnCreateHero.addActionListener(this);
@@ -89,7 +86,7 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 		setVisible(true);
 	}
 
-	private void updateDateHero() {
+	private void updateDataHero() {
 		String item = _heroConboBox.getSelectedItem().toString();
 
 		_hero = HeroFactory.newHero(item, item, 0, 0);
@@ -129,12 +126,12 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _heroConboBox) {
-			updateDateHero();
+			updateDataHero();
 		} else if (e.getSource() == _btnCreateHero) {
 			String name = _inputNameHero.getText();
 			String heroClass = _heroConboBox.getSelectedItem().toString();
 			Utils.addHero(Main.getHeros(), name, heroClass, Main.getClassHero());
-			_scrollPane.setViewportView(new JList<Hero>(Main.getHeros()));
+			MainMenu.updateJList();
 			close();
 		}
 	}

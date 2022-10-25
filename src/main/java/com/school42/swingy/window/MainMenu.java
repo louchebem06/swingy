@@ -22,9 +22,9 @@ public class MainMenu
 	private JButton _btnNewHero = new JButton("New Hero");
 	private JButton _btnLoadHero = new JButton("Load Hero");
 	private JPanel _panel = (JPanel)getContentPane();
-	private JScrollPane _scrollPane = new JScrollPane();
+	private static JScrollPane _scrollPane = new JScrollPane();
 	private JLabel _heroLabel = new JLabel("HEROS");
-	private JList<Hero> _heroList = new JList<Hero>();
+	private static JList<Hero> _heroList = new JList<Hero>();
 	private JLabel _nameLabel = new JLabel();
 	private JLabel _classLabel = new JLabel();
 	private JLabel _levelLabel = new JLabel();
@@ -36,6 +36,7 @@ public class MainMenu
 	private JLabel _armorLabel = new JLabel();
 	private JLabel _helmLabel = new JLabel();
 	private JLabel _iconLabel = new JLabel();
+	private static MainMenu _me = null;
 
 	public MainMenu() {
 		super("Main Menu", 430, 500);
@@ -58,10 +59,6 @@ public class MainMenu
 		_panel.add(_helmLabel);
 		_panel.add(_iconLabel);
 
-		_heroList.setListData(Main.getHeros());
-		_heroList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		_scrollPane.setViewportView(_heroList);
-
 		_btnLoadHero.setEnabled(false);
 
 		_btnNewHero.setBounds(0, 0, 100, 30);
@@ -82,9 +79,12 @@ public class MainMenu
 
 		_btnNewHero.addActionListener(this);
 		_btnLoadHero.addActionListener(this);
-		_heroList.addListSelectionListener(this);
 
 		windowEvent();
+
+		_me = this;
+
+		updateJList();
 
 		setVisible(true);
 	}
@@ -100,10 +100,18 @@ public class MainMenu
 		});
 	}
 
+	public static void updateJList() {
+		_heroList.setListData(Main.getHeros());
+		_heroList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		_scrollPane.setViewportView(_heroList);
+
+		_heroList.addListSelectionListener(_me);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _btnNewHero) {
-			new CreateHero(getPoint(), getDimension(), _btnNewHero, _scrollPane);
+			new CreateHero(getPoint(), getDimension(), _btnNewHero);
 		}
 		else if (e.getSource() == _btnLoadHero) {
 			CreateHero.closeIfOpen();
@@ -116,23 +124,25 @@ public class MainMenu
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getSource() == _heroList && !e.getValueIsAdjusting()) {
-			Hero hero = _heroList.getSelectedValue();
-			
-			_nameLabel.setText(hero.getNameLabel().getText());
-			_classLabel.setText(hero.getClassNameLabel().getText());
-			_levelLabel.setText(hero.getLevelLabel().getText());
-			_xpLabel.setText(hero.getXpLabel().getText());
-			_attackLabel.setText(hero.getAttackLabel().getText());
-			_defenceLabel.setText(hero.getDefenseLabel().getText());
-			_hitPointLabel.setText(hero.getHitPointLabel().getText());
-			_weaponLabel.setText(hero.getWeaponLabel().getText());
-			_armorLabel.setText(hero.getArmorLabel().getText());
-			_helmLabel.setText(hero.getHelmLabel().getText());
-			_iconLabel.setIcon(hero.getIcon(200));
+			try {
+				Hero hero = _heroList.getSelectedValue();
+				
+				_nameLabel.setText(hero.getNameLabel().getText());
+				_classLabel.setText(hero.getClassNameLabel().getText());
+				_levelLabel.setText(hero.getLevelLabel().getText());
+				_xpLabel.setText(hero.getXpLabel().getText());
+				_attackLabel.setText(hero.getAttackLabel().getText());
+				_defenceLabel.setText(hero.getDefenseLabel().getText());
+				_hitPointLabel.setText(hero.getHitPointLabel().getText());
+				_weaponLabel.setText(hero.getWeaponLabel().getText());
+				_armorLabel.setText(hero.getArmorLabel().getText());
+				_helmLabel.setText(hero.getHelmLabel().getText());
+				_iconLabel.setIcon(hero.getIcon(200));
 
-			_btnLoadHero.setEnabled(true);
+				_btnLoadHero.setEnabled(true);
 
-			Main.setCurrentHero(hero);
+				Main.setCurrentHero(hero);
+			} catch (Exception er) { /* ignored */}
 		}
 	}
 
