@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 public abstract class AbstractWindow extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private static Vector<AbstractWindow> _windows = new Vector<AbstractWindow>();
 
 	public AbstractWindow(String title, int width, int height) {

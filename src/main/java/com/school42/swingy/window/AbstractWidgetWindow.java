@@ -5,6 +5,7 @@ import java.awt.event.WindowEvent;
 
 public abstract class AbstractWidgetWindow extends AbstractWindow {
 
+	private static final long serialVersionUID = 1L;
 	protected AbstractWidgetWindow _frame = null;
 	protected boolean _open = false;
 
