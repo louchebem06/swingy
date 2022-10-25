@@ -37,6 +37,7 @@ public class MainMenu
 	private JLabel _helmLabel = new JLabel();
 	private JLabel _iconLabel = new JLabel();
 	private static MainMenu _me = null;
+	private Game _gameWindow = null;
 
 	public MainMenu() {
 		super("Main Menu", 430, 500);
@@ -116,8 +117,10 @@ public class MainMenu
 		else if (e.getSource() == _btnLoadHero) {
 			CreateHero.closeIfOpen();
 			Utils.setupGame();
-			new Game();
-			dispose();
+			if (_gameWindow == null)
+				_gameWindow = new Game(this);
+			_gameWindow.setVisible(true);
+			setVisible(false);
 		}
 	}
 

@@ -14,14 +14,25 @@ import java.awt.Dimension;
 public class Card extends AbstractWidgetWindow {
 
 	private JPanel _panel = (JPanel)getContentPane();
-	private JScrollPane _scrollPane = new JScrollPane();
-	private DefaultTableModel _model = new DefaultTableModel(); 
-	private String [][] map = new String [Main.getSizeMap()][Main.getSizeMap()];
-	private JTable _table = new JTable(_model);
+	private JScrollPane _scrollPane = null;
+	private DefaultTableModel _model = null; 
+	private String [][] _map = null;
+	private JTable _table = null;
 	
 	public Card(Point pos, Dimension size) {
 		super("Card", 500, 500);
 		placeRightUp(pos, size);
+
+		newGame();
+
+		setVisible(true);
+	}
+
+	public void newGame() {
+		_scrollPane = new JScrollPane();
+		_model = new DefaultTableModel(); 
+		_map = new String [Main.getSizeMap()][Main.getSizeMap()];
+		_table = new JTable(_model);
 
 		_panel.add(_scrollPane);
 		
@@ -32,7 +43,7 @@ public class Card extends AbstractWidgetWindow {
 		}
 		for (int i = 0; i < Main.getSizeMap(); i++) {
 			_table.getColumnModel().getColumn(i).setPreferredWidth(100);
-			_model.addRow(map[i]);
+			_model.addRow(_map[i]);
 		}
 
 		_table.setRowHeight(100);
@@ -44,8 +55,6 @@ public class Card extends AbstractWidgetWindow {
 		_scrollPane.setViewportView(_table);
 
 		_scrollPane.setBounds(0, 0, 500, 500);
-
-		setVisible(true);
 	}
 
 	public void update() {

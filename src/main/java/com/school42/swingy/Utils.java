@@ -140,6 +140,7 @@ public class Utils {
 	static public void setupGame() {
 		Main.setSizeMap(Main.getCurrentHero().getSizeMap());
 		Main.setEnemys(generateEnemysPos(Main.getSizeMap()));
+		Main.getCurrentHero().setPoint(Main.getSizeMap() / 2, Main.getSizeMap() / 2);
 	}
 
 	static public boolean checkIsEnemyPosition() {

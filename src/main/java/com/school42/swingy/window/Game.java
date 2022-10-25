@@ -30,8 +30,10 @@ public class Game extends AbstractWindow implements ActionListener {
 	private Stat _statWindow = null;
 	private Card _cardWindow = null;
 	private Event _eventWindow = null;
+	private MainMenu _mainMenuWindow = null;
+	private Boolean _refresh = false;
 
-	public Game() {
+	public Game(MainMenu mainMenu) {
 		super("Game", 200, 250);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		centerScreenDown();
@@ -39,6 +41,7 @@ public class Game extends AbstractWindow implements ActionListener {
 		_statWindow = new Stat(getPoint(), getDimension());
 		_cardWindow = new Card(getPoint(), getDimension());
 		_eventWindow = new Event(getPoint(), getDimension());
+		_mainMenuWindow = mainMenu;
 
 		_panel.add(_item);
 		_panel.add(_stat);
@@ -72,6 +75,8 @@ public class Game extends AbstractWindow implements ActionListener {
 		_west.addActionListener(this);
 		_east.addActionListener(this);
 
+		eventWindow();
+
 		setVisible(true);
 	}
 
@@ -80,6 +85,25 @@ public class Game extends AbstractWindow implements ActionListener {
 		_south.setEnabled(state);
 		_west.setEnabled(state);
 		_east.setEnabled(state);
+	}
+
+	private void eventWindow() {
+		this.addWindowListener(new WindowAdapter() {
+			public void windowActivated(WindowEvent e) {
+				if (_refresh) {
+					if (!_itemWindow.isShowing())
+						_itemWindow.setVisible(true);
+					if (!_cardWindow.isShowing())
+						_cardWindow.setVisible(true);
+					if (!_statWindow.isShowing())
+						_statWindow.setVisible(true);
+					if (!_eventWindow.isShowing())
+						_eventWindow.setVisible(true);
+					_cardWindow.newGame();
+					_refresh = false;
+				}
+			}
+		});
 	}
 
 	private void fight() {
@@ -91,13 +115,13 @@ public class Game extends AbstractWindow implements ActionListener {
 	}
 
 	private void endGame() {
-		System.out.println("End game!");
-		Main.getCurrentHero().setPoint(
-			Main.getCurrentHero().getSizeMap() / 2,
-			Main.getCurrentHero().getSizeMap() / 2
-		);
-		disposeAll();
-		new MainMenu();
+		setVisible(false);
+		_itemWindow.setVisible(false);
+		_cardWindow.setVisible(false);
+		_statWindow.setVisible(false);
+		_eventWindow.setVisible(false);
+		_mainMenuWindow.setVisible(true);
+		_refresh = true;
 	}
 
 	@Override
