@@ -33,19 +33,19 @@ public abstract class AbstractHero {
 
 	protected DatabaseHero	_db = new DatabaseHero();
 
-	private JLabel	_nameLabel = new JLabel();
-	private JLabel	_classNameLabel = new JLabel();
-	private JLabel	_levelLabel = new JLabel();
-	private JLabel	_xpLabel = new JLabel();
-	private JLabel	_attackLabel = new JLabel();
-	private JLabel	_defenseLabel = new JLabel();
-	private JLabel	_hitPointsLabel = new JLabel();
-	private JLabel	_weaponLabel = new JLabel();
-	private JLabel	_armorLabel = new JLabel();
-	private JLabel	_helmLabel = new JLabel();
-	private JLabel _pointLabel = new JLabel();
+	protected JLabel	_nameLabel = new JLabel();
+	protected JLabel	_classNameLabel = new JLabel();
+	protected JLabel	_levelLabel = new JLabel();
+	protected JLabel	_xpLabel = new JLabel();
+	protected JLabel	_attackLabel = new JLabel();
+	protected JLabel	_defenseLabel = new JLabel();
+	protected JLabel	_hitPointsLabel = new JLabel();
+	protected JLabel	_weaponLabel = new JLabel();
+	protected JLabel	_armorLabel = new JLabel();
+	protected JLabel	_helmLabel = new JLabel();
+	protected JLabel _pointLabel = new JLabel();
 
-	private Point	_point = new Point(2,2);
+	protected Point	_point = new Point(2,2);
 
 	private static final DecimalFormat	df = new DecimalFormat("0.00");
 

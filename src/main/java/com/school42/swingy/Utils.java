@@ -5,53 +5,60 @@ import java.awt.Point;
 
 import com.school42.swingy.hero.*;
 
+import javax.swing.*;
+
 public class Utils {
 
 	static public Vector<String> getClassHero() {
-		Vector<String> classHeros = new Vector<String>();
-		classHeros.add("Demon");
-		classHeros.add("Druid");
-		classHeros.add("Hunter");
-		classHeros.add("Knight");
-		classHeros.add("Mage");
-		classHeros.add("Monk");
-		classHeros.add("Paladin");
-		classHeros.add("Priest");
-		classHeros.add("Rogue");
-		classHeros.add("Shaman");
-		classHeros.add("Warlock");
-		classHeros.add("Warrior");
-		return (classHeros);
+		Vector<String> vectorClassHero = new Vector<>();
+		vectorClassHero.add("Demon");
+		vectorClassHero.add("Druid");
+		vectorClassHero.add("Hunter");
+		vectorClassHero.add("Knight");
+		vectorClassHero.add("Mage");
+		vectorClassHero.add("Monk");
+		vectorClassHero.add("Paladin");
+		vectorClassHero.add("Priest");
+		vectorClassHero.add("Rogue");
+		vectorClassHero.add("Shaman");
+		vectorClassHero.add("Warlock");
+		vectorClassHero.add("Warrior");
+		return (vectorClassHero);
 	}
 
-	static public void checkArg(String av[]) throws Exception {
+	static public void checkArg(String [] av) throws Exception {
 		int len = av.length;
 		if (len < 1)
 			throw new Exception("Not enough argument");
 		else if (len > 1)
 			throw new Exception("Too much argument");
 		String arg = av[0];
-		if (arg.toLowerCase().equals("gui")
-			|| arg.toLowerCase().equals("console"))
+		if (arg.equalsIgnoreCase("gui")
+			|| arg.equalsIgnoreCase("console"))
 		{
 			return ;
 		}
 		throw new Exception(arg + " is not valid");
 	}
 
-	static public boolean addHero(Vector<Hero> heros, String heroName,
+	static public boolean addHero(Vector<Hero> vectorHero, String heroName,
 									String className, Vector<String> classHero)
 	{
 		if (heroName.length() == 0)
 			return (false);
 		for (String heroClass : classHero) {
-			if (heroClass == className) {
+			if (heroClass.equals(className)) {
 				int lvl = 0;
 				double xp = 0;
 				Hero hero = HeroFactory.newHero(className, heroName, lvl, xp);
-				hero.insert();
-				heros.add(hero);
-				return (true);
+				if (hero != null) {
+					hero.insert();
+					vectorHero.add(hero);
+					return (true);
+				} else {
+					System.out.println("Error: generation enemy");
+					System.exit(1);
+				}
 			}
 		}
 		return (false);
@@ -139,22 +146,36 @@ public class Utils {
 
 	static public void setupGame() {
 		Main.setSizeMap(Main.getCurrentHero().getSizeMap());
-		Main.setEnemys(generateEnemysPos(Main.getSizeMap()));
+		Main.setAllEnemy(generateEnemysPos(Main.getSizeMap()));
 		Main.getCurrentHero().setPoint(Main.getSizeMap() / 2, Main.getSizeMap() / 2);
 	}
 
 	static public boolean checkIsEnemyPosition() {
 		int i = 0;
-		for (Hero enemy : Main.getEnemys()) {
+		for (Hero enemy : Main.getAllEnemy()) {
 			if (enemy.getPoint().equals(Main.getCurrentHero().getPoint())) {
 				Main.setCurrentEnemy(enemy);
-				Main.getEnemys().remove(i);
+				Main.getAllEnemy().remove(i);
 				System.out.println("Enemy found");
 				return (true);
 			}
 			i++;
 		}
 		return (false);
+	}
+
+	static public void addLabelPlayerInfo(JPanel panel) {
+		panel.add(Main.getCurrentHero().getNameLabel());
+		panel.add(Main.getCurrentHero().getClassNameLabel());
+		panel.add(Main.getCurrentHero().getAttackLabel());
+		panel.add(Main.getCurrentHero().getDefenseLabel());
+		panel.add(Main.getCurrentHero().getHitPointLabel());
+		panel.add(Main.getCurrentHero().getXpLabel());
+		panel.add(Main.getCurrentHero().getPointLabel());
+		panel.add(Main.getCurrentHero().getWeaponLabel());
+		panel.add(Main.getCurrentHero().getArmorLabel());
+		panel.add(Main.getCurrentHero().getHelmLabel());
+		panel.add(Main.getCurrentHero().getLevelLabel());
 	}
 
 }

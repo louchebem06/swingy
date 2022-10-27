@@ -35,13 +35,16 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 	private JLabel _attackLabel = new JLabel();
 	private JLabel _defenseLabel = new JLabel();
 	private JLabel _hitPointsLabel = new JLabel();
+	private static MainMenu _mainMenu = null;
 
-	public CreateHero(Point pos, Dimension size, JButton btnNewHero)
+	public CreateHero(MainMenu mainMenu, JButton btnNewHero)
 	{
 		super("Create Hero", 400, 250);
+		mainMenu.setVisible(false);
+		centerScreen();
 		_open = true;
 		_frame = this;
-		placeRight(pos, size);
+		_mainMenu = mainMenu;
 		_btnNewHero = btnNewHero;
 		_btnNewHero.setEnabled(false);
 		_btnCreateHero.setEnabled(false);
@@ -119,6 +122,7 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 		_open = false;
 		_btnNewHero.setEnabled(true);
 		_frame.dispose();
+		_mainMenu.setVisible(true);
 	}
 
 	@Override
@@ -128,7 +132,7 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 		} else if (e.getSource() == _btnCreateHero) {
 			String name = _inputNameHero.getText();
 			String heroClass = _heroConboBox.getSelectedItem().toString();
-			Utils.addHero(Main.getHeros(), name, heroClass, Main.getClassHero());
+			Utils.addHero(Main.getAllHero(), name, heroClass, Main.getClassHero());
 			MainMenu.updateJList();
 			close();
 		}

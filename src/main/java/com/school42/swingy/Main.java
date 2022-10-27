@@ -8,24 +8,24 @@ import com.school42.swingy.window.*;
 
 public class Main {
 	
-	static private Vector<String> _classHero = com.school42.swingy.Utils.getClassHero();
-	static private Vector<Hero> _heros = new Vector<Hero>();
-	static private Vector<Hero> _enemys = new Vector<Hero>();
+	final static private Vector<String> _classHero = com.school42.swingy.Utils.getClassHero();
+	final static private Vector<Hero> _vectorHero = new Vector<>();
+	final static private Vector<Hero> _vectorEnemy = new Vector<>();
 	static private Hero _currentHero = null;
 	static private Hero _currentEnemy = null;
 	static private int sizeMap = 0;
 
 	public static Vector<String> getClassHero() { return (_classHero); }
 
-	public static Vector<Hero> getHeros() { return (_heros); }
+	public static Vector<Hero> getAllHero() { return (_vectorHero); }
 
-	public static Vector<Hero> getEnemys() { return (_enemys); }
+	public static Vector<Hero> getAllEnemy() { return (_vectorEnemy); }
 
-	public static void setEnemys(Vector<Point> pos) {
+	public static void setAllEnemy(Vector<Point> pos) {
 		for (Point p : pos) {
 			Hero en = HeroFactory.randomHero(_currentHero.getXp());
 			en.setPoint((int)p.getX(), (int)p.getY());
-			_enemys.add(en);
+			_vectorEnemy.add(en);
 		}
 	}
 
@@ -41,11 +41,11 @@ public class Main {
 
 	public static int getSizeMap() { return (sizeMap); }
 
-	public static void main(String av[]) {
+	public static void main(String [] av) {
 		try {
-			com.school42.swingy.database.Utils.addAllHero(_heros);
+			com.school42.swingy.database.Utils.addAllHero(_vectorHero);
 			com.school42.swingy.Utils.checkArg(av);
-			if (av[0].toLowerCase().equals("gui"))
+			if (av[0].equalsIgnoreCase("gui"))
 				new MainMenu();
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());

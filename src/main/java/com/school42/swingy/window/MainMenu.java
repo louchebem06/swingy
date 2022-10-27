@@ -102,7 +102,7 @@ public class MainMenu
 	}
 
 	public static void updateJList() {
-		_heroList.setListData(Main.getHeros());
+		_heroList.setListData(Main.getAllHero());
 		_heroList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		_scrollPane.setViewportView(_heroList);
 
@@ -112,7 +112,7 @@ public class MainMenu
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _btnNewHero) {
-			new CreateHero(getPoint(), getDimension(), _btnNewHero);
+			new CreateHero(this, _btnNewHero);
 		}
 		else if (e.getSource() == _btnLoadHero) {
 			CreateHero.closeIfOpen();
