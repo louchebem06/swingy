@@ -4,6 +4,8 @@ import java.util.*;
 import java.awt.Point;
 
 import com.school42.swingy.hero.*;
+import com.school42.swingy.window.Game;
+import com.school42.swingy.window.MainMenu;
 
 import javax.swing.*;
 
@@ -89,7 +91,7 @@ public class Utils {
 		}
 		if (x < 0 || y < 0 || x >= Main.getSizeMap() || y >= Main.getSizeMap())
 			return (false);
-		System.out.println("Your move to (" + x + ", " + y + ")");
+		Game.write("Your move to (" + x + ", " + y + ")");
 		hero.setPoint(x, y);
 		return (true);
 	}
@@ -99,19 +101,18 @@ public class Utils {
 		while (a.isAlive() && b.isAlive()) {
 			if (Math.random() > 0.5) {
 				damage = a.attack(b);
-				System.out.println(a.getName() + " influge " + damage + " degats to " + b.getName());
+				Game.write(a.getName() + " influge " + damage + " degats to " + b.getName());
 			} else {
 				damage = b.attack(a);
-				System.out.println(b.getName() + " influge " + damage + " degats to " + a.getName());
+				Game.write(b.getName() + " influge " + damage + " degats to " + a.getName());
 			}
-			System.out.println("\n" + a.getName() + " : " + a.getHitPoint() + " hp");
-			System.out.println(b.getName() + " : " + b.getHitPoint() + " hp\n");
 		}
-		System.out.println("Your fight: " + a.isAlive());
 		if (a.isAlive()) {
 			double xpWin = (a.getLevel() + 1) * 5 + (b.getLevel() + 1) * 100;
 			Main.getCurrentHero().addXp(xpWin);
-			System.out.println("You win " + xpWin + "xp");
+			Game.write("You win " + xpWin + "xp");
+		} else {
+			Game.write("You looser fight");
 		}
 		return (a.isAlive());
 	}
@@ -121,12 +122,12 @@ public class Utils {
 		int x = Main.getSizeMap() / 2;
 		int y = Main.getSizeMap() / 2;
 		hero.setPoint(x, y);
-		System.out.println("You position is reset");
+		Game.write("You position is reset");
 	}
 
 	public static Boolean run() {
 		boolean isRun = Math.random() > 0.5;
-		System.out.println("Your run: " + isRun);
+		Game.write("Your run: " + isRun);
 		return (isRun);
 	}
 
@@ -148,6 +149,7 @@ public class Utils {
 		Main.setSizeMap(Main.getCurrentHero().getSizeMap());
 		Main.setAllEnemy(generateEnemysPos(Main.getSizeMap()));
 		Main.getCurrentHero().setPoint(Main.getSizeMap() / 2, Main.getSizeMap() / 2);
+		Game.clear();
 	}
 
 	static public boolean checkIsEnemyPosition() {
@@ -156,26 +158,12 @@ public class Utils {
 			if (enemy.getPoint().equals(Main.getCurrentHero().getPoint())) {
 				Main.setCurrentEnemy(enemy);
 				Main.getAllEnemy().remove(i);
-				System.out.println("Enemy found");
+				Game.write("Enemy found");
 				return (true);
 			}
 			i++;
 		}
 		return (false);
-	}
-
-	static public void addLabelPlayerInfo(JPanel panel) {
-		panel.add(Main.getCurrentHero().getNameLabel());
-		panel.add(Main.getCurrentHero().getClassNameLabel());
-		panel.add(Main.getCurrentHero().getAttackLabel());
-		panel.add(Main.getCurrentHero().getDefenseLabel());
-		panel.add(Main.getCurrentHero().getHitPointLabel());
-		panel.add(Main.getCurrentHero().getXpLabel());
-		panel.add(Main.getCurrentHero().getPointLabel());
-		panel.add(Main.getCurrentHero().getWeaponLabel());
-		panel.add(Main.getCurrentHero().getArmorLabel());
-		panel.add(Main.getCurrentHero().getHelmLabel());
-		panel.add(Main.getCurrentHero().getLevelLabel());
 	}
 
 }

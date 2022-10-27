@@ -1,43 +1,95 @@
 package com.school42.swingy.window;
 
+import java.awt.*;
 import java.awt.event.*;
-import java.awt.Point;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import com.school42.swingy.Main;
 import com.school42.swingy.Utils;
 
 public class Game extends AbstractWindow implements ActionListener {
 
-	private static JButton _north = new JButton("North");
-	private static JButton _south = new JButton("South");
-	private static JButton _west = new JButton("West");
-	private static JButton _east = new JButton("East");
-	private JPanel _panel = (JPanel)getContentPane();
+	static protected JButton _north = new JButton("North");
+	static protected JButton _south = new JButton("South");
+	static protected JButton _west = new JButton("West");
+	static protected JButton _east = new JButton("East");
+	protected JPanel _panel = (JPanel)getContentPane();
 	private MainMenu _mainMenuWindow = null;
-	private Boolean _refresh = false;
+	static protected JTextArea _textArea = null;
+	static protected JScrollPane _scrollPane = null;
+	static private long line = 0;
+	// for card
+	protected JScrollPane _paneCard = new JScrollPane();
+	protected DefaultTableModel _model = new DefaultTableModel();
+	protected String [][] _map = new String [Main.getSizeMap()][Main.getSizeMap()];
+	protected JTable _table = new JTable(_model);
+	// end for card
 
 	public Game(MainMenu mainMenu) {
-		super("Game", 1400, 500);
+		super("Game", 900, 500);
+
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		centerScreen();
 		_mainMenuWindow = mainMenu;
 
-		_panel.add(_north);
-		_panel.add(_south);
-		_panel.add(_west);
-		_panel.add(_east);
+		addTextArea();
+		addBtn();
+		addPlayerInfo();
+		addCard();
+		setListener();
+		setBtnPosition();
+		setPlayerInfoPosition();
 
-		_north.addActionListener(this);
-		_south.addActionListener(this);
-		_west.addActionListener(this);
-		_east.addActionListener(this);
+		createSeparator(SwingConstants.VERTICAL, new Point(415, 0), 500);
 
-		Utils.addLabelPlayerInfo(_panel);
+		setVisible(true);
+	}
 
+	private void addCard() {
+		_panel.add(_paneCard);
+		_table.setTableHeader(null);
+		for (int i = 0; i < Main.getSizeMap(); i++) {
+			_model.addColumn(i);
+		}
+		for (int i = 0; i < Main.getSizeMap(); i++) {
+			_table.getColumnModel().getColumn(i).setPreferredWidth(100);
+			_model.addRow(_map[i]);
+		}
+		_table.setEnabled(false);
+		_table.setRowHeight(100);
+		_paneCard.setViewportView(_table);
+		_paneCard.setBounds(430, 10, 460, 460);
+	}
+
+	static public void clear() {
+		if (_scrollPane != null) {
+			_scrollPane = new JScrollPane();
+			_textArea = new JTextArea();
+			line = 0;
+		}
+	}
+
+	private void addTextArea() {
+		_scrollPane = new JScrollPane();
+		_textArea = new JTextArea();
+		_panel.add(_scrollPane);
+		_scrollPane.setViewportView(_textArea);
+		_textArea.setEditable(false);
+		_scrollPane.setBounds(212, 10, 200, 330);
+	}
+
+	static public void write(String msg) {
+		if (_textArea != null) {
+			if (line != 0)
+				_textArea.append("\n");
+			_textArea.append(msg);
+			line++;
+		}
+	}
+
+	private void setPlayerInfoPosition() {
 		Main.getCurrentHero().getNameLabel().setBounds(10, 10, 200, 30);
 		Main.getCurrentHero().getClassNameLabel().setBounds(10, 40, 200, 30);
 		Main.getCurrentHero().getLevelLabel().setBounds(10, 70, 200, 30);
@@ -60,13 +112,41 @@ public class Game extends AbstractWindow implements ActionListener {
 		Main.getCurrentHero().getPointLabel().setBounds(10, 390, 200, 30);
 
 		createSeparator(SwingConstants.VERTICAL, new Point(200, 0), 500);
+	}
 
-		_north.setBounds(210, 100, 200, 40);
-		_south.setBounds(210, 180, 200, 40);
-		_west.setBounds(210, 140, 100, 40);
-		_east.setBounds(310, 140, 100, 40);
+	private void setBtnPosition() {
+		_north.setBounds(210, 350, 200, 40);
+		_west.setBounds(210, 390, 100, 40);
+		_east.setBounds(310, 390, 100, 40);
+		_south.setBounds(210, 430, 200, 40);
+	}
 
-		setVisible(true);
+	private void setListener() {
+		_north.addActionListener(this);
+		_south.addActionListener(this);
+		_west.addActionListener(this);
+		_east.addActionListener(this);
+	}
+
+	private void addBtn() {
+		_panel.add(_north);
+		_panel.add(_south);
+		_panel.add(_west);
+		_panel.add(_east);
+	}
+
+	private void addPlayerInfo() {
+		_panel.add(Main.getCurrentHero().getNameLabel());
+		_panel.add(Main.getCurrentHero().getClassNameLabel());
+		_panel.add(Main.getCurrentHero().getAttackLabel());
+		_panel.add(Main.getCurrentHero().getDefenseLabel());
+		_panel.add(Main.getCurrentHero().getHitPointLabel());
+		_panel.add(Main.getCurrentHero().getXpLabel());
+		_panel.add(Main.getCurrentHero().getPointLabel());
+		_panel.add(Main.getCurrentHero().getWeaponLabel());
+		_panel.add(Main.getCurrentHero().getArmorLabel());
+		_panel.add(Main.getCurrentHero().getHelmLabel());
+		_panel.add(Main.getCurrentHero().getLevelLabel());
 	}
 
 	public static void setBtn(boolean state) {
@@ -84,9 +164,8 @@ public class Game extends AbstractWindow implements ActionListener {
 	}
 
 	private void endGame() {
-		setVisible(false);
-		_mainMenuWindow.setVisible(true);
-		_refresh = true;
+//		setVisible(false);
+//		_mainMenuWindow.setVisible(true);
 	}
 
 	@Override
