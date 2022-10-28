@@ -20,12 +20,6 @@ public class Game extends AbstractWindow implements ActionListener {
 	static protected JTextArea _textArea = null;
 	static protected JScrollPane _scrollPane = null;
 	static private long line = 0;
-	// for card
-//	protected JScrollPane _paneCard = new JScrollPane();
-//	protected DefaultTableModel _model = new DefaultTableModel();
-//	protected String [][] _map = new String [Main.getSizeMap()][Main.getSizeMap()];
-//	protected JTable _table = new JTable(_model);
-	// end for card
 
 	public Game(MainMenu mainMenu) {
 		super("Game", 890, 500);
@@ -52,6 +46,7 @@ public class Game extends AbstractWindow implements ActionListener {
 		table.setRowHeight(10);
 		table.setTableHeader(null);
 		table.setEnabled(false);
+		table.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
 		table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		for (int i = 0; i < Main.getSizeMap(); i++)
 			table.getColumnModel().getColumn(i).setPreferredWidth(10);
@@ -60,8 +55,8 @@ public class Game extends AbstractWindow implements ActionListener {
 		_panel.add(scrollPane);
 		table.setValueAt(
 				"X",
-				(int)Main.getCurrentHero().getPoint().getX(),
-				(int)Main.getCurrentHero().getPoint().getY()
+				(int)Main.getCurrentHero().getPoint().getY(),
+				(int)Main.getCurrentHero().getPoint().getX()
 		);
 	}
 
