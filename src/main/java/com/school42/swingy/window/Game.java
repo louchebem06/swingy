@@ -58,7 +58,11 @@ public class Game extends AbstractWindow implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(430, 12, 450, 450);
 		_panel.add(scrollPane);
-		table.setValueAt("X", (int)Main.getCurrentHero().getPoint().getX(), (int)Main.getCurrentHero().getPoint().getY());
+		table.setValueAt(
+				"X",
+				(int)Main.getCurrentHero().getPoint().getX(),
+				(int)Main.getCurrentHero().getPoint().getY()
+		);
 	}
 
 	static public void clear() {
