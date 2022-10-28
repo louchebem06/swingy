@@ -16,14 +16,17 @@ public class Game extends AbstractWindow implements ActionListener {
 	static protected JButton _west = new JButton("West");
 	static protected JButton _east = new JButton("East");
 	protected JPanel _panel = (JPanel)getContentPane();
+
+	static protected JPanel panel = null;
 	private MainMenu _mainMenuWindow = null;
 	static protected JTextArea _textArea = null;
 	static protected JScrollPane _scrollPane = null;
 	static private long line = 0;
+	static public JScrollPane scrollPane = new JScrollPane();
 
 	public Game(MainMenu mainMenu) {
 		super("Game", 890, 500);
-
+		panel = _panel;
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		centerScreen();
 		_mainMenuWindow = mainMenu;
@@ -31,7 +34,7 @@ public class Game extends AbstractWindow implements ActionListener {
 		addTextArea();
 		addBtn();
 		addPlayerInfo();
-		addCard();
+		updateMap();
 		setListener();
 		setBtnPosition();
 		setPlayerInfoPosition();
@@ -41,7 +44,13 @@ public class Game extends AbstractWindow implements ActionListener {
 		setVisible(true);
 	}
 
-	private void addCard() {
+	static public void updateMap() {
+		updateMap((int)Main.getCurrentHero().getPoint().getX(), (int)Main.getCurrentHero().getPoint().getY());
+	}
+
+	static public void updateMap(int x, int y) {
+		if (panel == null)
+			return ;
 		JTable table = new JTable(Main.getSizeMap(), Main.getSizeMap());
 		table.setRowHeight(10);
 		table.setTableHeader(null);
@@ -50,14 +59,10 @@ public class Game extends AbstractWindow implements ActionListener {
 		table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 		for (int i = 0; i < Main.getSizeMap(); i++)
 			table.getColumnModel().getColumn(i).setPreferredWidth(10);
-		JScrollPane scrollPane = new JScrollPane(table);
+		table.setValueAt("X", y, x);
+		scrollPane.setViewportView(table);
+		panel.add(scrollPane);
 		scrollPane.setBounds(430, 12, 450, 450);
-		_panel.add(scrollPane);
-		table.setValueAt(
-				"X",
-				(int)Main.getCurrentHero().getPoint().getY(),
-				(int)Main.getCurrentHero().getPoint().getX()
-		);
 	}
 
 	static public void clear() {

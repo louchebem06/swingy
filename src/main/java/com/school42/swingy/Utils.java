@@ -70,8 +70,7 @@ public class Utils {
 		Hero hero = Main.getCurrentHero();
 		int x = -1;
 		int y = -1;
-		move = move.toLowerCase();
-		switch (move) {
+		switch (move.toLowerCase()) {
 			case "north":
 				x = (int)hero.getPoint().getX();
 				y = (int)(hero.getPoint().getY()) - 1;
@@ -93,7 +92,17 @@ public class Utils {
 			return (false);
 		Game.write("Your move to (" + x + ", " + y + ")");
 		hero.setPoint(x, y);
+		Game.updateMap(x, y);
 		return (true);
+	}
+
+	public static void resetPositionPlayer() {
+		Hero hero = Main.getCurrentHero();
+		int x = Main.getSizeMap() / 2;
+		int y = Main.getSizeMap() / 2;
+		hero.setPoint(x, y);
+		Game.updateMap(x, y);
+		Game.write("You position is reset");
 	}
 
 	public static boolean figth(Hero a, Hero b) {
@@ -115,14 +124,6 @@ public class Utils {
 			Game.write("You looser fight");
 		}
 		return (a.isAlive());
-	}
-
-	public static void resetPositionPlayer() {
-		Hero hero = Main.getCurrentHero();
-		int x = Main.getSizeMap() / 2;
-		int y = Main.getSizeMap() / 2;
-		hero.setPoint(x, y);
-		Game.write("You position is reset");
 	}
 
 	public static Boolean run() {
