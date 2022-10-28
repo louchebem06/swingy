@@ -28,7 +28,7 @@ public class Game extends AbstractWindow implements ActionListener {
 	// end for card
 
 	public Game(MainMenu mainMenu) {
-		super("Game", 900, 500);
+		super("Game", 890, 500);
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		centerScreen();
@@ -49,7 +49,7 @@ public class Game extends AbstractWindow implements ActionListener {
 
 	private void addCard() {
 		_panel.add(_paneCard);
-		_table.setTableHeader(null);
+//		_table.setTableHeader(null);
 		for (int i = 0; i < Main.getSizeMap(); i++) {
 			_model.addColumn(i);
 		}
@@ -57,10 +57,12 @@ public class Game extends AbstractWindow implements ActionListener {
 			_table.getColumnModel().getColumn(i).setPreferredWidth(100);
 			_model.addRow(_map[i]);
 		}
+		_paneCard.setLayout(null);
 		_table.setEnabled(false);
 		_table.setRowHeight(100);
-		_paneCard.setViewportView(_table);
-		_paneCard.setBounds(430, 10, 460, 460);
+//		_paneCard.setViewportView(_table);
+		_table.setBounds(0, 0, Main.getSizeMap() * 100, Main.getSizeMap() * 100);
+		_paneCard.setBounds(430, 12, 450, 450);
 	}
 
 	static public void clear() {
@@ -101,15 +103,15 @@ public class Game extends AbstractWindow implements ActionListener {
 		Main.getCurrentHero().getDefenseLabel().setBounds(10, 170, 200, 30);
 		Main.getCurrentHero().getHitPointLabel().setBounds(10, 200, 200, 30);
 
-		createSeparator(SwingConstants.HORIZONTAL, new Point(0, 250), 205);
+		createSeparator(SwingConstants.HORIZONTAL, new Point(0, 230), 205);
 
-		Main.getCurrentHero().getWeaponLabel().setBounds(10, 280, 200, 30);
-		Main.getCurrentHero().getArmorLabel().setBounds(10, 310, 200, 30);
-		Main.getCurrentHero().getHelmLabel().setBounds(10, 330, 200, 30);
+		Main.getCurrentHero().getWeaponLabel().setBounds(10, 240, 200, 30);
+		Main.getCurrentHero().getArmorLabel().setBounds(10, 270, 200, 30);
+		Main.getCurrentHero().getHelmLabel().setBounds(10, 300, 200, 30);
 
-		createSeparator(SwingConstants.HORIZONTAL, new Point(0, 360), 205);
+		createSeparator(SwingConstants.HORIZONTAL, new Point(0, 330), 205);
 
-		Main.getCurrentHero().getPointLabel().setBounds(10, 390, 200, 30);
+		Main.getCurrentHero().getPointLabel().setBounds(10, 340, 200, 30);
 
 		createSeparator(SwingConstants.VERTICAL, new Point(200, 0), 500);
 	}
