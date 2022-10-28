@@ -21,10 +21,10 @@ public class Game extends AbstractWindow implements ActionListener {
 	static protected JScrollPane _scrollPane = null;
 	static private long line = 0;
 	// for card
-	protected JScrollPane _paneCard = new JScrollPane();
-	protected DefaultTableModel _model = new DefaultTableModel();
-	protected String [][] _map = new String [Main.getSizeMap()][Main.getSizeMap()];
-	protected JTable _table = new JTable(_model);
+//	protected JScrollPane _paneCard = new JScrollPane();
+//	protected DefaultTableModel _model = new DefaultTableModel();
+//	protected String [][] _map = new String [Main.getSizeMap()][Main.getSizeMap()];
+//	protected JTable _table = new JTable(_model);
 	// end for card
 
 	public Game(MainMenu mainMenu) {
@@ -48,21 +48,45 @@ public class Game extends AbstractWindow implements ActionListener {
 	}
 
 	private void addCard() {
-		_panel.add(_paneCard);
-//		_table.setTableHeader(null);
-		for (int i = 0; i < Main.getSizeMap(); i++) {
-			_model.addColumn(i);
-		}
-		for (int i = 0; i < Main.getSizeMap(); i++) {
-			_table.getColumnModel().getColumn(i).setPreferredWidth(100);
-			_model.addRow(_map[i]);
-		}
-		_paneCard.setLayout(null);
-		_table.setEnabled(false);
-		_table.setRowHeight(100);
-//		_paneCard.setViewportView(_table);
-		_table.setBounds(0, 0, Main.getSizeMap() * 100, Main.getSizeMap() * 100);
-		_paneCard.setBounds(430, 12, 450, 450);
+//		JScrollPane paneCard = new JScrollPane();
+//		DefaultTableModel model = new DefaultTableModel();
+//		String [][] map = new String [Main.getSizeMap()][Main.getSizeMap()];
+//		JTable table = new JTable(model);
+//
+//		_panel.add(paneCard);
+////		_table.setTableHeader(null);
+//		for (int i = 0; i < 100; i++) {
+//			model.addColumn(i);
+//		}
+//		for (int i = 0; i < Main.getSizeMap(); i++) {
+////			table.getColumnModel().getColumn(i).setPreferredWidth(100);
+//			model.addRow(map[i]);
+////			model.addRow("Wesh la zone");
+//		}
+//		table.setEnabled(false);
+////		table.setRowHeight(100);
+//
+//		table.setPreferredSize(new Dimension(1500, 1000));
+//
+//		paneCard.setViewportView(table);
+//		// table.setBounds(0, 0, 100 * 100, 100 * 100);
+//		paneCard.setBounds(430, 12, 450, 450);
+		JTable table = new JTable(Main.getSizeMap(), Main.getSizeMap());
+		table.setRowHeight(10);
+		table.setTableHeader(null);
+		table.setEnabled(false);
+		table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+		for (int i = 0; i < Main.getSizeMap(); i++)
+			table.getColumnModel().getColumn(i).setPreferredWidth(10);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(430, 12, 450, 450);
+		_panel.add(scrollPane);
+		table.setValueAt("X", (int)Main.getCurrentHero().getPoint().getX(), (int)Main.getCurrentHero().getPoint().getY());
+//		for (int x = 0; x < 100; x++) {
+//			for (int y = 0; y < 100; y++) {
+//				table.setValueAt("X", x, y);
+//			}
+//		}
 	}
 
 	static public void clear() {
