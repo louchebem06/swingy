@@ -44,6 +44,17 @@ public class Game extends AbstractWindow implements ActionListener {
 		setVisible(true);
 	}
 
+	protected void finalize() {
+		panel = null;
+		_mainMenuWindow = null;
+		_textArea = null;
+		_scrollPane = null;
+		scrollPane = new JScrollPane();
+		removeListener();
+		line = 0;
+		dispose();
+	}
+
 	static public void updateMap() {
 		updateMap((int)Main.getCurrentHero().getPoint().getX(), (int)Main.getCurrentHero().getPoint().getY());
 	}
@@ -130,6 +141,13 @@ public class Game extends AbstractWindow implements ActionListener {
 		_east.addActionListener(this);
 	}
 
+	private void removeListener() {
+		_north.removeActionListener(this);
+		_south.removeActionListener(this);
+		_west.removeActionListener(this);
+		_east.removeActionListener(this);
+	}
+
 	private void addBtn() {
 		_panel.add(_north);
 		_panel.add(_south);
@@ -166,8 +184,8 @@ public class Game extends AbstractWindow implements ActionListener {
 	}
 
 	private void endGame() {
-//		setVisible(false);
-//		_mainMenuWindow.setVisible(true);
+		write("You win !");
+		finalize();
 	}
 
 	@Override

@@ -117,10 +117,7 @@ public class MainMenu
 		else if (e.getSource() == _btnLoadHero) {
 			CreateHero.closeIfOpen();
 			Utils.setupGame();
-			if (_gameWindow == null)
-				_gameWindow = new Game(this);
-			_gameWindow.setVisible(true);
-			setVisible(false);
+			_gameWindow = new Game(this);
 		}
 	}
 
