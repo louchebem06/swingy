@@ -48,29 +48,6 @@ public class Game extends AbstractWindow implements ActionListener {
 	}
 
 	private void addCard() {
-//		JScrollPane paneCard = new JScrollPane();
-//		DefaultTableModel model = new DefaultTableModel();
-//		String [][] map = new String [Main.getSizeMap()][Main.getSizeMap()];
-//		JTable table = new JTable(model);
-//
-//		_panel.add(paneCard);
-////		_table.setTableHeader(null);
-//		for (int i = 0; i < 100; i++) {
-//			model.addColumn(i);
-//		}
-//		for (int i = 0; i < Main.getSizeMap(); i++) {
-////			table.getColumnModel().getColumn(i).setPreferredWidth(100);
-//			model.addRow(map[i]);
-////			model.addRow("Wesh la zone");
-//		}
-//		table.setEnabled(false);
-////		table.setRowHeight(100);
-//
-//		table.setPreferredSize(new Dimension(1500, 1000));
-//
-//		paneCard.setViewportView(table);
-//		// table.setBounds(0, 0, 100 * 100, 100 * 100);
-//		paneCard.setBounds(430, 12, 450, 450);
 		JTable table = new JTable(Main.getSizeMap(), Main.getSizeMap());
 		table.setRowHeight(10);
 		table.setTableHeader(null);
@@ -82,11 +59,6 @@ public class Game extends AbstractWindow implements ActionListener {
 		scrollPane.setBounds(430, 12, 450, 450);
 		_panel.add(scrollPane);
 		table.setValueAt("X", (int)Main.getCurrentHero().getPoint().getX(), (int)Main.getCurrentHero().getPoint().getY());
-//		for (int x = 0; x < 100; x++) {
-//			for (int y = 0; y < 100; y++) {
-//				table.setValueAt("X", x, y);
-//			}
-//		}
 	}
 
 	static public void clear() {
