@@ -19,52 +19,53 @@ public class MainMenu
 			implements ListSelectionListener, ActionListener
 {
 
-	private JButton _btnNewHero = new JButton("New Hero");
-	private JButton _btnLoadHero = new JButton("Load Hero");
-	private JPanel _panel = (JPanel)getContentPane();
-	private static JScrollPane _scrollPane = new JScrollPane();
-	private JLabel _heroLabel = new JLabel("HEROS");
-	private static JList<Hero> _heroList = new JList<Hero>();
-	private JLabel _nameLabel = new JLabel();
-	private JLabel _classLabel = new JLabel();
-	private JLabel _levelLabel = new JLabel();
-	private JLabel _xpLabel = new JLabel();
-	private JLabel _attackLabel = new JLabel();
-	private JLabel _defenceLabel = new JLabel();
-	private JLabel _hitPointLabel = new JLabel();
-	private JLabel _weaponLabel = new JLabel();
-	private JLabel _armorLabel = new JLabel();
-	private JLabel _helmLabel = new JLabel();
-	private JLabel _iconLabel = new JLabel();
+	final private JButton _btnNewHero = new JButton("New Hero");
+	final private JButton _btnLoadHero = new JButton("Load Hero");
+	final private static JScrollPane _scrollPane = new JScrollPane();
+
+	final private static JList<Hero> _heroList = new JList<>();
+	final private JLabel _nameLabel = new JLabel();
+	final private JLabel _classLabel = new JLabel();
+	final private JLabel _levelLabel = new JLabel();
+	final private JLabel _xpLabel = new JLabel();
+	final private JLabel _attackLabel = new JLabel();
+	final private JLabel _defenceLabel = new JLabel();
+	final private JLabel _hitPointLabel = new JLabel();
+	final private JLabel _weaponLabel = new JLabel();
+	final private JLabel _armorLabel = new JLabel();
+	final private JLabel _helmLabel = new JLabel();
+	final private JLabel _iconLabel = new JLabel();
 	private static MainMenu _me = null;
-	private Game _gameWindow = null;
 
 	public MainMenu() {
 		super("Main Menu", 430, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		centerScreen();
 
-		_panel.add(_btnNewHero);
-		_panel.add(_btnLoadHero);
-		_panel.add(_heroLabel);
-		_panel.add(_scrollPane);
-		_panel.add(_nameLabel);
-		_panel.add(_classLabel);
-		_panel.add(_levelLabel);
-		_panel.add(_xpLabel);
-		_panel.add(_attackLabel);
-		_panel.add(_defenceLabel);
-		_panel.add(_hitPointLabel);
-		_panel.add(_weaponLabel);
-		_panel.add(_armorLabel);
-		_panel.add(_helmLabel);
-		_panel.add(_iconLabel);
+		JPanel panel = (JPanel)getContentPane();
+		JLabel heroLabel = new JLabel("Hero list");
+
+		panel.add(_btnNewHero);
+		panel.add(_btnLoadHero);
+		panel.add(heroLabel);
+		panel.add(_scrollPane);
+		panel.add(_nameLabel);
+		panel.add(_classLabel);
+		panel.add(_levelLabel);
+		panel.add(_xpLabel);
+		panel.add(_attackLabel);
+		panel.add(_defenceLabel);
+		panel.add(_hitPointLabel);
+		panel.add(_weaponLabel);
+		panel.add(_armorLabel);
+		panel.add(_helmLabel);
+		panel.add(_iconLabel);
 
 		_btnLoadHero.setEnabled(false);
 
 		_btnNewHero.setBounds(0, 0, 100, 30);
 		_btnLoadHero.setBounds(100, 0, 100, 30);
-		_heroLabel.setBounds(90, 22, 200, 50);
+		heroLabel.setBounds(90, 22, 200, 50);
 		_scrollPane.setBounds(10, 60, 200, 400);
 		_nameLabel.setBounds(220, 40, 200, 50);
 		_classLabel.setBounds(220, 60, 200, 50);
@@ -136,7 +137,7 @@ public class MainMenu
 		else if (e.getSource() == _btnLoadHero) {
 			CreateHero.closeIfOpen();
 			Utils.setupGame();
-			_gameWindow = new Game(this);
+			new Game(this);
 			setVisible(false);
 		}
 	}

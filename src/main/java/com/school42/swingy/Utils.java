@@ -5,9 +5,6 @@ import java.awt.Point;
 
 import com.school42.swingy.hero.*;
 import com.school42.swingy.window.Game;
-import com.school42.swingy.window.MainMenu;
-
-import javax.swing.*;
 
 public class Utils {
 
@@ -66,7 +63,7 @@ public class Utils {
 		return (false);
 	}
 
-	static public boolean moveHero(String move) {
+	static public boolean heroMove(String move) {
 		Hero hero = Main.getCurrentHero();
 		int x = -1;
 		int y = -1;
@@ -106,7 +103,7 @@ public class Utils {
 	}
 
 	public static boolean figth(Hero a, Hero b) {
-		String damage = null;
+		String damage;
 		while (a.isAlive() && b.isAlive()) {
 			if (Math.random() > 0.5) {
 				damage = a.attack(b);
@@ -134,12 +131,12 @@ public class Utils {
 
 	private static int getNbEnemy(int sizeMap) {
 		int nbCase = sizeMap * sizeMap;
-		return ((int)(((double)(double)nbCase / (double)100) * (double)20));
+		return ((int)(((double)nbCase / (double)100) * (double)20));
 	}
 
 	public static Vector<Point> generateEnemysPos(int sizeMap) {
 		int nbEnemy = getNbEnemy(sizeMap);
-		Vector<Point> enemys = new Vector<Point>();
+		Vector<Point> enemys = new Vector<>();
 
 		for (int i = 0; i < nbEnemy; i++)
 			enemys.add(new Point((int)(Math.random() * sizeMap), (int)(Math.random() * sizeMap)));

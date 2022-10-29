@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 import com.school42.swingy.Main;
 import com.school42.swingy.Utils;
@@ -18,7 +17,7 @@ public class Game extends AbstractWindow implements ActionListener {
 	protected JPanel _panel = (JPanel)getContentPane();
 
 	static protected JPanel panel = null;
-	private MainMenu _mainMenuWindow = null;
+	private MainMenu _mainMenuWindow;
 	static protected JTextArea _textArea = null;
 	static protected JScrollPane _scrollPane = null;
 	static private long line = 0;
@@ -44,7 +43,7 @@ public class Game extends AbstractWindow implements ActionListener {
 		setVisible(true);
 	}
 
-	protected void finalize() {
+	protected void reset() {
 		panel = null;
 		_mainMenuWindow = null;
 		_textArea = null;
@@ -186,25 +185,25 @@ public class Game extends AbstractWindow implements ActionListener {
 	private void endGame() {
 		write("You win !");
 		_mainMenuWindow.setVisible(true);
-		finalize();
+		reset();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _north) {
-			if (!Utils.moveHero("north"))
+			if (!Utils.heroMove("north"))
 				endGame();
 			fight();
 		} else if (e.getSource() == _south) {
-			if (!Utils.moveHero("south"))
+			if (!Utils.heroMove("south"))
 				endGame();
 			fight();
 		} else if (e.getSource() == _west) {
-			if (!Utils.moveHero("west"))
+			if (!Utils.heroMove("west"))
 				endGame();
 			fight();
 		} else if (e.getSource() == _east) {
-			if (!Utils.moveHero("east"))
+			if (!Utils.heroMove("east"))
 				endGame();
 			fight();
 		}

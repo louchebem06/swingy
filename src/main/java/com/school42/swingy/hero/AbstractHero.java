@@ -2,6 +2,7 @@ package com.school42.swingy.hero;
 
 import java.awt.Image;
 import java.lang.Math;
+import java.net.URL;
 import java.text.*;
 import java.awt.Point;
 
@@ -23,9 +24,9 @@ public abstract class AbstractHero {
 	protected Double	_defense;
 	protected Double	_hitPoints;
 
-	protected Artefacs	_weapon = null;
-	protected Artefacs	_armor = null;
-	protected Artefacs	_helm = null;
+	protected Artefac _weapon = null;
+	protected Artefac _armor = null;
+	protected Artefac _helm = null;
 
 	protected double	_factorAttack;
 	protected double	_factorDefense;
@@ -102,9 +103,9 @@ public abstract class AbstractHero {
 		updateLabel();
 	}
 
-	public void setArtefac(Artefacs item) { setArtefac(item, false); }
+	public void setArtefac(Artefac item) { setArtefac(item, false); }
 
-	public void setArtefac(Artefacs item, boolean readDB) {
+	public void setArtefac(Artefac item, boolean readDB) {
 		if (item == null)
 			return ;
 		switch (item.getType()) {
@@ -128,7 +129,9 @@ public abstract class AbstractHero {
 	public void setPoint(int x, int y) {
 		_point.setLocation(x, y);
 		updateLabel();
-	};
+	}
+
+	protected Hero clone() throws CloneNotSupportedException { return (null); }
 
 	public Integer getLevel() {
 		boolean levelChange = false;
@@ -154,11 +157,11 @@ public abstract class AbstractHero {
 
 	public Double getHitPoint() { return (_helm != null ? (_hitPoints + _helm.getValue()) : _hitPoints); }
 
-	public Artefacs getWeapon() { return (_weapon); }
+	public Artefac getWeapon() { return (_weapon); }
 
-	public Artefacs getHelm() { return (_helm); }
+	public Artefac getHelm() { return (_helm); }
 
-	public Artefacs getArmor() {return (_armor); }
+	public Artefac getArmor() {return (_armor); }
 
 	public String getName() { return (_name); }
 
@@ -192,11 +195,14 @@ public abstract class AbstractHero {
 
 	public ImageIcon getIcon(int size) {
 		String imgName = getClassName().toLowerCase() + ".jpg";
-		ImageIcon warlock = new ImageIcon(getClass().getClassLoader().getResource(imgName));
+		URL file = getClass().getClassLoader().getResource(imgName);
+		if (file == null)
+			return (null);
+		ImageIcon warlock = new ImageIcon(file);
 		Image img = warlock.getImage();
 		Image newimg = img.getScaledInstance(size, size, Image.SCALE_SMOOTH);
 		return (new ImageIcon(newimg));
-	};
+	}
 
 	public boolean isAlive() { return (getHitPoint() > 0.0); }
 

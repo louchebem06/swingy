@@ -2,8 +2,8 @@ package com.school42.swingy.artefac;
 
 import com.school42.swingy.artefac.artefacs.*;
 
-public class ArtefacsFactory {
-	public static Artefacs newArtefacs(String type, double value) {
+public class ArtefacFactory {
+	public static Artefac newArtefac(String type, double value) {
 		switch (type) {
 			case "Sword":
 				return (new Sword(value));
@@ -31,27 +31,27 @@ public class ArtefacsFactory {
 		return (null);
 	}
 
-	private static Artefacs random(String items[], double maxRand) {
+	private static Artefac random(String [] items, double maxRand) {
 		int rand = (int)(Math.random() * items.length);
 		double value = Math.random() * maxRand;
 
-		return (newArtefacs(items[rand], value));
+		return (newArtefac(items[rand], value));
 	}
 
-	public static Artefacs randomWeapon(double maxRand) {
-		String types [] = {"Sword", "Lighter", "Gun", "Knife"};
+	public static Artefac randomWeapon(double maxRand) {
+		String [] types = {"Sword", "Lighter", "Gun", "Knife"};
 		
 		return (random(types, maxRand));
 	}
 
-	public static Artefacs randomArmor(double maxRand) {
-		String types [] = {"Shield", "Sweater", "Pullover", "Vest"};
+	public static Artefac randomArmor(double maxRand) {
+		String [] types = {"Shield", "Sweater", "Pullover", "Vest"};
 		
 		return (random(types, maxRand));
 	}
 
-	public static Artefacs randomHelm(double maxRand) {
-		String types [] = {"Cap", "Hat", "Bonnet"};
+	public static Artefac randomHelm(double maxRand) {
+		String [] types = {"Cap", "Hat", "Bonnet"};
 		
 		return (random(types, maxRand));
 	}

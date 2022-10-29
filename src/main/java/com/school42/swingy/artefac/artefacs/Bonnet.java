@@ -1,13 +1,9 @@
 package com.school42.swingy.artefac.artefacs;
 
-import com.school42.swingy.artefac.AbstractArtefacs;
+import com.school42.swingy.artefac.AbstractArtefac;
 
-public class Bonnet extends AbstractArtefacs {
+public class Bonnet extends AbstractArtefac {
 	public Bonnet(double value) {
 		super("helm", "Bonnet", value);
-	}
-
-	public Bonnet(Bonnet bonnet) {
-		super(bonnet);
 	}
 }

@@ -1,7 +1,5 @@
 package com.school42.swingy.window;
 
-import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.event.*;
 
 import javax.swing.JButton;
@@ -24,17 +22,13 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 	private static boolean _open = false;
 	private static JButton _btnNewHero = null;
 	private static CreateHero _frame = null;
-	private JPanel _panel = (JPanel)getContentPane();
-	private JButton _btnCreateHero = new JButton("Create Hero");
-	private JLabel _nameLabel = new JLabel("Name");
-	private JTextField _inputNameHero = new JTextField();
-	private JComboBox<String> _heroConboBox = new JComboBox<String>(Main.getClassHero());
-	private JLabel _classLabel = new JLabel("Class");
-	private JLabel _imgClass = new JLabel();
-	private Hero _hero = null;
-	private JLabel _attackLabel = new JLabel();
-	private JLabel _defenseLabel = new JLabel();
-	private JLabel _hitPointsLabel = new JLabel();
+	final private JButton _btnCreateHero = new JButton("Create Hero");
+	final private JTextField _inputNameHero = new JTextField();
+	final private JComboBox<String> _heroConboBox = new JComboBox<>(Main.getClassHero());
+	final private JLabel _imgClass = new JLabel();
+	final private JLabel _attackLabel = new JLabel();
+	final private JLabel _defenseLabel = new JLabel();
+	final private JLabel _hitPointsLabel = new JLabel();
 	private static MainMenu _mainMenu = null;
 
 	public CreateHero(MainMenu mainMenu, JButton btnNewHero)
@@ -50,18 +44,22 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 		_btnCreateHero.setEnabled(false);
 		windowEvent();
 
-		_panel.add(_nameLabel);
-		_panel.add(_inputNameHero);
-		_panel.add(_heroConboBox);
-		_panel.add(_classLabel);
-		_panel.add(_imgClass);
-		_panel.add(_btnCreateHero);
-		_panel.add(_attackLabel);
-		_panel.add(_defenseLabel);
-		_panel.add(_hitPointsLabel);
+		JPanel panel = (JPanel)getContentPane();
+		JLabel nameLabel = new JLabel("Name");
+		JLabel classLabel = new JLabel("Class");
 
-		_nameLabel.setBounds(10, 10, 100, 30);
-		_classLabel.setBounds(10, 40, 100, 30);
+		panel.add(nameLabel);
+		panel.add(_inputNameHero);
+		panel.add(_heroConboBox);
+		panel.add(classLabel);
+		panel.add(_imgClass);
+		panel.add(_btnCreateHero);
+		panel.add(_attackLabel);
+		panel.add(_defenseLabel);
+		panel.add(_hitPointsLabel);
+
+		nameLabel.setBounds(10, 10, 100, 30);
+		classLabel.setBounds(10, 40, 100, 30);
 		_inputNameHero.setBounds(60, 10, 330, 30);
 		_heroConboBox.setBounds(60, 40, 330, 30);
 		_btnCreateHero.setBounds(150, 80, 100, 30);
@@ -89,12 +87,15 @@ public class CreateHero extends AbstractWindow implements ActionListener {
 
 	private void updateDataHero() {
 		String item = _heroConboBox.getSelectedItem().toString();
-
-		_hero = HeroFactory.newHero(item, item, 0, 0);
-		_imgClass.setIcon(_hero.getIcon(100));
-		_attackLabel.setText(_hero.getAttackLabel().getText());
-		_defenseLabel.setText(_hero.getDefenseLabel().getText());
-		_hitPointsLabel.setText(_hero.getHitPointLabel().getText());
+		if (item == null)
+			return ;
+		Hero hero = HeroFactory.newHero(item, item, 0, 0);
+		if (hero == null)
+			return ;
+		_imgClass.setIcon(hero.getIcon(100));
+		_attackLabel.setText(hero.getAttackLabel().getText());
+		_defenseLabel.setText(hero.getDefenseLabel().getText());
+		_hitPointsLabel.setText(hero.getHitPointLabel().getText());
 	}
 
 	private void windowEvent() {

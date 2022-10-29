@@ -33,7 +33,7 @@ public class DatabaseHero {
 	}
 
 	protected void _connect() {
-		String url = "jdbc:sqlite:" + file.getAbsoluteFile().toString();
+		String url = "jdbc:sqlite:" + file.getAbsoluteFile();
 
 		try {
 			_conn = DriverManager.getConnection(url);
