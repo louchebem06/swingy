@@ -107,18 +107,30 @@ public class Utils {
 		while (a.isAlive() && b.isAlive()) {
 			if (Math.random() > 0.5) {
 				damage = a.attack(b);
-				Game.write(a.getName() + " influge " + damage + " degats to " + b.getName());
+				if (Main.isConsole())
+					System.out.println(a.getName() + " influge " + damage + " degats to " + b.getName());
+				else
+					Game.write(a.getName() + " influge " + damage + " degats to " + b.getName());
 			} else {
 				damage = b.attack(a);
-				Game.write(b.getName() + " influge " + damage + " degats to " + a.getName());
+				if (Main.isConsole())
+					System.out.println(b.getName() + " influge " + damage + " degats to " + a.getName());
+				else
+					Game.write(b.getName() + " influge " + damage + " degats to " + a.getName());
 			}
 		}
 		if (a.isAlive()) {
 			double xpWin = (a.getLevel() + 1) * 5 + (b.getLevel() + 1) * 100;
 			Main.getCurrentHero().addXp(xpWin);
-			Game.write("You win " + xpWin + "xp");
+			if (Main.isConsole())
+				System.out.println("Your win " + xpWin + " xp");
+			else
+				Game.write("Your win " + xpWin + " xp");
 		} else {
-			Game.write("You looser fight");
+			if (Main.isConsole())
+				System.out.println("You lose fight");
+			else
+				Game.write("You lose fight");
 		}
 		return (a.isAlive());
 	}

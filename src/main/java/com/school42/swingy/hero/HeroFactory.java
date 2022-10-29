@@ -39,7 +39,7 @@ public class HeroFactory {
 	}
 
 	private static String randomPseudo() {
-		String pseudos [] = {
+		String[] pseudos = {
 			"BurgerMamba", "PorteGama", "BloodNova", "SniperRaptor",
 			"LuckDiabete", "PaperMoi", "BadTruck", "OneWar", "FireCloud",
 			"SkyOne", "WolfWar", "SwordFr", "JackpotGodzilla", "RiverPrincess",
