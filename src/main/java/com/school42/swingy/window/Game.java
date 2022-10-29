@@ -185,6 +185,7 @@ public class Game extends AbstractWindow implements ActionListener {
 
 	private void endGame() {
 		write("You win !");
+		_mainMenuWindow.setVisible(true);
 		finalize();
 	}
 

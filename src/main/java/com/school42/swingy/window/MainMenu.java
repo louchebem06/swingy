@@ -98,6 +98,11 @@ public class MainMenu
 			public void windowDeiconified(WindowEvent e) {
 				CreateHero.deiconifiedIfOpen();
 			}
+			public void windowActivated(WindowEvent e) {
+				Hero hero = _heroList.getSelectedValue();
+				if (hero != null)
+					updateLabel(hero);
+			}
 		});
 	}
 
@@ -109,6 +114,20 @@ public class MainMenu
 		_heroList.addListSelectionListener(_me);
 	}
 
+	private void updateLabel(Hero hero) {
+		_nameLabel.setText(hero.getNameLabel().getText());
+		_classLabel.setText(hero.getClassNameLabel().getText());
+		_levelLabel.setText(hero.getLevelLabel().getText());
+		_xpLabel.setText(hero.getXpLabel().getText());
+		_attackLabel.setText(hero.getAttackLabel().getText());
+		_defenceLabel.setText(hero.getDefenseLabel().getText());
+		_hitPointLabel.setText(hero.getHitPointLabel().getText());
+		_weaponLabel.setText(hero.getWeaponLabel().getText());
+		_armorLabel.setText(hero.getArmorLabel().getText());
+		_helmLabel.setText(hero.getHelmLabel().getText());
+		_iconLabel.setIcon(hero.getIcon(200));
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _btnNewHero) {
@@ -118,6 +137,7 @@ public class MainMenu
 			CreateHero.closeIfOpen();
 			Utils.setupGame();
 			_gameWindow = new Game(this);
+			setVisible(false);
 		}
 	}
 
@@ -126,18 +146,8 @@ public class MainMenu
 		if (e.getSource() == _heroList && !e.getValueIsAdjusting()) {
 			try {
 				Hero hero = _heroList.getSelectedValue();
-				
-				_nameLabel.setText(hero.getNameLabel().getText());
-				_classLabel.setText(hero.getClassNameLabel().getText());
-				_levelLabel.setText(hero.getLevelLabel().getText());
-				_xpLabel.setText(hero.getXpLabel().getText());
-				_attackLabel.setText(hero.getAttackLabel().getText());
-				_defenceLabel.setText(hero.getDefenseLabel().getText());
-				_hitPointLabel.setText(hero.getHitPointLabel().getText());
-				_weaponLabel.setText(hero.getWeaponLabel().getText());
-				_armorLabel.setText(hero.getArmorLabel().getText());
-				_helmLabel.setText(hero.getHelmLabel().getText());
-				_iconLabel.setIcon(hero.getIcon(200));
+
+				updateLabel(hero);
 
 				_btnLoadHero.setEnabled(true);
 
